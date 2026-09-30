@@ -1,0 +1,45 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "allowImportingTsExtensions": false,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "types": ["vite/client", "vitest/globals", "@testing-library/jest-dom"],
+    "baseUrl": ".",
+    "paths": {
+      // Generated (pydantic2ts) types are shared with the Vue app so `task dev:generate` stays the single
+      // source of truth. Hand-written API clients live in src/lib/api.
+      "~/lib/api/types/admin": ["../frontend/app/lib/api/types/admin.ts"],
+      "~/lib/api/types/analytics": ["../frontend/app/lib/api/types/analytics.ts"],
+      "~/lib/api/types/cookbook": ["../frontend/app/lib/api/types/cookbook.ts"],
+      "~/lib/api/types/events": ["../frontend/app/lib/api/types/events.ts"],
+      "~/lib/api/types/group": ["../frontend/app/lib/api/types/group.ts"],
+      "~/lib/api/types/household": ["../frontend/app/lib/api/types/household.ts"],
+      "~/lib/api/types/labels": ["../frontend/app/lib/api/types/labels.ts"],
+      "~/lib/api/types/meal-plan": ["../frontend/app/lib/api/types/meal-plan.ts"],
+      "~/lib/api/types/openai": ["../frontend/app/lib/api/types/openai.ts"],
+      "~/lib/api/types/recipe": ["../frontend/app/lib/api/types/recipe.ts"],
+      "~/lib/api/types/reports": ["../frontend/app/lib/api/types/reports.ts"],
+      "~/lib/api/types/response": ["../frontend/app/lib/api/types/response.ts"],
+      "~/lib/api/types/static": ["../frontend/app/lib/api/types/static.ts"],
+      "~/lib/api/types/user": ["../frontend/app/lib/api/types/user.ts"],
+      "@mealie-locales": ["../frontend/app/composables/use-locales/available-locales.ts"],
+      "@mealie-lang/*": ["../frontend/app/lang/*"],
+      "@mealie-unit-locales/*": ["../mealie/repos/seed/resources/units/locales/*"],
+      "~/*": ["./src/*"],
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["src", "vite.config.ts"]
+}
