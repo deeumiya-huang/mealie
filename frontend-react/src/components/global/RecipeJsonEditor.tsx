@@ -9,7 +9,9 @@ export interface RecipeJsonEditorProps {
   mainMenuBar?: boolean;
   navigationBar?: boolean;
   statusBar?: boolean;
-  mode?: "tree" | "text" | "table";
+  /** "code" is json-editor-vue's legacy name for the text mode. */
+  mode?: "tree" | "text" | "table" | "code";
+  readOnly?: boolean;
 }
 
 function parseContent(content: Content, fallback: object): object {
@@ -28,7 +30,8 @@ function parseContent(content: Content, fallback: object): object {
 }
 
 /** JSON editor (json-editor-vue in the Vue app; both wrap vanilla-jsoneditor). */
-export function RecipeJsonEditor({ value, onChange, height = "1500px", mainMenuBar, navigationBar, statusBar, mode }: RecipeJsonEditorProps) {
+export function RecipeJsonEditor({ value, onChange, height = "1500px", mainMenuBar, navigationBar, statusBar, mode: modeProp, readOnly = false }: RecipeJsonEditorProps) {
+  const mode = modeProp === "code" ? "text" : modeProp;
   const target = useRef<HTMLDivElement>(null);
   const editor = useRef<JsonEditor | null>(null);
   const latest = useRef({ value, onChange });
@@ -44,6 +47,7 @@ export function RecipeJsonEditor({ value, onChange, height = "1500px", mainMenuB
         navigationBar,
         statusBar,
         mode: mode as never,
+        readOnly,
         onChange: (content: Content) => {
           const parsed = parseContent(content, latest.current.value || {});
           if (parsed !== latest.current.value) {
@@ -65,6 +69,10 @@ export function RecipeJsonEditor({ value, onChange, height = "1500px", mainMenuB
       void editor.current.update({ json: value });
     }
   }, [value]);
+
+  useEffect(() => {
+    void editor.current?.updateProps({ mode: mode as never, readOnly });
+  }, [mode, readOnly]);
 
   return <div ref={target} style={{ height }} />;
 }

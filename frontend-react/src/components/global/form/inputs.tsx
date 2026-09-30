@@ -12,6 +12,7 @@ import Switch from "@mui/material/Switch";
 import TextField from "@mui/material/TextField";
 import type { TextFieldProps } from "@mui/material/TextField";
 import type { SxProps, Theme } from "@mui/material/styles";
+import { icons } from "~/lib/icons";
 import { isThemeColor } from "~/theme/theme";
 import { Icon } from "../Icon";
 import { useFieldRules } from "./validation";
@@ -555,4 +556,60 @@ export function CheckboxInput(props: ToggleInputProps) {
 /** `<v-switch>` equivalent. */
 export function SwitchInput(props: ToggleInputProps) {
   return <ToggleInput kind="switch" {...props} />;
+}
+
+export interface FileInputProps extends CommonFieldProps {
+  value: File | null;
+  onChange?: (value: File | null) => void;
+  accept?: string;
+  clearable?: boolean;
+}
+
+/** `<v-file-input>` equivalent: a read-only field showing the chosen file that opens the picker on click. */
+export function FileInput(props: FileInputProps) {
+  const { value, onChange, accept, clearable, label, hint, persistentHint, hideDetails, disabled, variant, sx, className, fullWidth = true, prependIcon } = props;
+  const [input, setInput] = useState<HTMLInputElement | null>(null);
+  const { start } = adornments(props);
+  const end = clearable && value
+    ? (
+        <InputAdornment position="end">
+          <IconButton
+            size="small"
+            edge="end"
+            onClick={(e) => {
+              e.stopPropagation();
+              if (input) input.value = "";
+              onChange?.(null);
+            }}
+          >
+            <Icon path={icons.close} />
+          </IconButton>
+        </InputAdornment>
+      )
+    : undefined;
+  const field = (
+    <>
+      <TextField
+        label={label}
+        value={value?.name ?? ""}
+        helperText={helper(hideDetails, false, undefined, hint, persistentHint)}
+        disabled={disabled}
+        variant={muiVariant(variant)}
+        size="small"
+        sx={sx}
+        className={className}
+        fullWidth={fullWidth}
+        onClick={() => input?.click()}
+        slotProps={{ input: { readOnly: true, startAdornment: start, endAdornment: end, sx: { cursor: "pointer" } } }}
+      />
+      <input
+        ref={setInput}
+        type="file"
+        accept={accept}
+        style={{ display: "none" }}
+        onChange={e => onChange?.(e.target.files?.[0] ?? null)}
+      />
+    </>
+  );
+  return withPrependIcon(prependIcon, field);
 }
