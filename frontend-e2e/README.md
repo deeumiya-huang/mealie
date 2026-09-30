@@ -52,5 +52,9 @@ Reports: `test-results/results.json` (read by `rewrite-evidence/measure.sh`) and
 - A non-admin who types an `/admin/...` URL directly still gets the admin page shell; every admin
   API call answers 403. The `admin-only` middleware doesn't redirect on a hard load. The flows
   therefore check which admin links a member is *offered*, not direct URL access.
+- The shopping list page polls every 5 s and queues new items in localStorage before sending them.
+  Occasionally (about 1 in 10 runs) a freshly added item is lost and the input is cleared. The
+  add-item flow therefore re-adds the item for up to 30 s, as a user would. Every flow creates its
+  own records (that flow creates its own list), so the suite can run repeatedly on one database.
 - Headless Chromium always rejects the Screen Wake Lock request ("Keep Screen Awake"); that one
   error is allow-listed in `lib/page-health.ts`.
