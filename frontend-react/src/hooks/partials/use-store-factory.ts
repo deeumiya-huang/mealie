@@ -63,6 +63,10 @@ export const useReadOnlyStore = function <T extends BoundT>(
         state.store.set([]);
         state.initialized.set(false);
       },
+      /** The current items, read outside render (e.g. right after `await refresh()`). */
+      getItems() {
+        return state.store.get();
+      },
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps -- one action set per store; params are static
   }, [storeKey, state]);
@@ -96,6 +100,10 @@ export const useStore = function <T extends BoundT>(
       flushStore() {
         state.store.set([]);
         state.initialized.set(false);
+      },
+      /** The current items, read outside render (e.g. right after `await refresh()`). */
+      getItems() {
+        return state.store.get();
       },
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps -- one action set per store; params are static

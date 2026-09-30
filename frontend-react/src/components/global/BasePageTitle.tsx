@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
+import { publicUrl } from "~/lib/constants";
 
 export interface BasePageTitleProps {
   divider?: boolean;
@@ -32,3 +33,22 @@ export function BasePageTitle({ divider = false, header, title, content, childre
 }
 
 export default BasePageTitle;
+
+export interface BasePageTitleImageProps {
+  /** Path under frontend/public, e.g. "/svgs/manage-members.svg". */
+  src: string;
+  maxWidth?: number | string;
+  maxHeight?: number | string;
+}
+
+/** The illustration most pages put in `<BasePageTitle>`'s header slot (`<v-img width="100%" …>`). */
+export function BasePageTitleImage({ src, maxWidth = 150, maxHeight = 200 }: BasePageTitleImageProps) {
+  return (
+    <Box
+      component="img"
+      src={publicUrl(src)}
+      alt=""
+      sx={{ width: "100%", maxWidth, maxHeight, objectFit: "contain" }}
+    />
+  );
+}
