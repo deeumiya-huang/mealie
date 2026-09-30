@@ -1,5 +1,6 @@
 import { alpha, createTheme } from "@mui/material/styles";
 import type { PaletteColor, PaletteColorOptions, Theme } from "@mui/material/styles";
+import * as muiLocales from "@mui/material/locale";
 
 declare module "@mui/material/styles" {
   interface Palette {
@@ -107,7 +108,15 @@ export function isThemeColor(color: string | null | undefined): color is VColor 
   return !!color && (THEME_COLORS as string[]).includes(color);
 }
 
-export function createMealieTheme(mode: ThemeMode, config: ThemeConfig | undefined, direction: "ltr" | "rtl"): Theme {
+const MUI_LOCALE_ALIASES: Record<string, keyof typeof muiLocales> = { "no-NO": "nbNO", "sr-SP": "srRS", "fr-BE": "frFR", "fr-CA": "frFR", "en-GB": "enUS" };
+
+/** MUI's built-in component strings (pagination etc.), which Vuetify took from its own locale packs. */
+function muiLocaleFor(code: string) {
+  const key = (MUI_LOCALE_ALIASES[code] ?? code.replace("-", "")) as keyof typeof muiLocales;
+  return muiLocales[key] ?? muiLocales.enUS;
+}
+
+export function createMealieTheme(mode: ThemeMode, config: ThemeConfig | undefined, direction: "ltr" | "rtl", localeCode = "en-US"): Theme {
   const dark = mode === "dark";
   const pick = (light: keyof ThemeConfig, darkKey: keyof ThemeConfig, fallback: string) =>
     (dark ? config?.[darkKey] : config?.[light]) ?? fallback;
@@ -147,7 +156,7 @@ export function createMealieTheme(mode: ThemeMode, config: ThemeConfig | undefin
         },
       },
     },
-  });
+  }, muiLocaleFor(localeCode));
 }
 
 /** CSS color for a Vuetify-style color name (theme color or any CSS color), for `sx` usage. */
