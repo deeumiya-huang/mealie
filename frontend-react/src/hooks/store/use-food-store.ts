@@ -25,3 +25,15 @@ export const useFoodStore = function () {
 export const usePublicFoodStore = function (groupSlug: string) {
   return useReadOnlyStore<IngredientFood>("food", publicState, () => publicExploreApi(groupSlug).explore.foods);
 };
+
+/**
+ * The group's own store when the user belongs to it, the public (explore) store otherwise. One
+ * hook call either way, so callers can switch on login state without breaking hook order.
+ */
+export const useFoodStoreFor = function (isOwnGroup: boolean, groupSlug: string) {
+  return useReadOnlyStore<IngredientFood>(
+    isOwnGroup ? "food" : "food",
+    isOwnGroup ? state : publicState,
+    isOwnGroup ? api : () => publicExploreApi(groupSlug).explore.foods,
+  );
+};

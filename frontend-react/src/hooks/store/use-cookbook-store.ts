@@ -33,3 +33,15 @@ export const useCookbookStore = function () {
 export const usePublicCookbookStore = function (groupSlug: string) {
   return useReadOnlyStore<ReadCookBook>("cookbook", publicState, () => publicExploreApi(groupSlug).explore.cookbooks);
 };
+
+/**
+ * The group's own store when the user belongs to it, the public (explore) store otherwise. One
+ * hook call either way, so callers can switch on login state without breaking hook order.
+ */
+export const useCookbookStoreFor = function (isOwnGroup: boolean, groupSlug: string) {
+  return useReadOnlyStore<ReadCookBook>(
+    isOwnGroup ? "cookbook" : "cookbook",
+    isOwnGroup ? state : publicState,
+    isOwnGroup ? api : () => publicExploreApi(groupSlug).explore.cookbooks,
+  );
+};

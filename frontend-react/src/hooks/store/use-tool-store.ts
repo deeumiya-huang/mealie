@@ -29,3 +29,15 @@ export const useToolStore = function () {
 export const usePublicToolStore = function (groupSlug: string) {
   return useReadOnlyStore<RecipeTool>("tool", publicState, () => publicExploreApi(groupSlug).explore.tools);
 };
+
+/**
+ * The group's own store when the user belongs to it, the public (explore) store otherwise. One
+ * hook call either way, so callers can switch on login state without breaking hook order.
+ */
+export const useToolStoreFor = function (isOwnGroup: boolean, groupSlug: string) {
+  return useReadOnlyStore<RecipeTool>(
+    isOwnGroup ? "tool" : "tool",
+    isOwnGroup ? state : publicState,
+    isOwnGroup ? api : () => publicExploreApi(groupSlug).explore.tools,
+  );
+};

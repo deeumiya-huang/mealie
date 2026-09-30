@@ -25,3 +25,15 @@ export const useTagStore = function () {
 export const usePublicTagStore = function (groupSlug: string) {
   return useReadOnlyStore<RecipeTag>("tag", publicState, () => publicExploreApi(groupSlug).explore.tags);
 };
+
+/**
+ * The group's own store when the user belongs to it, the public (explore) store otherwise. One
+ * hook call either way, so callers can switch on login state without breaking hook order.
+ */
+export const useTagStoreFor = function (isOwnGroup: boolean, groupSlug: string) {
+  return useReadOnlyStore<RecipeTag>(
+    isOwnGroup ? "tag" : "tag",
+    isOwnGroup ? state : publicState,
+    isOwnGroup ? api : () => publicExploreApi(groupSlug).explore.tags,
+  );
+};

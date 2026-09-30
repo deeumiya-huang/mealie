@@ -21,3 +21,15 @@ export const useHouseholdStore = function () {
 export const usePublicHouseholdStore = function (groupSlug: string) {
   return useReadOnlyStore<HouseholdSummary>("household-public", publicState, () => publicExploreApi(groupSlug).explore.households);
 };
+
+/**
+ * The group's own store when the user belongs to it, the public (explore) store otherwise. One
+ * hook call either way, so callers can switch on login state without breaking hook order.
+ */
+export const useHouseholdStoreFor = function (isOwnGroup: boolean, groupSlug: string) {
+  return useReadOnlyStore<HouseholdSummary>(
+    isOwnGroup ? "household" : "household-public",
+    isOwnGroup ? state : publicState,
+    isOwnGroup ? api : () => publicExploreApi(groupSlug).explore.households,
+  );
+};
