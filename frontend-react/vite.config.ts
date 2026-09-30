@@ -3,6 +3,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import react from "@vitejs/plugin-react";
 import type { Plugin } from "vite";
+import ts from "typescript";
 import { VitePWA } from "vite-plugin-pwa";
 import { defineConfig } from "vitest/config";
 
@@ -41,22 +42,31 @@ function spaFallbackPages(): Plugin {
 }
 
 /**
- * frontend/app/composables/use-locales/available-locales.ts is generated plain data (no TS syntax).
- * Vite's TS transform would look up frontend/tsconfig.json, which extends Nuxt's generated
- * .nuxt/tsconfig.json and fails when the Vue app hasn't been installed. Serve it as a JS module instead.
+ * Generated TS modules that live in the Vue app's tree (dev/code-generation writes them there).
+ * Vite's own TS transform would look up frontend/tsconfig.json, which extends Nuxt's generated
+ * .nuxt/tsconfig.json and fails when the Vue app hasn't been installed, so these are transpiled here
+ * with TypeScript directly and served as virtual JS modules.
  */
-function sharedLocalesModule(): Plugin {
-  const virtualId = "\0mealie-available-locales.js";
+const GENERATED_SHARED_MODULES: Record<string, string> = {
+  "@mealie-locales": availableLocalesFile,
+  "@mealie-unit-systems": path.resolve(repoRoot, "frontend/app/composables/recipes/unit-systems.ts"),
+};
+
+function sharedGeneratedModules(): Plugin {
+  const prefix = "\0mealie-generated:";
   return {
-    name: "mealie-shared-locales",
+    name: "mealie-shared-generated-modules",
     enforce: "pre",
     resolveId(id) {
-      return id === "@mealie-locales" ? virtualId : null;
+      return id in GENERATED_SHARED_MODULES ? `${prefix}${id}.js` : null;
     },
     load(id) {
-      if (id !== virtualId) return null;
-      this.addWatchFile(availableLocalesFile);
-      return readFileSync(availableLocalesFile, "utf-8");
+      if (!id.startsWith(prefix)) return null;
+      const file = GENERATED_SHARED_MODULES[id.slice(prefix.length, -".js".length)]!;
+      this.addWatchFile(file);
+      return ts.transpileModule(readFileSync(file, "utf-8"), {
+        compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 },
+      }).outputText;
     },
   };
 }
@@ -65,7 +75,7 @@ export default defineConfig({
   base: process.env.SUB_PATH || "/",
   publicDir: sharedPublicDir,
   plugins: [
-    sharedLocalesModule(),
+    sharedGeneratedModules(),
     react(),
     VitePWA({
       registerType: "autoUpdate",
@@ -98,7 +108,7 @@ export default defineConfig({
   server: {
     port: 3000,
     fs: {
-      allow: [root, sharedTypesDir, sharedLangDir, sharedPublicDir, unitLocalesDir, availableLocalesFile],
+      allow: [root, sharedTypesDir, sharedLangDir, sharedPublicDir, unitLocalesDir, ...Object.values(GENERATED_SHARED_MODULES)],
     },
     proxy: {
       "/api": { target: apiUrl, changeOrigin: true },

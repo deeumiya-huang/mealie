@@ -35,6 +35,7 @@
       "~/lib/api/types/static": ["../frontend/app/lib/api/types/static.ts"],
       "~/lib/api/types/user": ["../frontend/app/lib/api/types/user.ts"],
       "@mealie-locales": ["../frontend/app/composables/use-locales/available-locales.ts"],
+      "@mealie-unit-systems": ["../frontend/app/composables/recipes/unit-systems.ts"],
       "@mealie-lang/*": ["../frontend/app/lang/*"],
       "@mealie-unit-locales/*": ["../mealie/repos/seed/resources/units/locales/*"],
       "~/*": ["./src/*"],

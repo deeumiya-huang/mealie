@@ -128,7 +128,10 @@ export function currentLocale(): string {
 
 /** Raw (unformatted) message lookup with en-US fallback; returns the key when missing, like vue-i18n. */
 function rawMessage(key: string): string | null {
-  const value = i18n.t(key, { skipInterpolation: true, returnObjects: false, defaultValue: "" });
+  if (!i18n.exists(key)) {
+    return null;
+  }
+  const value = i18n.t(key, { skipInterpolation: true, returnObjects: false });
   return typeof value === "string" && value !== "" ? value : null;
 }
 
