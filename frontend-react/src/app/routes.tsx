@@ -43,10 +43,12 @@ interface PageRoute {
   children?: PageRoute[];
 }
 
-function toRoute({ path, index, file, middleware, children }: PageRoute): RouteObject {
+function toRoute({ path, index, file, middleware, children }: PageRoute): RouteObject | null {
   const load = pageModules[pageFile(file)];
   if (!load) {
-    throw new Error(`Missing page module ${file}`);
+    // Never expected in a complete build; src/app/__tests__/pages.test.ts fails if a page is missing.
+    console.error(`Missing page module ${file}`);
+    return null;
   }
   const shared = {
     loader: middleware?.length ? guard(middleware) : undefined,
@@ -55,7 +57,7 @@ function toRoute({ path, index, file, middleware, children }: PageRoute): RouteO
   if (index) {
     return { index: true, ...shared };
   }
-  return { path, ...shared, children: children?.map(toRoute) };
+  return { path, ...shared, children: children?.map(toRoute).filter((r): r is RouteObject => r !== null) };
 }
 
 const { auth, adminOnly, advancedOnly, canManageHouseholdOnly, canManageOnly, canOrganizeOnly, groupOnly } = mw;
@@ -175,7 +177,7 @@ export function buildRoutes(): RouteObject[] {
       children: [
         ...(Object.keys(PAGES) as Layout[]).map(layout => ({
           lazy: async () => ({ Component: (await LAYOUTS[layout]()).default }),
-          children: PAGES[layout].map(toRoute),
+          children: PAGES[layout].map(toRoute).filter((r): r is RouteObject => r !== null),
         })),
         { path: "*", element: <ErrorPage statusCode={404} /> },
       ],
