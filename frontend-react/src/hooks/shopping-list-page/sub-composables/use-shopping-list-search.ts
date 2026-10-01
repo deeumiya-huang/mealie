@@ -1,4 +1,4 @@
-import { computed, defaultChannel, ref } from "~/lib/observable";
+import { computed, defaultChannel, markRef, ref } from "~/lib/observable";
 import type { ChangeChannel, ReadonlyRef, Ref } from "~/lib/observable";
 import { searchItems } from "~/hooks/use-search";
 import type { ISearchableItem } from "~/hooks/use-search";
@@ -64,7 +64,7 @@ export function createShoppingListSearch(
   // matching reads (useSearch's default debounce is 0, so it follows `search` immediately).
   const debouncedSearch = ref("", channel);
   let searchText = "";
-  const search: Ref<string> = {
+  const search: Ref<string> = markRef({
     get value() {
       return searchText;
     },
@@ -72,7 +72,8 @@ export function createShoppingListSearch(
       searchText = next;
       debouncedSearch.value = next;
     },
-  };
+  });
+
   const filtered = computed(() => searchItems(searchableItems.value, debouncedSearch.value, { fuseOptions: { threshold: 0 } }));
   function clearSearch() {
     searchText = "";

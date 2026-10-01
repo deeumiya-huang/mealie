@@ -23,6 +23,9 @@ export interface SortableListProps<T> {
   renderItem: (item: T, index: number, handle: SortableHandleProps) => ReactNode;
   className?: string;
   style?: CSSProperties;
+  /** vue-draggable-plus `@start` / `@end`. */
+  onDragStart?: () => void;
+  onDragEnd?: () => void;
 }
 
 function SortableItem({ id, disabled, useHandle, children }: { id: string; disabled: boolean; useHandle: boolean; children: (handle: SortableHandleProps) => ReactNode }) {
@@ -43,7 +46,7 @@ function SortableItem({ id, disabled, useHandle, children }: { id: string; disab
 }
 
 /** Vertical drag-and-drop list (vue-draggable-plus equivalent, built on dnd-kit). */
-export function SortableList<T>({ items, getId, onReorder, disabled = false, useHandle = true, touchDelay = 250, renderItem, className, style }: SortableListProps<T>) {
+export function SortableList<T>({ items, getId, onReorder, disabled = false, useHandle = true, touchDelay = 250, renderItem, className, style, onDragStart, onDragEnd: onDragFinish }: SortableListProps<T>) {
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
     useSensor(TouchSensor, { activationConstraint: { delay: touchDelay, tolerance: 5 } }),
@@ -52,6 +55,7 @@ export function SortableList<T>({ items, getId, onReorder, disabled = false, use
   const ids = items.map((item, i) => getId(item, i));
 
   function onDragEnd(event: DragEndEvent) {
+    onDragFinish?.();
     const { active, over } = event;
     if (!over || active.id === over.id) return;
     const from = ids.indexOf(String(active.id));
@@ -61,7 +65,7 @@ export function SortableList<T>({ items, getId, onReorder, disabled = false, use
   }
 
   return (
-    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
+    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragStart={onDragStart} onDragEnd={onDragEnd} onDragCancel={onDragFinish}>
       <SortableContext items={ids} strategy={verticalListSortingStrategy} disabled={disabled}>
         <div className={className} style={style}>
           {items.map((item, index) => (

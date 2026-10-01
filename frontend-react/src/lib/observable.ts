@@ -7,7 +7,7 @@
  * action, see `withNotify`) pings a change channel. The React side re-renders on those pings via
  * `useObservedController`, so components read the current values straight off the controller.
  */
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useRef, useState } from "react";
 
 export interface Ref<T> {
   value: T;
@@ -92,11 +92,14 @@ export function reactive<T extends object>(target: T, channel: ChangeChannel = d
 /**
  * Wraps every function on `obj` so that calling it (and settling the promise it returns) notifies
  * the channel. Covers in-place mutations of nested objects, which no setter sees.
+ *
+ * `pure` names read-only functions that components call while rendering: they must stay
+ * unwrapped, or every render would schedule another one.
  */
-export function withNotify<T extends object>(obj: T, channel: ChangeChannel = defaultChannel): T {
+export function withNotify<T extends object>(obj: T, channel: ChangeChannel = defaultChannel, pure: readonly (keyof T)[] = []): T {
   const wrapped = { ...obj } as Record<string, unknown>;
   for (const [key, val] of Object.entries(obj)) {
-    if (typeof val !== "function") continue;
+    if (typeof val !== "function" || pure.includes(key as keyof T)) continue;
     wrapped[key] = (...args: unknown[]) => {
       const result = (val as (...a: unknown[]) => unknown)(...args);
       channel.notify();
@@ -113,4 +116,29 @@ export function withNotify<T extends object>(obj: T, channel: ChangeChannel = de
 export function useChannel(channel: ChangeChannel = defaultChannel) {
   const [, force] = useReducer((n: number) => n + 1, 0);
   useEffect(() => channel.subscribe(force), [channel]);
+}
+
+/**
+ * A `v-model` as a ref for controller code: reads the latest value (including writes made since
+ * the last render, so async code that writes twice builds on its own first write) and forwards
+ * every write, with the value it replaces, to `onChange`.
+ */
+export function useModelRef<T>(value: T, onChange: (value: T, prev: T) => void): Ref<T> {
+  const latest = useRef(value);
+  const handler = useRef(onChange);
+  useEffect(() => {
+    latest.current = value;
+    handler.current = onChange;
+  });
+  const [box] = useState(() => markRef({
+    get value() {
+      return latest.current;
+    },
+    set value(next: T) {
+      const prev = latest.current;
+      latest.current = next;
+      handler.current(next, prev);
+    },
+  }));
+  return box;
 }

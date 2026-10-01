@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { createContext, useContext, useMemo, useState } from "react";
 import type { KeyboardEvent, ReactNode, Ref } from "react";
 import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
 import Checkbox from "@mui/material/Checkbox";
@@ -8,6 +8,8 @@ import FormHelperText from "@mui/material/FormHelperText";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import MenuItem from "@mui/material/MenuItem";
+import Paper from "@mui/material/Paper";
+import type { PaperProps } from "@mui/material/Paper";
 import Switch from "@mui/material/Switch";
 import TextField from "@mui/material/TextField";
 import type { TextFieldProps } from "@mui/material/TextField";
@@ -387,6 +389,22 @@ export interface AutocompleteInputProps<T> extends CommonFieldProps {
   inputRef?: Ref<HTMLInputElement>;
   /** Keep the menu open after selecting (`closeOnContentClick=false`). */
   disableCloseOnSelect?: boolean;
+  /** Content below the options inside the open menu (Vuetify's `#append-item` slot). */
+  appendItem?: ReactNode;
+}
+
+const AppendItemContext = createContext<ReactNode>(null);
+
+/** Autocomplete menu paper that adds the `appendItem` content after the options. */
+function AppendItemPaper({ children, ...props }: PaperProps) {
+  const appendItem = useContext(AppendItemContext);
+  return (
+    <Paper {...props}>
+      {children}
+      {/* keep focus in the input, so clicking here doesn't close the menu before the click lands */}
+      <div onMouseDown={e => e.preventDefault()}>{appendItem}</div>
+    </Paper>
+  );
 }
 
 /**
@@ -397,7 +415,7 @@ export function AutocompleteInput<T>(props: AutocompleteInputProps<T>) {
   const {
     items, value, onChange, itemTitle, itemValue, returnObject, multiple, chips, closableChips, clearable = false, loading, noDataText,
     freeSolo, search, onSearchChange, customFilter, renderItem, renderChip, autoSelectFirst, hideNoData, disableFilter, label, rules,
-    hint, persistentHint, hideDetails, disabled, readOnly, variant, sx, className, placeholder, onKeyDown, onBlur, inputRef, autoFocus,
+    hint, persistentHint, hideDetails, disabled, readOnly, variant, sx, className, placeholder, onKeyDown, onBlur, inputRef, autoFocus, appendItem,
     name, id, disableCloseOnSelect, prependIcon, eagerValidation,
   } = props;
   const { error, helperText, touch, formDisabled } = useFieldRules(value as never, rules as Rule<never>[] | undefined, { eager: eagerValidation });
@@ -460,6 +478,7 @@ export function AutocompleteInput<T>(props: AutocompleteInputProps<T>) {
       readOnly={readOnly}
       autoHighlight={autoSelectFirst}
       disableCloseOnSelect={disableCloseOnSelect ?? multiple}
+      slots={appendItem ? { paper: AppendItemPaper } : undefined}
       className={className}
       sx={sx}
       size="small"
@@ -511,7 +530,7 @@ export function AutocompleteInput<T>(props: AutocompleteInputProps<T>) {
       )}
     />
   );
-  return withPrependIcon(prependIcon, field);
+  return withPrependIcon(prependIcon, appendItem ? <AppendItemContext value={appendItem}>{field}</AppendItemContext> : field);
 }
 
 interface ToggleInputProps {

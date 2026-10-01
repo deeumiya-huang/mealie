@@ -1,4 +1,4 @@
-import { computed, defaultChannel, reactive, ref } from "~/lib/observable";
+import { computed, defaultChannel, markRef, reactive, ref } from "~/lib/observable";
 import type { ChangeChannel, Ref } from "~/lib/observable";
 import type { ShoppingListItemOut, ShoppingListOut } from "~/lib/api/types/household";
 
@@ -56,7 +56,7 @@ export function createShoppingListState(channel: ChangeChannel = defaultChannel)
       },
     });
   }
-  const shoppingList: Ref<ShoppingListOut | null> = {
+  const shoppingList: Ref<ShoppingListOut | null> = markRef({
     get value() {
       return current;
     },
@@ -65,7 +65,7 @@ export function createShoppingListState(channel: ChangeChannel = defaultChannel)
       splitItems();
       channel.notify();
     },
-  };
+  });
 
   const recipeMap = computed(() => new Map(
     (shoppingList.value?.recipeReferences?.map(ref => ref.recipe) ?? [])

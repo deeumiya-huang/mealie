@@ -51,3 +51,19 @@ export function useShoppingListItemEditor(listItem: Ref<ShoppingListItemOut>) {
     createAssignUnit,
   };
 }
+
+/**
+ * The editors' watchers: an emptied quantity becomes 0, and picking a food takes on that food's
+ * label. Applied to every edit of the item (`prev` is the item before the edit).
+ */
+export function applyItemEdit(prev: ShoppingListItemOut, next: ShoppingListItemOut): ShoppingListItemOut {
+  let item = next;
+  if (item.quantity !== prev.quantity && !item.quantity) {
+    item = { ...item, quantity: 0 };
+  }
+  if (item.food !== prev.food) {
+    const label = item.food?.label || null;
+    item = { ...item, label, labelId: label?.id || null };
+  }
+  return item;
+}

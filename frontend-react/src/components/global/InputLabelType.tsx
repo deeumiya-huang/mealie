@@ -77,12 +77,14 @@ function InputLabelTypeInner<T extends LabelLike>(props: InputLabelTypeProps<T>,
         onKeyDown={(e) => {
           if (e.key === "Enter") emitCreate();
         }}
+        appendItem={create
+          ? (
+              <Box sx={{ px: 1, py: 0.5 }}>
+                <BaseButton fullWidth small onClick={emitCreate} />
+              </Box>
+            )
+          : undefined}
       />
-      {create && (
-        <Box sx={{ px: 1, mt: 0.5 }}>
-          <BaseButton fullWidth small onClick={emitCreate} />
-        </Box>
-      )}
     </Box>
   );
 }

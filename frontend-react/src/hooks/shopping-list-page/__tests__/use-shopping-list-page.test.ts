@@ -262,4 +262,20 @@ describe("useShoppingListPage", () => {
       expect(data.stopPolling).toHaveBeenCalled();
     });
   });
+  describe("React adapter", () => {
+    test("read-only helpers called while rendering don't trigger another render", async () => {
+      let renders = 0;
+      renderHook(() => {
+        renders++;
+        const page = useShoppingListPage("list_id");
+        page.hasMatches([]);
+        page.matchesSearch(MOCK_ITEM);
+        page.countMatches([]);
+        page.getLabelColor("myKey");
+        return page;
+      });
+      await new Promise(resolve => setTimeout(resolve, 20));
+      expect(renders).toBeLessThan(5);
+    });
+  });
 });

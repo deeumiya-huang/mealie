@@ -239,7 +239,15 @@ export type ShoppingListPage = ReturnType<typeof createShoppingListPage>;
 export function useShoppingListPage(listId: string): ShoppingListPage {
   const [page] = useState(() => {
     const controller = createShoppingListPage(listId);
-    return withNotify(controller, controller.channel);
+    // read-only helpers the page calls while rendering
+    return withNotify(controller, controller.channel, [
+      "matchesSearch",
+      "countMatches",
+      "hasMatches",
+      "getLabelColor",
+      "sortCheckedItems",
+      "listItemFactory",
+    ]);
   });
   useChannel(page.channel);
   useEffect(() => {

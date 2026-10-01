@@ -32,7 +32,7 @@ export function RecipeCardLineItem({ recipe, active = false, disableLink = false
       <ListItemText
         primary={recipe.name}
         secondary={subtitle}
-        slotProps={{ primary: { noWrap: true } }}
+        slotProps={{ primary: { noWrap: true }, secondary: { component: "div" } }}
       />
       {append}
     </ListItemButton>
