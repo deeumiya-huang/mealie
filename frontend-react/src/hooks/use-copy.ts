@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { copyToClipboard, isClipboardSupported } from "~/lib/clipboard";
-import { useI18n } from "~/hooks/use-global-i18n";
+import { getGlobalI18n, useI18n } from "~/hooks/use-global-i18n";
+import type { I18nComposer } from "~/hooks/use-global-i18n";
 import { alert } from "./use-toast";
 
 export function useCopy() {
@@ -27,9 +28,8 @@ export function useCopy() {
   return { copyText, copied };
 }
 
-export function useCopyList() {
-  const i18n = useI18n();
-
+/** Copy helpers usable outside components (controllers); `useCopyList` is the hook form. */
+export function createCopyList(i18n: I18nComposer = getGlobalI18n()) {
   function checkClipboard() {
     if (!isClipboardSupported()) {
       alert.error(i18n.t("general.your-browser-does-not-support-clipboard"));
@@ -70,4 +70,8 @@ export function useCopyList() {
     copyMarkdown,
     copyMarkdownCheckList,
   };
+}
+
+export function useCopyList() {
+  return createCopyList(useI18n());
 }

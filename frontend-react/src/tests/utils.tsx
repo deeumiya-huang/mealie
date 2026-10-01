@@ -30,3 +30,11 @@ export function renderWithProviders(ui: ReactNode, options?: { initialEntries?: 
 export function renderHookWithProviders<R, P>(hook: (props: P) => R, options?: RenderHookOptions<P>) {
   return renderHook(hook, { wrapper: ({ children }) => <Providers>{children}</Providers>, ...options });
 }
+
+/**
+ * Runs a controller's setup function. The Vue tests mounted a throwaway component so composables
+ * had a setup context; the React controllers are plain functions, so this just calls it.
+ */
+export function makeWrapper<T>(setup: () => T): T {
+  return setup();
+}
