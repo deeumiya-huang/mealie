@@ -3,7 +3,7 @@ import type {
   ChangePassword,
   DeleteTokenResponse,
   LongLiveTokenIn,
-  LongLiveTokenOut,
+  LongLiveTokenCreateResponse,
   ResetPassword,
   UserBase,
   UserIn,
@@ -80,7 +80,7 @@ export class UserApi extends BaseCRUDAPI<UserIn, UserOut, UserBase> {
   }
 
   async createAPIToken(tokenName: LongLiveTokenIn) {
-    return await this.requests.post<LongLiveTokenOut>(routes.usersApiTokens, tokenName);
+    return await this.requests.post<LongLiveTokenCreateResponse>(routes.usersApiTokens, tokenName);
   }
 
   async deleteAPIToken(tokenId: number) {
