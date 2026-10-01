@@ -1,5 +1,5 @@
 import { BaseAPI } from "../base/base-clients";
-import type { AdminAboutInfo, CheckAppConfig } from "~/lib/api/types/admin";
+import type { AdminAboutInfo, AppStatistics, CheckAppConfig } from "~/lib/api/types/admin";
 
 const prefix = "/api";
 
@@ -17,7 +17,7 @@ export class AdminAboutAPI extends BaseAPI {
   }
 
   async statistics() {
-    return await this.requests.get(routes.aboutStatistics);
+    return await this.requests.get<AppStatistics>(routes.aboutStatistics);
   }
 
   async checkApp() {
