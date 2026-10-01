@@ -13,7 +13,7 @@ export class ExploreApi extends BaseAPI {
   public categories: PublicCategoriesApi;
   public tags: PublicTagsApi;
   public tools: PublicToolsApi;
-  public households: PublicHouseholdApi
+  public households: PublicHouseholdApi;
 
   constructor(requests: ApiRequestInstance, groupSlug: string) {
     super(requests);

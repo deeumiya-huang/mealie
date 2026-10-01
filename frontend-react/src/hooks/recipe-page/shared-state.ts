@@ -1,7 +1,7 @@
 import type { UserOut } from "~/lib/api/types/user";
 import { createStore, useStore } from "~/lib/store";
 import type { Store } from "~/lib/store";
-import { useNavigationWarning } from "~/hooks/use-navigation-warning";
+import { getNavigationWarning } from "~/hooks/use-navigation-warning";
 import { useMealieAuth } from "~/hooks/use-mealie-auth";
 
 export enum PageMode {
@@ -67,7 +67,7 @@ function storeFor(slug: string): Store<PageStateData> {
 }
 
 function actionsFor(store: Store<PageStateData>) {
-  const { activateNavigationWarning, deactivateNavigationWarning } = useNavigationWarning();
+  const { activateNavigationWarning, deactivateNavigationWarning } = getNavigationWarning();
 
   const setEditMode = (v: EditorMode) => store.patch({ editMode: v });
 

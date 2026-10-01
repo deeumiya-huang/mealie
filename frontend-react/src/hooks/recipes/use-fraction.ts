@@ -72,7 +72,7 @@ function cont(x: number, D: number, mixed: boolean) {
   return [q, sgn * P - q * Q, Q];
 }
 
-export const useFraction = function () {
+export const getFraction = function () {
   return {
     frac,
     cont,

@@ -9,6 +9,6 @@ const routes = {
 
 export class RegisterAPI extends BaseAPI {
   async register(payload: CreateUserRegistration) {
-    return await this.requests.post<any>(routes.register, payload);
+    return await this.requests.post<unknown>(routes.register, payload);
   }
 }

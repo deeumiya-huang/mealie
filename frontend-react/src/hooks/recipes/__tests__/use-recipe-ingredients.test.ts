@@ -7,15 +7,15 @@ vi.mock("~/hooks/use-locales");
 
 let parseIngredientText: (ingredient: RecipeIngredient, scale?: number, includeFormating?: boolean) => string;
 let ingredientToParserString: (ingredient: RecipeIngredient) => string;
-let useParsedIngredientText: ReturnType<typeof useIngredientTextParser>["useParsedIngredientText"];
+let getParsedIngredientText: ReturnType<typeof useIngredientTextParser>["getParsedIngredientText"];
 
 describe("parseIngredientText", () => {
   beforeEach(() => {
     vi.mocked(useLocales).mockReturnValue({
       locales: [{ value: "en-US", pluralFoodHandling: "always" }],
       locale: "en-US",
-    } as any);
-    ({ parseIngredientText, ingredientToParserString, useParsedIngredientText } = useIngredientTextParser());
+    } as never);
+    ({ parseIngredientText, ingredientToParserString, getParsedIngredientText } = useIngredientTextParser());
   });
 
   const createRecipeIngredient = (overrides: Partial<RecipeIngredient>): RecipeIngredient => ({
@@ -73,7 +73,7 @@ describe("parseIngredientText", () => {
       },
     });
 
-    const result = useParsedIngredientText(ingredient, 1, true, "home");
+    const result = getParsedIngredientText(ingredient, 1, true, "home");
 
     expect(result.recipeLink).toEqual("<a href=\"/g/home/r/curry-paste\">Curry Paste</a>");
     expect(result.recipeLink).not.toContain("target=");
@@ -163,7 +163,7 @@ describe("parseIngredientText", () => {
     vi.mocked(useLocales).mockReturnValue({
       locales: [{ value: "en-US", pluralFoodHandling: "always" }],
       locale: "en-US",
-    } as any);
+    } as never);
     const { parseIngredientText } = useIngredientTextParser();
 
     const ingredient = createRecipeIngredient({
@@ -179,7 +179,7 @@ describe("parseIngredientText", () => {
     vi.mocked(useLocales).mockReturnValue({
       locales: [{ value: "en-US", pluralFoodHandling: "never" }],
       locale: "en-US",
-    } as any);
+    } as never);
     const { parseIngredientText } = useIngredientTextParser();
 
     const ingredient = createRecipeIngredient({
@@ -195,7 +195,7 @@ describe("parseIngredientText", () => {
     vi.mocked(useLocales).mockReturnValue({
       locales: [{ value: "en-US", pluralFoodHandling: "without-unit" }],
       locale: "en-US",
-    } as any);
+    } as never);
     const { parseIngredientText } = useIngredientTextParser();
 
     const ingredient = createRecipeIngredient({
@@ -211,7 +211,7 @@ describe("parseIngredientText", () => {
     vi.mocked(useLocales).mockReturnValue({
       locales: [{ value: "en-US", pluralFoodHandling: "without-unit" }],
       locale: "en-US",
-    } as any);
+    } as never);
     const { parseIngredientText } = useIngredientTextParser();
 
     const ingredient = createRecipeIngredient({
@@ -259,7 +259,7 @@ describe("ingredientToParserString", () => {
     vi.mocked(useLocales).mockReturnValue({
       locales: [{ value: "en-US", pluralFoodHandling: "always" }],
       locale: "en-US",
-    } as any);
+    } as never);
     ({ ingredientToParserString } = useIngredientTextParser());
   });
 

@@ -94,10 +94,10 @@ export function GroupOrganizerDataPage({ type }: { type: "categories" | "tags" }
 
   // ============================================================
   // Create
-  const [createData, setCreateData] = useState<Organizer>({ name: "" });
+  const [createData, setCreateData] = useState<Organizer>({ name: "" } as Organizer);
   async function handleCreate(data: Organizer) {
     await store.actions.createOne(data as RecipeCategory);
-    setCreateData({ name: "" });
+    setCreateData({ name: "" } as Organizer);
   }
 
   // ============================================================

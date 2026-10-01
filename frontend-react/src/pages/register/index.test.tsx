@@ -2,7 +2,7 @@ import { act, renderHook } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { RegistrationType } from "./states";
 import { useRegistrationSubmit } from "./index";
-import { useGlobalI18n } from "~/hooks/use-global-i18n";
+import { getGlobalI18n } from "~/hooks/use-global-i18n";
 
 const mocks = vi.hoisted(() => ({
   register: vi.fn(),
@@ -22,7 +22,7 @@ vi.mock("~/hooks/api/api-client", () => ({
 vi.mock("~/hooks/use-toast", () => ({
   alert: { error: mocks.error, success: mocks.success },
 }));
-vi.mock("react-router", async (importOriginal) => ({
+vi.mock("react-router", async importOriginal => ({
   ...(await importOriginal<typeof import("react-router")>()),
   useNavigate: () => mocks.push,
 }));
@@ -86,7 +86,7 @@ describe("registration result handling", () => {
   ])("keeps the fallback for errors not shown by the interceptor: %j", async (error) => {
     mocks.register.mockResolvedValue({ response: null, error });
     await submit();
-    expect(mocks.error).toHaveBeenCalledExactlyOnceWith(useGlobalI18n().t("events.something-went-wrong"));
+    expect(mocks.error).toHaveBeenCalledExactlyOnceWith(getGlobalI18n().t("events.something-went-wrong"));
     expect(mocks.push).not.toHaveBeenCalled();
   });
 

@@ -1,9 +1,9 @@
 import DOMPurify from "isomorphic-dompurify";
-import { useFraction } from "./use-fraction";
+import { getFraction } from "./use-fraction";
 import { useLocales } from "~/hooks/use-locales";
 import type { CreateIngredientFood, CreateIngredientUnit, IngredientFood, IngredientFoodSummary, IngredientUnit, Recipe, RecipeIngredient } from "~/lib/api/types/recipe";
 
-const { frac } = useFraction();
+const { frac } = getFraction();
 
 const FRAC_MIN_DENOM = 10;
 const DECIMAL_PRECISION = 3;
@@ -15,7 +15,7 @@ export function sanitizeIngredientHTML(rawHtml: string) {
   });
 }
 
-export function useFoodName(food: CreateIngredientFood | IngredientFood | IngredientFoodSummary | undefined, usePlural: boolean) {
+export function getFoodName(food: CreateIngredientFood | IngredientFood | IngredientFoodSummary | undefined, usePlural: boolean) {
   if (!food) {
     return "";
   }
@@ -23,7 +23,7 @@ export function useFoodName(food: CreateIngredientFood | IngredientFood | Ingred
   return (usePlural ? food.pluralName || food.name : food.name) || "";
 }
 
-function useUnitName(unit: CreateIngredientUnit | IngredientUnit | undefined, usePlural: boolean) {
+function getUnitName(unit: CreateIngredientUnit | IngredientUnit | undefined, usePlural: boolean) {
   if (!unit) {
     return "";
   }
@@ -40,7 +40,7 @@ function useUnitName(unit: CreateIngredientUnit | IngredientUnit | undefined, us
   return returnVal;
 }
 
-function useRecipeLink(recipe: Recipe | undefined, groupSlug: string | undefined): string | undefined {
+function getRecipeLink(recipe: Recipe | undefined, groupSlug: string | undefined): string | undefined {
   if (!(recipe && recipe.slug && recipe.name && groupSlug)) {
     return undefined;
   }
@@ -98,7 +98,7 @@ export function useFoodPlurality() {
 export function useIngredientTextParser() {
   const { shouldPluralizeFood } = useFoodPlurality();
 
-  function useParsedIngredientText(ingredient: RecipeIngredient, scale = 1, includeFormating = true, groupSlug?: string): ParsedIngredientText {
+  function getParsedIngredientText(ingredient: RecipeIngredient, scale = 1, includeFormating = true, groupSlug?: string): ParsedIngredientText {
     const { quantity, food, unit, note, referencedRecipe } = ingredient;
     const usePluralUnit = quantity !== undefined && ((quantity || 0) * scale > 1 || (quantity || 0) * scale === 0);
     const usePluralFood = shouldPluralizeFood(ingredient, scale);
@@ -136,20 +136,20 @@ export function useIngredientTextParser() {
       }
     }
 
-    const unitName = useUnitName(unit || undefined, usePluralUnit);
-    const ingName = referencedRecipe ? referencedRecipe.name || "" : useFoodName(food || undefined, usePluralFood);
+    const unitName = getUnitName(unit || undefined, usePluralUnit);
+    const ingName = referencedRecipe ? referencedRecipe.name || "" : getFoodName(food || undefined, usePluralFood);
 
     return {
       quantity: returnQty ? sanitizeIngredientHTML(returnQty) : undefined,
       unit: unitName && quantity ? sanitizeIngredientHTML(unitName) : undefined,
       name: ingName ? sanitizeIngredientHTML(ingName) : undefined,
       note: note ? sanitizeIngredientHTML(note) : undefined,
-      recipeLink: useRecipeLink(referencedRecipe || undefined, groupSlug),
+      recipeLink: getRecipeLink(referencedRecipe || undefined, groupSlug),
     };
   };
 
   function parseIngredientText(ingredient: RecipeIngredient, scale = 1, includeFormating = true): string {
-    const { quantity, unit, name, note } = useParsedIngredientText(ingredient, scale, includeFormating);
+    const { quantity, unit, name, note } = getParsedIngredientText(ingredient, scale, includeFormating);
 
     const text = `${quantity || ""} ${unit || ""} ${name || ""} ${note || ""}`.replace(/ {2,}/g, " ").trim();
     return sanitizeIngredientHTML(text);
@@ -171,7 +171,7 @@ export function useIngredientTextParser() {
   }
 
   return {
-    useParsedIngredientText,
+    getParsedIngredientText,
     parseIngredientText,
     ingredientToParserString,
   };

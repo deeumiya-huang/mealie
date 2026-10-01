@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { format } from "date-fns";
 import { userApi } from "~/hooks/api";
-import { useGlobalI18n, useI18n } from "~/hooks/use-global-i18n";
+import { getGlobalI18n, useI18n } from "~/hooks/use-global-i18n";
 import type { CreatePlanEntry, PlanEntryType, ReadPlanEntry, RecipeSummary, UpdatePlanEntry } from "~/lib/api/types/meal-plan";
 
 type PlanOption = {
@@ -23,7 +23,7 @@ export function usePlanTypeOptions(): PlanOption[] {
 }
 
 export function getEntryTypeText(value: PlanEntryType) {
-  return useGlobalI18n().t("meal-plan." + value);
+  return getGlobalI18n().t("meal-plan." + value);
 }
 
 export interface DateRange {

@@ -21,7 +21,7 @@ export function RecipeTimelineBadge({ buttonStyle = false, slug = "", sx }: { bu
             setShowTimeline(!showTimeline);
           }}
           sx={[
-            buttonStyle ? { bgcolor: "info.main", color: "#fff", "&:hover": { bgcolor: "info.dark" } } : { color: "secondary.main" },
+            buttonStyle ? { "bgcolor": "info.main", "color": "#fff", "&:hover": { bgcolor: "info.dark" } } : { color: "secondary.main" },
             ...(Array.isArray(sx) ? sx : sx ? [sx] : []),
           ]}
         >

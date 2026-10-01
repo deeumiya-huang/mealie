@@ -7,13 +7,13 @@ vi.mock("~/hooks/use-global-i18n", async (importOriginal) => {
   const actual = await importOriginal<typeof import("~/hooks/use-global-i18n")>();
   return {
     ...actual,
-    useI18n: () => ({ ...actual.useGlobalI18n(), t: (key: string) => key }),
+    useI18n: () => ({ ...actual.getGlobalI18n(), t: (key: string) => key }),
   };
 });
 
 /** Mounts the hook (the Vue composable could be called directly). */
 function useQueryFilterBuilder() {
-  return renderHook(() => useQueryFilterBuilderHook()).result.current;
+  return renderHook(useQueryFilterBuilderHook).result.current;
 }
 
 const LABEL_ID = "a5f1c6d2-0000-4000-8000-000000000001";

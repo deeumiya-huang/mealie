@@ -72,7 +72,7 @@ export function RecipeContextMenu(props: RecipeContextMenuProps) {
           setAnchor(e.currentTarget);
           setLoaded(true);
         }}
-        sx={fab ? { bgcolor: "info.main", color: "#fff", "&:hover": { bgcolor: "info.dark" } } : { color: "secondary.main" }}
+        sx={fab ? { "bgcolor": "info.main", "color": "#fff", "&:hover": { bgcolor: "info.dark" } } : { color: "secondary.main" }}
       >
         <Icon path={menuIcon || icons.dotsVertical} size={fab ? "x-large" : undefined} />
       </IconButton>

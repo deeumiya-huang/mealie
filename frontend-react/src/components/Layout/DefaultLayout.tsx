@@ -123,10 +123,12 @@ export function DefaultLayout() {
         : groupSlug ? <PublicCookbooks groupSlug={groupSlug} onChange={setCookbooks} /> : null}
 
       <AppHeader>
-        <IconButton color="inherit" onClick={(e) => {
-          e.stopPropagation();
-          setSidebar(!sidebar);
-        }}
+        <IconButton
+          color="inherit"
+          onClick={(e) => {
+            e.stopPropagation();
+            setSidebar(!sidebar);
+          }}
         >
           <Icon path={icons.menu} />
         </IconButton>

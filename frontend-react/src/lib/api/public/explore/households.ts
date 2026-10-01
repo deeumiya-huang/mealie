@@ -3,7 +3,7 @@ import { HouseholdSummary } from "~/lib/api/types/household";
 import { ApiRequestInstance } from "~/lib/api/types/non-generated";
 
 const prefix = "/api";
-const exploreGroupSlug = (groupSlug: string | number) => `${prefix}/explore/groups/${groupSlug}`
+const exploreGroupSlug = (groupSlug: string | number) => `${prefix}/explore/groups/${groupSlug}`;
 
 const routes = {
   householdsGroupSlug: (groupSlug: string | number) => `${exploreGroupSlug(groupSlug)}/households`,
@@ -15,7 +15,7 @@ export class PublicHouseholdApi extends BaseCRUDAPIReadOnly<HouseholdSummary> {
     super(
       requests,
       routes.householdsGroupSlug(groupSlug),
-      (itemId: string | number) => routes.householdsGroupSlugHouseholdSlug(groupSlug, itemId)
+      (itemId: string | number) => routes.householdsGroupSlugHouseholdSlug(groupSlug, itemId),
     );
   }
 }

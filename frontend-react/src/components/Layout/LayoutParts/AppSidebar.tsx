@@ -47,9 +47,9 @@ function NavItem({ link, dense, indent = 0 }: { link: SideBarLink; dense?: boole
       end
       dense={dense}
       sx={{
-        borderRadius: 1,
-        ml: indent,
-        "&.active": { color: "primary.main", bgcolor: "action.selected", "& .MuiListItemIcon-root": { color: "primary.main" } },
+        "borderRadius": 1,
+        "ml": indent,
+        "&.active": { "color": "primary.main", "bgcolor": "action.selected", "& .MuiListItemIcon-root": { color: "primary.main" } },
       }}
     >
       <ListItemIcon sx={{ minWidth: 40 }}><Icon path={link.icon} /></ListItemIcon>
@@ -118,9 +118,9 @@ export function AppSidebar({ open, onOpenChange, topLink, secondaryLinks = null,
       onClose={() => onOpenChange(false)}
       className="d-print-none"
       sx={{
-        width: open && !temporary ? SIDEBAR_WIDTH : 0,
-        flexShrink: 0,
-        transition: "width 200ms",
+        "width": open && !temporary ? SIDEBAR_WIDTH : 0,
+        "flexShrink": 0,
+        "transition": "width 200ms",
         "& .MuiDrawer-paper": { width: SIDEBAR_WIDTH, boxSizing: "border-box", display: "flex", flexDirection: "column" },
       }}
     >

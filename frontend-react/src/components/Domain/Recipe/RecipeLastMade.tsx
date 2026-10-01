@@ -103,7 +103,7 @@ export function RecipeLastMade({ recipe, className, onEventCreated }: RecipeLast
       timestamp: eventTimestamp,
     };
 
-    let newEvent: RecipeTimelineEventOut | null = null;
+    let newEvent: RecipeTimelineEventOut | null;
     try {
       const eventResponse = await userApi.recipes.createTimelineEvent(newTimelineEvent);
       newEvent = eventResponse.data;

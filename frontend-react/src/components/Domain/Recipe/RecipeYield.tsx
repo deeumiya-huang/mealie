@@ -1,7 +1,7 @@
 import DOMPurify from "dompurify";
 import Box from "@mui/material/Box";
 import { icons } from "~/lib/icons";
-import { useScaledAmount } from "~/hooks/recipes/use-scaled-amount";
+import { getScaledAmount } from "~/hooks/recipes/use-scaled-amount";
 import { useI18n } from "~/hooks/use-global-i18n";
 import { Icon } from "~/components/global/Icon";
 
@@ -12,7 +12,7 @@ function sanitizeHTML(rawHtml: string) {
 export function RecipeYield({ yieldQuantity = 0, yieldText = "", scale = 1, className }: { yieldQuantity?: number; yieldText?: string; scale?: number; color?: string; className?: string }) {
   const i18n = useI18n();
   const components: string[] = [];
-  const { scaledAmountDisplay } = useScaledAmount(yieldQuantity, scale);
+  const { scaledAmountDisplay } = getScaledAmount(yieldQuantity, scale);
   if (scaledAmountDisplay) components.push(scaledAmountDisplay);
   if (yieldText) components.push(yieldText);
   const yieldDisplay = sanitizeHTML(components.join(" "));

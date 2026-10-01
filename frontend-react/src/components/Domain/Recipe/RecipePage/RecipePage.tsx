@@ -18,13 +18,13 @@ import { useUserApi } from "~/hooks/api";
 import { clearPageState, PageMode, usePageState } from "~/hooks/recipe-page/shared-state";
 import { useCookModeQuery } from "~/hooks/recipe-page/use-cook-mode-query";
 import type { BooleanString } from "~/hooks/recipe-page/use-cook-mode-query";
-import { useUnitConversion, useUnitSystem } from "~/hooks/recipes";
+import { getUnitConversion, useUnitSystem } from "~/hooks/recipes";
 import { useDisplay } from "~/hooks/use-display";
 import { useI18n } from "~/hooks/use-global-i18n";
 import { useHouseholdSelf } from "~/hooks/use-households";
 import { useLoggedInState } from "~/hooks/use-logged-in-state";
 import { useMealieAuth } from "~/hooks/use-mealie-auth";
-import { useNavigationWarning } from "~/hooks/use-navigation-warning";
+import { getNavigationWarning } from "~/hooks/use-navigation-warning";
 import { deepCopy, uuid4 } from "~/hooks/use-utils";
 import { BaseButton } from "~/components/global/BaseButton";
 import { BaseDialog } from "~/components/global/BaseDialog";
@@ -70,10 +70,10 @@ export function RecipePage({ value: recipe, onChange: setRecipe }: RecipePagePro
   const api = useUserApi();
   const page = usePageState(recipe.slug);
   const { pageMode, setMode, isEditForm, isEditJSON, isCookMode, isEditMode, isParsing, toggleCookMode, toggleIsParsing } = page;
-  const { deactivateNavigationWarning } = useNavigationWarning();
+  const { deactivateNavigationWarning } = getNavigationWarning();
   const [scale, setScale] = useState(1);
   const { unitSystem } = useUnitSystem();
-  const { convertIngredient } = useUnitConversion();
+  const { convertIngredient } = getUnitConversion();
 
   const disableComments = household?.preferences?.recipeDisableComments || recipe?.settings?.disableComments || false;
   const groupSlug = params.groupSlug || auth.user?.groupSlug || "";
@@ -393,7 +393,7 @@ export function RecipePage({ value: recipe, onChange: setRecipe }: RecipePagePro
         </Box>
       )}
       {isCookMode && (
-        <IconButton onClick={toggleCookMode} sx={{ position: "fixed", right: 12, top: 60, bgcolor: "primary.main", color: "#fff", "&:hover": { bgcolor: "primary.dark" } }}>
+        <IconButton onClick={toggleCookMode} sx={{ "position": "fixed", "right": 12, "top": 60, "bgcolor": "primary.main", "color": "#fff", "&:hover": { bgcolor: "primary.dark" } }}>
           <Icon path={icons.close} />
         </IconButton>
       )}

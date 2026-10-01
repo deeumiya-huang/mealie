@@ -1,25 +1,25 @@
-import { useGlobalI18n } from "~/hooks/use-global-i18n";
+import { getGlobalI18n } from "~/hooks/use-global-i18n";
 
 const EMAIL_REGEX
   = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@(([[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 export function required(v: string | undefined | null) {
-  const i18n = useGlobalI18n();
+  const i18n = getGlobalI18n();
   return !!v || i18n.t("validators.required");
 }
 
 export function email(v: string | undefined | null) {
-  const i18n = useGlobalI18n();
+  const i18n = getGlobalI18n();
   return (!!v && EMAIL_REGEX.test(v)) || i18n.t("validators.invalid-email");
 }
 
 export function whitespace(v: string | null | undefined) {
-  const i18n = useGlobalI18n();
+  const i18n = getGlobalI18n();
   return (!!v && v.split(" ").length <= 1) || i18n.t("validators.no-whitespace");
 }
 
 export function url(v: string | undefined | null) {
-  const i18n = useGlobalI18n();
+  const i18n = getGlobalI18n();
   if (!v) {
     return i18n.t("validators.invalid-url");
   }
@@ -38,11 +38,11 @@ export function urlOptional(v: string | undefined | null) {
 }
 
 export function minLength(min: number) {
-  const i18n = useGlobalI18n();
+  const i18n = getGlobalI18n();
   return (v: string | undefined | null) => (!!v && v.length >= min) || i18n.t("validators.min-length", { min });
 }
 
 export function maxLength(max: number) {
-  const i18n = useGlobalI18n();
+  const i18n = getGlobalI18n();
   return (v: string | undefined | null) => !v || v.length <= max || i18n.t("validators.max-length", { max });
 }

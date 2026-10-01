@@ -2,6 +2,8 @@ import { SSE } from "sse.js";
 import type { ReadyStateEvent, SSEvent } from "sse.js";
 import { BaseCRUDAPI } from "../../base/base-clients";
 import { route } from "../../base";
+import type { AxiosResponse } from "axios";
+import type { QueryValue } from "../../base/route";
 import { CommentsApi } from "./recipe-comments";
 import { RecipeShareApi } from "./recipe-share";
 import { apiRuntime } from "../../runtime";
@@ -196,7 +198,7 @@ export class RecipeAPI extends BaseCRUDAPI<CreateRecipe, Recipe, RecipeIn> {
 
       sse.addEventListener(SSEDataEventStatus.Done, (e: SSEvent) => {
         const { slug } = JSON.parse(e.data) as SSEDataEventDone;
-        settle({ response: { status: 201, data: slug } as any, data: slug, error: null });
+        settle({ response: { status: 201, data: slug } as AxiosResponse<string>, data: slug, error: null });
       });
 
       sse.addEventListener(SSEDataEventStatus.Error, (e: SSEvent) => {
@@ -316,7 +318,7 @@ export class RecipeAPI extends BaseCRUDAPI<CreateRecipe, Recipe, RecipeIn> {
     return await this.requests.delete<RecipeTimelineEventOut>(routes.recipesTimelineEventId(eventId));
   }
 
-  async getAllTimelineEvents(page = 1, perPage = -1, params = {} as any) {
+  async getAllTimelineEvents(page = 1, perPage = -1, params = {} as Record<string, QueryValue>) {
     return await this.requests.get<PaginationData<RecipeTimelineEventOut>>(
       routes.recipesTimelineEvent, { page, perPage, ...params },
     );

@@ -1,4 +1,4 @@
-import { useFoodName } from "./use-recipe-ingredients";
+import { getFoodName } from "./use-recipe-ingredients";
 import type { IngredientFood, IngredientFoodSubstitution, RecipeIngredient } from "~/lib/api/types/recipe";
 
 // the food is typed as a read-or-create union because either shape is accepted on input;
@@ -13,7 +13,7 @@ function foodSubstitutionsOf(ingredient: RecipeIngredient): IngredientFoodSubsti
  * substitution for "2 onions" reads "shallots", not "shallot".
  */
 export function substitutionFoodName(substitution: IngredientFoodSubstitution, usePluralFood = false): string {
-  return useFoodName(substitution.substituteFood || undefined, usePluralFood);
+  return getFoodName(substitution.substituteFood || undefined, usePluralFood);
 }
 
 /**

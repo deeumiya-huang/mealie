@@ -1,9 +1,9 @@
 import { describe, expect, test } from "vitest";
 import type { CreateIngredientUnit, RecipeIngredient } from "~/lib/api/types/recipe";
-import { canConvertIngredient, useUnitConversion } from "../use-unit-conversion";
+import { canConvertIngredient, getUnitConversion } from "../use-unit-conversion";
 
 // Not a React hook in this app (it reads the global i18n instance), so it is called directly.
-const { convertIngredient } = useUnitConversion();
+const { convertIngredient } = getUnitConversion();
 
 const ingredient = (quantity: number, unit: Partial<CreateIngredientUnit> | null): RecipeIngredient => ({
   quantity,
@@ -152,7 +152,7 @@ describe("convertIngredient", () => {
 
   describe("scale", () => {
     // Spec §4.3: the rung and the rounding both come from the scaled magnitude, but the
-    // quantity handed back is unscaled, so existing `useParsedIngredientText(ingredient, scale)`
+    // quantity handed back is unscaled, so existing `getParsedIngredientText(ingredient, scale)`
     // call sites still work.
     test("picks the rung from the scaled magnitude", () => {
       expect(convertIngredient(ounces(4), "metric", 1).unit?.name).toBe("gram");

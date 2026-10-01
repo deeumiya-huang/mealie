@@ -1,6 +1,6 @@
 import { CUSTOMARY_SYSTEMS, STANDARDIZED_UNITS, UNIT_SYSTEMS } from "@mealie-unit-systems";
 import type { StandardizedUnit, UnitRung, UnitSystem } from "@mealie-unit-systems";
-import { useGlobalI18n } from "~/hooks/use-global-i18n";
+import { getGlobalI18n } from "~/hooks/use-global-i18n";
 import type { CreateIngredientUnit, RecipeIngredient } from "~/lib/api/types/recipe";
 
 interface ConvertibleIngredient {
@@ -144,9 +144,9 @@ function roundToRung(rungs: UnitRung[], magnitude: number): { rung: UnitRung; qu
   return { rung, quantity: finestFraction(value) };
 }
 
-export function useUnitConversion() {
+export function getUnitConversion() {
   // Not a React hook: reads the global i18n instance, so it can run anywhere (e.g. while formatting).
-  const { t, te } = useGlobalI18n();
+  const { t, te } = getGlobalI18n();
 
   /**
    * Names come from the ingredient unit seed data, which app/lang/locales/*.ts merge into the

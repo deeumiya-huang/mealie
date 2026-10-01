@@ -18,7 +18,7 @@ export function RecipeCreateErrorAlert({ show, children }: { show: boolean; chil
         variant="filled"
         severity="error"
         icon={false}
-        sx={{ mt: 3, color: "#fff", "& a": { color: "#fff !important" }, "& .MuiAlert-message": { width: "100%" } }}
+        sx={{ "mt": 3, "color": "#fff", "& a": { color: "#fff !important" }, "& .MuiAlert-message": { width: "100%" } }}
       >
         <Typography variant="h6" sx={{ display: "flex", alignItems: "center", m: 0, p: 0 }}>
           <Icon path={icons.robot} size="x-large" start color="#fff" />

@@ -143,7 +143,7 @@ export const RecipeDialogSearch = forwardRef<RecipeDialogSearchHandle, RecipeDia
               variant="outlined"
               placeholder={i18n.t("search.search")}
               className="arrow-search"
-              sx={{ mx: 1, "& .MuiOutlinedInput-root": { bgcolor: "primary.light", color: "#fff" }, "& fieldset": { border: "none" } }}
+              sx={{ "mx": 1, "& .MuiOutlinedInput-root": { bgcolor: "primary.light", color: "#fff" }, "& fieldset": { border: "none" } }}
               slotProps={{ input: { startAdornment: <InputAdornment position="start"><Icon path={icons.search} color="white" /></InputAdornment> } }}
             />
             {display.xs && (

@@ -420,8 +420,9 @@ export function AutocompleteInput<T>(props: AutocompleteInputProps<T>) {
     ? ((value as unknown[] | null) ?? []).map(toOption).filter((o): o is T | string => o !== null)
     : toOption(value);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- titleOf only depends on itemTitle
   const defaultFilter = useMemo(() => createFilterOptions<T | string>({ stringify: o => titleOf(o) }), [
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- titleOf depends only on itemTitle
+
     itemTitle,
   ]);
 

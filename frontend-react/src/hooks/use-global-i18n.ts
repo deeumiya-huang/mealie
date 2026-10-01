@@ -30,11 +30,11 @@ const composer: I18nComposer = {
  * Non-reactive access to the global i18n instance, usable outside React components (validators,
  * API helpers, stores). Components should call `useI18n()` so they re-render on locale changes.
  */
-export function useGlobalI18n(): I18nComposer {
+export function getGlobalI18n(): I18nComposer {
   return composer;
 }
 
-/** React hook: same API as `useGlobalI18n()`, and re-renders the caller when the locale changes. */
+/** React hook: same API as `getGlobalI18n()`, and re-renders the caller when the locale changes. */
 export function useI18n(): I18nComposer {
   // Subscribes to languageChanged/loaded events; the returned `t` is not used because messages
   // use vue-i18n syntax (see ~/i18n/format.ts).

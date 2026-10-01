@@ -3,13 +3,13 @@ import { render, renderHook } from "@testing-library/react";
 import type { RenderHookOptions } from "@testing-library/react";
 import { ThemeProvider } from "@mui/material/styles";
 import { MemoryRouter } from "react-router";
-import { useGlobalI18n } from "~/hooks/use-global-i18n";
+import { getGlobalI18n } from "~/hooks/use-global-i18n";
 import type { I18nComposer } from "~/hooks/use-global-i18n";
 import { createMealieTheme } from "~/theme/theme";
 
 /** en-US i18n composer (vue-i18n's `createI18n(...).global` in the Vue tests). */
 export function stubI18n(): I18nComposer {
-  return useGlobalI18n();
+  return getGlobalI18n();
 }
 
 const theme = createMealieTheme("light", undefined, "ltr");

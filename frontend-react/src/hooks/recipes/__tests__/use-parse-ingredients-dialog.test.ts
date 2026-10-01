@@ -25,7 +25,7 @@ vi.mock("~/hooks/use-groups", () => ({
 const i18n = { global: { locale: "en-US" } };
 vi.mock("~/hooks/use-global-i18n", () => ({
   useI18n: () => ({ t: (key: string) => translate(key), get locale() { return i18n.global.locale; } }),
-  useGlobalI18n: () => ({ t: (key: string) => translate(key), get locale() { return i18n.global.locale; } }),
+  getGlobalI18n: () => ({ t: (key: string) => translate(key), get locale() { return i18n.global.locale; } }),
 }));
 
 vi.mock("~/hooks/api", () => ({

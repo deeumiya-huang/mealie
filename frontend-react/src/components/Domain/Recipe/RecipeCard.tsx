@@ -77,7 +77,7 @@ export function RecipeCard(props: RecipeCardProps) {
 
         <Box sx={{ display: "flex", flexDirection: "column", justifyContent: tagList.length === 0 ? "center" : "flex-end", minHeight: 84 }}>
           {tagList.length > 0 && (
-            <Box sx={{ px: 2, display: "flex", flexWrap: "nowrap", gap: "4px", minWidth: 0, overflow: "hidden", "& .MuiChip-root": { m: "0 !important", flex: "0 1 auto" } }}>
+            <Box sx={{ "px": 2, "display": "flex", "flexWrap": "nowrap", "gap": "4px", "minWidth": 0, "overflow": "hidden", "& .MuiChip-root": { m: "0 !important", flex: "0 1 auto" } }}>
               <RecipeChips truncate={false} items={tagList} title={false} limit={2} small urlPrefix="tags" onItemSelected={onItemSelected} />
             </Box>
           )}

@@ -64,7 +64,7 @@ export function RecipeCardImage({
   }
 
   return (
-    <Box onClick={onClick} sx={{ position: "relative", width: css(width), "& > div": { top: 0, position: "absolute", zIndex: 1 } }}>
+    <Box onClick={onClick} sx={{ "position": "relative", "width": css(width), "& > div": { top: 0, position: "absolute", zIndex: 1 } }}>
       <Icon
         path={icons.primary}
         color="primary"

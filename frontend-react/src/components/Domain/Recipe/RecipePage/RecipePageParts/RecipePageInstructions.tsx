@@ -410,7 +410,7 @@ export function RecipePageInstructions(props: RecipePageInstructionsProps) {
           </Box>
         )}
       >
-        <Box sx={{ display: "grid", gap: 1, height: "100%", "& > *": { overflowY: "auto" } }}>
+        <Box sx={{ "display": "grid", "gap": 1, "height": "100%", "& > *": { overflowY: "auto" } }}>
           <Box sx={{ position: "sticky", top: 0, zIndex: 2, bgcolor: "background.paper" }}>
             <Box sx={{ maxHeight: "40dvh", overflowY: "auto", p: 2, pt: 2 }}>
               <p>{activeText}</p>
@@ -514,7 +514,7 @@ export function RecipePageInstructions(props: RecipePageInstructionsProps) {
             )}
             <Card
               elevation={2}
-              sx={{ my: 1.5, cursor: isEditForm ? "default" : "pointer", transition: "box-shadow 200ms", "&:hover": { boxShadow: 12 }, ...(isChecked(index) ? { opacity: 0.5 } : {}) }}
+              sx={{ "my": 1.5, "cursor": isEditForm ? "default" : "pointer", "transition": "box-shadow 200ms", "&:hover": { boxShadow: 12 }, ...(isChecked(index) ? { opacity: 0.5 } : {}) }}
               onClick={() => toggleDisabled(index)}
             >
               <Box sx={{ px: 2, pt: 1.5, pb: !isChecked(index) ? 0 : 1.5, whiteSpace: "normal", lineHeight: 1.25, wordBreak: "break-word" }}>
@@ -649,7 +649,7 @@ export function RecipePageInstructions(props: RecipePageInstructionsProps) {
                 )}
               </DropZone>
               <Collapse in={!isChecked(index) && !isEditForm} unmountOnExit>
-                <CardContent sx={{ fontSize: "1rem", "& ul > li": { display: "list-item", listStyleType: "disc" }, "& ol > li": { display: "list-item" } }}>
+                <CardContent sx={{ "fontSize": "1rem", "& ul > li": { display: "list-item", listStyleType: "disc" }, "& ol > li": { display: "list-item" } }}>
                   <Grid container spacing={2}>
                     {isCookMode && hasCookModeLinkedContent(step) && (
                       <Grid size={{ xs: 12, sm: 5 }}>

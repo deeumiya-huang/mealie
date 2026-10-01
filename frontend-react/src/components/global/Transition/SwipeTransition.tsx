@@ -18,7 +18,7 @@ const fromLeft = keyframes`
 export function SwipeTransition({ direction, children }: { direction: "left" | "right"; group?: boolean; children: ReactNode }) {
   const animation = direction === "left" ? fromRight : fromLeft;
   return (
-    <Box sx={{ overflowX: "hidden", "& > *": { animation: `${animation} 0.3s cubic-bezier(0.5, -0.23, 0.5, 1.25)` } }}>
+    <Box sx={{ "overflowX": "hidden", "& > *": { animation: `${animation} 0.3s cubic-bezier(0.5, -0.23, 0.5, 1.25)` } }}>
       {children}
     </Box>
   );

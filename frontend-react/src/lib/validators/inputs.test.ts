@@ -13,13 +13,13 @@ vi.mock("~/hooks/use-global-i18n", () => {
 
   const t = (key: string, params?: Record<string, unknown>) => {
     const parts = key.split(".");
-    let acc: any = enUS as any;
-    for (const p of parts) acc = acc?.[p];
-    const msg: string | undefined = acc;
+    let acc: unknown = enUS;
+    for (const p of parts) acc = (acc as Record<string, unknown> | undefined)?.[p];
+    const msg = acc as string | undefined;
     return interpolate(msg ?? key, params);
   };
 
-  return { useGlobalI18n: () => ({ t }) };
+  return { getGlobalI18n: () => ({ t }) };
 });
 
 export { scorePassword } from "./password";

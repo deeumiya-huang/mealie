@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { publicApi } from "~/hooks/api/api-client";
-import { useGlobalI18n } from "~/hooks/use-global-i18n";
+import { getGlobalI18n } from "~/hooks/use-global-i18n";
 import { createStore, registerCacheReset, useStore } from "~/lib/store";
 import type { FormHandle } from "~/components/global/form";
 
@@ -41,7 +41,7 @@ export function resetUserRegistrationForm() {
 registerCacheReset(resetUserRegistrationForm);
 
 async function validateUsername() {
-  const i18n = useGlobalI18n();
+  const i18n = getGlobalI18n();
   const { data } = await publicApi().validators.username(formStore.get().username);
   const valid = !!data?.valid;
   formStore.patch({ validUsername: valid, usernameErrorMessages: valid ? [] : [i18n.t("validation.username-is-taken")] });
@@ -49,7 +49,7 @@ async function validateUsername() {
 }
 
 async function validateEmail() {
-  const i18n = useGlobalI18n();
+  const i18n = getGlobalI18n();
   const { data } = await publicApi().validators.email(formStore.get().email);
   const valid = !!data?.valid;
   formStore.patch({ validEmail: valid, emailErrorMessages: valid ? [] : [i18n.t("validation.email-is-taken")] });
@@ -89,7 +89,7 @@ export const useUserRegistrationForm = () => {
     reset: () => set({ username: "", fullName: "", email: "", advancedOptions: false }),
   };
 
-  const passwordMatch = () => formStore.get().password1 === formStore.get().password2 || useGlobalI18n().t("user.password-must-match");
+  const passwordMatch = () => formStore.get().password1 === formStore.get().password2 || getGlobalI18n().t("user.password-must-match");
   const credentials = {
     password1: state.password1,
     password2: state.password2,

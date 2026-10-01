@@ -5,7 +5,7 @@ import { ApiRequestInstance, PaginationData } from "~/lib/api/types/non-generate
 import { RecipeSearchQuery } from "../../user/recipes/recipe";
 
 const prefix = "/api";
-const exploreGroupSlug = (groupSlug: string | number) => `${prefix}/explore/groups/${groupSlug}`
+const exploreGroupSlug = (groupSlug: string | number) => `${prefix}/explore/groups/${groupSlug}`;
 
 const routes = {
   recipesGroupSlug: (groupSlug: string | number) => `${exploreGroupSlug(groupSlug)}/recipes`,
@@ -17,7 +17,7 @@ export class PublicRecipeApi extends BaseCRUDAPIReadOnly<Recipe> {
     super(
       requests,
       routes.recipesGroupSlug(groupSlug),
-      (itemId: string | number) => routes.recipesGroupSlugRecipeSlug(groupSlug, itemId)
+      (itemId: string | number) => routes.recipesGroupSlugRecipeSlug(groupSlug, itemId),
     );
   }
 
@@ -25,9 +25,9 @@ export class PublicRecipeApi extends BaseCRUDAPIReadOnly<Recipe> {
     return await this.requests.get<PaginationData<Recipe>>(route(routes.recipesGroupSlug(this.groupSlug), rsq));
   }
 
-  async getSuggestions(q: RecipeSuggestionQuery, foods: string[] | null = null, tools: string[]| null = null) {
+  async getSuggestions(q: RecipeSuggestionQuery, foods: string[] | null = null, tools: string[] | null = null) {
     return await this.requests.get<RecipeSuggestionResponse>(
-      route(`${routes.recipesGroupSlug(this.groupSlug)}/suggestions`, { ...q, foods, tools })
+      route(`${routes.recipesGroupSlug(this.groupSlug)}/suggestions`, { ...q, foods, tools }),
     );
   }
 }

@@ -17,15 +17,15 @@ export interface RecipeIngredientListItemProps {
 }
 
 export const ingredientItemSx = {
-  display: "flex",
-  flexWrap: "wrap",
-  alignItems: "baseline",
+  "display": "flex",
+  "flexWrap": "wrap",
+  "alignItems": "baseline",
   // column only: the note takes a flex row of its own
-  columnGap: "0.25em",
-  lineHeight: 1.5,
-  wordBreak: "break-word",
-  minWidth: 0,
-  fontSize: "1rem",
+  "columnGap": "0.25em",
+  "lineHeight": 1.5,
+  "wordBreak": "break-word",
+  "minWidth": 0,
+  "fontSize": "1rem",
   "& .d-inline > p": { display: "inline" },
   "& .d-inline > p:has(> sub) > sup": { letterSpacing: "-0.05rem" },
   "& .d-inline sup + span": { letterSpacing: "-0.05rem" },
@@ -47,7 +47,7 @@ export function RecipeIngredientListItem({ ingredient, scale = 1, showSubstituti
   const params = useParams();
   const auth = useMealieAuth();
   const groupSlug = params.groupSlug || auth.user?.groupSlug || "";
-  const { useParsedIngredientText: parsedIngredientText } = useIngredientTextParser();
+  const { getParsedIngredientText: parsedIngredientText } = useIngredientTextParser();
   const parsedIng = parsedIngredientText(ingredient, scale, true, groupSlug.toString());
   const subs = showSubstitutions ? <RecipeIngredientSubstitutions ingredient={ingredient} scale={scale} /> : null;
 

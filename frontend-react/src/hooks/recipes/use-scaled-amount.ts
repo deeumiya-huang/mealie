@@ -1,11 +1,11 @@
-import { useFraction } from "./use-fraction";
+import { getFraction } from "./use-fraction";
 
 function formatQuantity(val: number): string {
   if (Number.isInteger(val)) {
     return val.toString();
   }
 
-  const { frac } = useFraction();
+  const { frac } = getFraction();
 
   let valString = "";
   const fraction = frac(val, 10, true);
@@ -21,7 +21,7 @@ function formatQuantity(val: number): string {
   return valString.trim();
 }
 
-export function useScaledAmount(amount: number, scale = 1) {
+export function getScaledAmount(amount: number, scale = 1) {
   const scaledAmount = Number(((amount || 0) * scale).toFixed(3));
   const scaledAmountDisplay = scaledAmount ? formatQuantity(scaledAmount) : "";
 

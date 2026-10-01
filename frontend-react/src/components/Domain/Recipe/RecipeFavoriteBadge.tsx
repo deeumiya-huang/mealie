@@ -41,7 +41,7 @@ export function RecipeFavoriteBadge({ recipeId = "", showAlways = false, buttonS
           void toggleFavorite();
         }}
         sx={[
-          buttonStyle ? { bgcolor: "info.main", color: "#fff", "&:hover": { bgcolor: "info.dark" } } : { color: "secondary.main" },
+          buttonStyle ? { "bgcolor": "info.main", "color": "#fff", "&:hover": { bgcolor: "info.dark" } } : { color: "secondary.main" },
           ...(Array.isArray(sx) ? sx : sx ? [sx] : []),
         ]}
       >

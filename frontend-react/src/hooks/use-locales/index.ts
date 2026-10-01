@@ -1,6 +1,6 @@
 import { LOCALES } from "@mealie-locales";
 import { availableLocaleCodes } from "~/i18n";
-import { useGlobalI18n } from "~/hooks/use-global-i18n";
+import { getGlobalI18n } from "~/hooks/use-global-i18n";
 
 export { LOCALES };
 
@@ -9,7 +9,7 @@ export { LOCALES };
  * must re-render on a locale change also call `useI18n()`.
  */
 export const useLocales = () => {
-  const i18n = useGlobalI18n();
+  const i18n = getGlobalI18n();
   return {
     get locale() {
       return i18n.locale;

@@ -1,12 +1,12 @@
 import { useCallback } from "react";
 import { alert } from "~/hooks/use-toast";
-import { useGlobalI18n } from "~/hooks/use-global-i18n";
+import { getGlobalI18n } from "~/hooks/use-global-i18n";
 
 export async function downloadFile(url: string, filename: string): Promise<void> {
   const response = await fetch(url, { method: "GET", credentials: "include" }).catch(() => null);
   if (!response?.ok) {
     console.error("Download failed", response);
-    alert.error(useGlobalI18n().t("events.something-went-wrong"));
+    alert.error(getGlobalI18n().t("events.something-went-wrong"));
     return;
   }
 

@@ -57,7 +57,7 @@ export function RecipeIngredientSubstitutions({ ingredient, scale = 1 }: { ingre
                   {section.title}
                 </Box>
                 {section.items.map((substitution, i) => (
-                  <Box key={i} sx={{ lineHeight: 1.35, "& + &": { mt: 1 }, "& p": { display: "inline", m: 0 } }}>
+                  <Box key={i} sx={{ "lineHeight": 1.35, "& + &": { mt: 1 }, "& p": { display: "inline", m: 0 } }}>
                     {substitution.substituteFood
                       ? (
                           <>

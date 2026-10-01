@@ -92,7 +92,7 @@ export function RecipeActionMenu(props: RecipeActionMenuProps) {
           {loggedIn && <RecipeTimelineBadge buttonStyle slug={recipe.slug ?? ""} recipeName={recipe.name!} />}
           {loggedIn && canEdit && (
             <Tooltip title={i18n.t("general.edit")} placement="bottom">
-              <IconButton size="small" onClick={() => onEdit?.()} sx={{ bgcolor: "info.main", color: "#fff", "&:hover": { bgcolor: "info.dark" } }}>
+              <IconButton size="small" onClick={() => onEdit?.()} sx={{ "bgcolor": "info.main", "color": "#fff", "&:hover": { bgcolor: "info.dark" } }}>
                 <Icon path={icons.edit} size="x-large" />
               </IconButton>
             </Tooltip>
@@ -131,7 +131,7 @@ export function RecipeActionMenu(props: RecipeActionMenuProps) {
                   key={btn.event}
                   size="small"
                   onClick={() => emitHandler(btn.event)}
-                  sx={isThemeColor(btn.color) ? { bgcolor: `${btn.color}.main`, color: "#fff", "&:hover": { bgcolor: `${btn.color}.dark` } } : { bgcolor: "action.selected" }}
+                  sx={isThemeColor(btn.color) ? { "bgcolor": `${btn.color}.main`, "color": "#fff", "&:hover": { bgcolor: `${btn.color}.dark` } } : { bgcolor: "action.selected" }}
                 >
                   <Icon path={btn.icon} />
                 </IconButton>

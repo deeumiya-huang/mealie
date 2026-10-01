@@ -101,7 +101,7 @@ export function RecipeSuggestion({
                     size="small"
                     disableRipple
                     checked={!!selected[`${organizer.type}-${id}`]}
-                    sx={{ p: 0, mr: 0.5, color: "inherit", "&.Mui-checked": { color: "inherit" } }}
+                    sx={{ "p": 0, "mr": 0.5, "color": "inherit", "&.Mui-checked": { color: "inherit" } }}
                     tabIndex={-1}
                   />
                   {label}

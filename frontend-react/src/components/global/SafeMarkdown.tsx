@@ -31,7 +31,7 @@ export function SafeMarkdown({ source = "", className, sx, inline = false }: Saf
         "& th": { fontWeight: "bold" },
         "& ul, & ol": { my: 1, pl: "20px" },
         "& p": { my: 0 },
-        ...(inline ? { display: "inline", "& > p": { display: "inline" } } : {}),
+        ...(inline ? { "display": "inline", "& > p": { display: "inline" } } : {}),
       }, ...(Array.isArray(sx) ? sx : sx ? [sx] : [])]}
       // Safe: the HTML is sanitized with DOMPurify above.
       dangerouslySetInnerHTML={{ __html: html }}

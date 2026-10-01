@@ -4,7 +4,7 @@ import { useIngredientTextParser } from "~/hooks/recipes";
 import { SafeMarkdown } from "~/components/global/SafeMarkdown";
 
 export function RecipeIngredientHtml({ ingredient, scale = 1 }: { ingredient?: RecipeIngredient; scale?: number }) {
-  const { useParsedIngredientText: parsedIngredientText } = useIngredientTextParser();
+  const { getParsedIngredientText: parsedIngredientText } = useIngredientTextParser();
   let baseText = "";
   if (ingredient) {
     const parsed = parsedIngredientText(ingredient, scale);
@@ -15,10 +15,10 @@ export function RecipeIngredientHtml({ ingredient, scale = 1 }: { ingredient?: R
     <Box
       className="ingredient-link-label links-disabled"
       sx={{
-        display: "block",
-        lineHeight: 1.25,
-        wordBreak: "break-word",
-        fontSize: "0.95rem",
+        "display": "block",
+        "lineHeight": 1.25,
+        "wordBreak": "break-word",
+        "fontSize": "0.95rem",
         "& a": { pointerEvents: "none", cursor: "default", color: "primary.main", textDecoration: "none" },
       }}
     >

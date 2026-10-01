@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import { BaseButton } from "~/components/global/BaseButton";
 import { FileInput } from "~/components/global/form";
 import { useUserApi } from "~/hooks/api";
-import { useGlobalI18n, useI18n } from "~/hooks/use-global-i18n";
+import { getGlobalI18n, useI18n } from "~/hooks/use-global-i18n";
 import { useMealieAuth } from "~/hooks/use-mealie-auth";
 import { alert } from "~/hooks/use-toast";
 import { icons } from "~/lib/icons";
@@ -39,7 +39,7 @@ export default function RecipeCreateZipPage() {
     }
     catch (error) {
       console.error(error);
-      alert.error(useGlobalI18n().t("events.something-went-wrong"));
+      alert.error(getGlobalI18n().t("events.something-went-wrong"));
     }
     finally {
       setLoading(false);

@@ -8,7 +8,7 @@ import Popover from "@mui/material/Popover";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import { icons } from "~/lib/icons";
-import { useScaledAmount } from "~/hooks/recipes/use-scaled-amount";
+import { getScaledAmount } from "~/hooks/recipes/use-scaled-amount";
 import { useI18n } from "~/hooks/use-global-i18n";
 import { BaseButtonGroup } from "~/components/global/BaseButtonGroup";
 import { Icon } from "~/components/global/Icon";
@@ -41,7 +41,7 @@ export function RecipeScaleEditButton({ value: scale, onChange, recipeServings =
     onChange(recipeServings <= 0 ? 1 : newYield / recipeServings);
   }
 
-  const recipeYieldAmount = useScaledAmount(recipeServings, scale);
+  const recipeYieldAmount = getScaledAmount(recipeServings, scale);
   const yieldQuantity = recipeYieldAmount.scaledAmount;
   const yieldDisplay = yieldQuantity
     ? DOMPurify.sanitize(i18n.t("recipe.serves-amount", { amount: recipeYieldAmount.scaledAmountDisplay }), { ALLOWED_TAGS: ["sup", "sub", "span"] })

@@ -12,7 +12,7 @@ import { useI18n } from "~/hooks/use-global-i18n";
 import { ImagePosition, useUserPrintPreferences } from "~/hooks/use-users/preferences";
 import { ingredientSubstitutionSummary, useFoodPlurality, useIngredientTextParser, useNutritionLabels } from "~/hooks/recipes";
 import { usePageState } from "~/hooks/recipe-page/shared-state";
-import { useScaledAmount } from "~/hooks/recipes/use-scaled-amount";
+import { getScaledAmount } from "~/hooks/recipes/use-scaled-amount";
 import { Icon } from "~/components/global/Icon";
 import { SafeMarkdown } from "~/components/global/SafeMarkdown";
 import { RecipeTimeCard } from "./RecipeTimeCard";
@@ -53,13 +53,13 @@ export function RecipePrintView({ recipe, scale = 1, dense = false }: RecipePrin
   const { shouldPluralizeFood } = useFoodPlurality();
 
   const servingsDisplay = (() => {
-    const { scaledAmountDisplay } = useScaledAmount(recipe.recipeYieldQuantity, scale);
+    const { scaledAmountDisplay } = getScaledAmount(recipe.recipeYieldQuantity, scale);
     return scaledAmountDisplay || recipe.recipeYield
       ? i18n.t("recipe.yields-amount-with-text", { amount: scaledAmountDisplay, text: recipe.recipeYield })
       : "";
   })();
   const yieldDisplay = (() => {
-    const { scaledAmountDisplay } = useScaledAmount(recipe.recipeServings, scale);
+    const { scaledAmountDisplay } = getScaledAmount(recipe.recipeServings, scale);
     return scaledAmountDisplay ? i18n.t("recipe.serves-amount", { amount: scaledAmountDisplay }) : "";
   })();
   const recipeYield = servingsDisplay && yieldDisplay
@@ -155,8 +155,8 @@ export function RecipePrintView({ recipe, scale = 1, dense = false }: RecipePrin
   return (
     <Box
       sx={{
-        p: dense ? 0 : 1.5,
-        bgcolor: "white",
+        "p": dense ? 0 : 1.5,
+        "bgcolor": "white",
         "&, & *": { opacity: "1 !important", color: "black !important" },
         "& p": { pb: "0 !important", mb: "0 !important" },
         "& .print-section": { pageBreakInside: "avoid" },

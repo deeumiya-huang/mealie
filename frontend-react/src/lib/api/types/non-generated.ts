@@ -5,7 +5,7 @@ export type NoUndefinedField<T> = { [P in keyof T]-?: NoUndefinedField<NonNullab
 export interface RequestResponse<T> {
   response: AxiosResponse<T> | null;
   data: T | null;
-  error: any;
+  error: unknown;
 }
 
 export interface ApiRequestInstance {

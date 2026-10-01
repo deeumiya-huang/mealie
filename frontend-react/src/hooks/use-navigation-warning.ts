@@ -1,4 +1,4 @@
-export function useNavigationWarning() {
+export function getNavigationWarning() {
   return { activateNavigationWarning, deactivateNavigationWarning };
 }
 

@@ -208,7 +208,7 @@ export default function CookbooksPage() {
                 expanded={expanded === cookbook.id}
                 onChange={(_, open) => setExpanded(open ? cookbook.id : null)}
                 className="left-border"
-                sx={{ my: 1, borderRadius: 1, "&:before": { display: "none" } }}
+                sx={{ "my": 1, "borderRadius": 1, "&:before": { display: "none" } }}
                 slotProps={{ transition: { unmountOnExit: true } }}
               >
                 <AccordionSummary sx={{ "& .MuiAccordionSummary-content": { alignItems: "center", my: 1 } }}>

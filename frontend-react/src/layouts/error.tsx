@@ -69,7 +69,7 @@ export function ErrorPage({ statusCode = 404 }: { statusCode?: number }) {
         {i18n.t("page.404-page-not-found")}
       </Typography>
       <Box sx={{ display: "flex", justifyContent: "space-around" }}>
-        <Box sx={{ display: "flex", alignItems: "center", color: "primary.main", "& p": { fontSize: 200, m: 0 } }}>
+        <Box sx={{ "display": "flex", "alignItems": "center", "color": "primary.main", "& p": { fontSize: 200, m: 0 } }}>
           <p>4</p>
           <Icon path={icons.primary} color="primary" size={200} sx={{ mx: "auto", mb: 0 }} />
           <p>4</p>

@@ -82,7 +82,7 @@ export function AppHeader({ menu = true, children }: { menu?: boolean; children?
                         input: {
                           readOnly: true,
                           startAdornment: <InputAdornment position="start"><Icon path={icons.search} color="white" /></InputAdornment>,
-                          sx: theme => ({ borderRadius: 6, bgcolor: alpha(theme.palette.common.black, 0.15), color: "#fff", "& fieldset": { border: "none" } }),
+                          sx: theme => ({ "borderRadius": 6, "bgcolor": alpha(theme.palette.common.black, 0.15), "color": "#fff", "& fieldset": { border: "none" } }),
                         },
                       }}
                     />

@@ -73,7 +73,7 @@ export function RecipeIngredients({ value = [], scale = 1, isCookMode = false, s
             )}
             <Box
               className="ingredient-list-item"
-              sx={{ display: "flex", alignItems: "flex-start", px: 0, py: 0.5, cursor: "pointer", borderRadius: 1, "&:hover": { bgcolor: "action.hover" } }}
+              sx={{ "display": "flex", "alignItems": "flex-start", "px": 0, "py": 0.5, "cursor": "pointer", "borderRadius": 1, "&:hover": { bgcolor: "action.hover" } }}
               onClick={() => setChecked(index, !isChecked(index))}
             >
               <Checkbox
