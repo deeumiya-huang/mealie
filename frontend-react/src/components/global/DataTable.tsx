@@ -1,7 +1,8 @@
-import { useMemo, useState } from "react";
+import { Fragment, useMemo, useState } from "react";
 import type { ReactNode } from "react";
 import Box from "@mui/material/Box";
 import Checkbox from "@mui/material/Checkbox";
+import IconButton from "@mui/material/IconButton";
 import LinearProgress from "@mui/material/LinearProgress";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -14,6 +15,8 @@ import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import type { SxProps, Theme } from "@mui/material/styles";
 import { useI18n } from "~/hooks/use-global-i18n";
+import { icons } from "~/lib/icons";
+import { Icon } from "./Icon";
 
 export interface DataTableHeader<T> {
   title: string;
@@ -57,6 +60,8 @@ export interface DataTableProps<T> {
   };
   /** Row class/style hook. */
   rowSx?: (item: T) => SxProps<Theme> | undefined;
+  /** `show-expand` + `#expanded-item`: adds an expand toggle column; the content spans the row below. */
+  expandedRow?: (item: T) => ReactNode;
 }
 
 function readValue<T>(item: T, header: DataTableHeader<T>): unknown {
@@ -82,12 +87,14 @@ export function DataTable<T>(props: DataTableProps<T>) {
   const {
     headers, items, itemKey, itemsPerPage = 10, itemsPerPageOptions = [5, 10, 15, 25, 50, 100], search = "", sortBy, showSelect = false,
     selected = [], onSelectedChange, onRowClick, loading = false, noDataText, density = "default", hideDefaultFooter = false, sx,
-    elevation = 2, server, rowSx,
+    elevation = 2, server, rowSx, expandedRow,
   } = props;
   const i18n = useI18n();
   const [sort, setSort] = useState<{ key: string; order: "asc" | "desc" } | null>(sortBy?.[0] ?? null);
   const [page, setPage] = useState(0);
   const [perPage, setPerPage] = useState(itemsPerPage);
+  const [expanded, setExpanded] = useState<Set<string | number>>(new Set());
+  const extraColumns = (showSelect ? 1 : 0) + (expandedRow ? 1 : 0);
 
   const keyOf = (item: T, index: number): string | number => {
     if (typeof itemKey === "function") return itemKey(item);
@@ -183,35 +190,60 @@ export function DataTable<T>(props: DataTableProps<T>) {
                       )}
                 </TableCell>
               ))}
+              {expandedRow && <TableCell padding="checkbox" />}
             </TableRow>
           </TableHead>
           <TableBody>
             {visible.length === 0 && (
               <TableRow>
-                <TableCell colSpan={headers.length + (showSelect ? 1 : 0)} align="center">
+                <TableCell colSpan={headers.length + extraColumns} align="center">
                   {loading ? i18n.t("general.loading") : (noDataText ?? i18n.t("search.no-results"))}
                 </TableCell>
               </TableRow>
             )}
             {visible.map((item, index) => (
-              <TableRow
-                key={keyOf(item, index)}
-                hover
-                selected={showSelect && isSelected(item, index)}
-                onClick={onRowClick ? () => onRowClick(item) : undefined}
-                sx={[{ cursor: onRowClick ? "pointer" : undefined }, ...(rowSx?.(item) ? [rowSx(item)!] : [])] as SxProps<Theme>}
-              >
-                {showSelect && (
-                  <TableCell padding="checkbox" onClick={e => e.stopPropagation()}>
-                    <Checkbox checked={isSelected(item, index)} onChange={() => toggleOne(item, index)} />
-                  </TableCell>
+              <Fragment key={keyOf(item, index)}>
+                <TableRow
+                  hover
+                  selected={showSelect && isSelected(item, index)}
+                  onClick={onRowClick ? () => onRowClick(item) : undefined}
+                  sx={[{ cursor: onRowClick ? "pointer" : undefined }, ...(rowSx?.(item) ? [rowSx(item)!] : [])] as SxProps<Theme>}
+                >
+                  {showSelect && (
+                    <TableCell padding="checkbox" onClick={e => e.stopPropagation()}>
+                      <Checkbox checked={isSelected(item, index)} onChange={() => toggleOne(item, index)} />
+                    </TableCell>
+                  )}
+                  {headers.map(header => (
+                    <TableCell key={header.key} align={ALIGN[header.align ?? "start"]}>
+                      {header.render ? header.render(item, index) : String(readValue(item, header) ?? "")}
+                    </TableCell>
+                  ))}
+                  {expandedRow && (
+                    <TableCell padding="checkbox" onClick={e => e.stopPropagation()}>
+                      <IconButton
+                        size="small"
+                        onClick={() => setExpanded((prev) => {
+                          const next = new Set(prev);
+                          const key = keyOf(item, index);
+                          if (next.has(key)) next.delete(key);
+                          else next.add(key);
+                          return next;
+                        })}
+                      >
+                        <Icon path={icons.chevronDown} sx={{ transform: expanded.has(keyOf(item, index)) ? "rotate(180deg)" : undefined }} />
+                      </IconButton>
+                    </TableCell>
+                  )}
+                </TableRow>
+                {expandedRow && expanded.has(keyOf(item, index)) && (
+                  <TableRow>
+                    <TableCell colSpan={headers.length + extraColumns} sx={{ p: 0 }}>
+                      {expandedRow(item)}
+                    </TableCell>
+                  </TableRow>
                 )}
-                {headers.map(header => (
-                  <TableCell key={header.key} align={ALIGN[header.align ?? "start"]}>
-                    {header.render ? header.render(item, index) : String(readValue(item, header) ?? "")}
-                  </TableCell>
-                ))}
-              </TableRow>
+              </Fragment>
             ))}
           </TableBody>
         </Table>

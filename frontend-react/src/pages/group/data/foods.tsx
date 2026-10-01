@@ -390,7 +390,7 @@ export default function GroupDataFoodsPage() {
           </>
         )}
         deleteDialogBottom={affected.recipes.length > 0 && (
-          <Alert severity="warning" variant="filled" sx={{ mt: 2, mb: 0, "& a": { color: "#fff" } }}>
+          <Alert severity="warning" variant="filled" sx={{ "mt": 2, "mb": 0, "& a": { color: "#fff" } }}>
             {i18n.t("data-pages.foods.delete-affects-recipes", { count: affected.total })}
             <Box component="ul" sx={{ mt: 0.5, pl: 2.5, mb: 0 }}>
               {affected.recipes.slice(0, 5).map(recipe => (
