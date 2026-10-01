@@ -37,6 +37,7 @@ export function BaseButtonGroup({ buttons, large = true, stretch = false, onEven
                   <IconButton
                     size={large ? "large" : "medium"}
                     disabled={btn.disabled}
+                    aria-label={btn.text || undefined}
                     onClick={() => onEvent?.(btn.event)}
                     sx={{ borderRadius: 0, color: cssColor(theme, btn.color), ...(stretch ? { width: "100%" } : {}) }}
                   >
