@@ -52,6 +52,30 @@ Every `frontend/app/pages/**/*.vue` has a React page at the same path under `fro
 - `definePageMeta.scrollToTop` (profile page) relies on the router's default scroll behaviour.
 - Browser smoke tests covered the complex pages: shopping lists (desktop and phone), user/profile pages, all admin pages (user/group/household CRUD, backup create/restore dialog, maintenance, debug, site settings), and a full first-time setup run against a throwaway data snapshot. Simpler pages were checked only by type-check, lint and unit tests.
 
+## Effort (time and tokens)
+
+These figures were not tracked while the work was happening. They were reconstructed afterwards from the Claude Code session transcripts (`~/.claude/projects/-home-deeumiya-mealie-wf1/*.jsonl`), as of 2026-10-01 21:58 (UTC+13).
+
+**Time**
+- Wall clock: 2026-09-30 16:13 (first `[WF1]` commit) to 2026-10-01 21:51 (report commit), about 30 hours end to end.
+- Active time: about 5.0 hours. This is the sum of gaps under 10 minutes between transcript events, so it is an estimate.
+
+**Tokens** (748 model requests)
+
+| Session | Period (UTC+13) | Active | Requests | Output | Cache write | Cache read | Uncached input |
+|---|---|---|---|---|---|---|---|
+| d46d5131 | 09-30 15:58 → 10-01 20:49 | 3.8 h | 525 | 753,952 | 3,027,353 | 205,776,277 | 1,046 |
+| c9f616b7 | 10-01 20:50 → 21:58 | 1.1 h | 223 | 178,008 | 401,989 | 52,252,735 | 446 |
+| **Total** | | **5.0 h** | **748** | **931,960** | **3,429,342** | **258,029,012** | **1,492** |
+
+All tokens add up to about 262 million, but over 98% of that is cache reads. Every request re-reads the conversation context, and cache reads are billed and counted against limits at a much lower rate than regular input, so the total is not a cost figure.
+
+Caveats:
+- Session 353b62b9 left no transcript on this machine. Any work it did is not counted.
+- No subagents were used, so no subagent tokens are missing.
+- The c9f616b7 figures include the follow-up turns that wrote this section.
+- Weekly quota percentages are not in the transcripts. The Claude usage page is the source for those.
+
 ## Final command output
 
 Run in `frontend-react/`.
