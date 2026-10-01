@@ -1,4 +1,3 @@
-import * as vueusecore from "@vueuse/core";
 import { getGlobalI18n } from "~/hooks/use-global-i18n";
 import { describe, expect, test, vi } from "vitest";
 import type { ShoppingListItemOut } from "~/lib/api/types/household";
@@ -6,18 +5,13 @@ import { makeWrapper } from "~/tests/utils";
 import { createShoppingListCopy } from "../use-shopping-list-copy";
 import { MOCK_ITEM } from "./mocks";
 
-vi.mock("@vueuse/core", { spy: true });
+const mockCopy = vi.hoisted(() => vi.fn().mockImplementation(args => new Promise(resolve => resolve(args))));
 
-const mockCopy = vi.fn().mockImplementation(args => new Promise(resolve => resolve(args)));
-
-vi.mocked(vueusecore.useClipboard).mockImplementation(() => {
-  return {
-    isSupported: computed(() => true),
-    copied: computed(() => true),
-    text: computed(() => ""),
-    copy: mockCopy,
-  };
-});
+// @vueuse/core's useClipboard in the Vue test; ~/lib/clipboard is its replacement.
+vi.mock("~/lib/clipboard", () => ({
+  isClipboardSupported: () => true,
+  copyToClipboard: mockCopy,
+}));
 const wrapper = () => makeWrapper(() => {
   const { t } = getGlobalI18n();
   return {

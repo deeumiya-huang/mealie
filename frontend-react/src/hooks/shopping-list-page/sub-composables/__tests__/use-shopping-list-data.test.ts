@@ -1,5 +1,4 @@
 import type { Ref } from "~/lib/observable";
-import * as vuecore from "@vueuse/core";
 import { beforeEach, describe, expect, test, vi } from "vitest";
 import { ref } from "~/lib/observable";
 import type { ShoppingListOut } from "~/lib/api/types/household";
@@ -14,11 +13,16 @@ const createMany = vi.fn();
 const consoleError = vi.spyOn(console, "error");
 vi.spyOn(window, "setInterval").mockImplementation((fn) => {
   new Promise(resolve => setTimeout(resolve, 1)).then(() => fn());
-  return "TIMEOUT" as any;
+  return "TIMEOUT" as unknown as ReturnType<typeof setInterval>;
 });
 const mockClearInterval = vi.spyOn(window, "clearInterval");
 
-vi.mock("@vueuse/core", { spy: true });
+// @vueuse/core's useOnline/useIdle in the Vue test; ~/lib/browser-state is their replacement.
+vi.mock("~/lib/browser-state", () => ({
+  onlineState: () => mockUseOnline(),
+  idleState: (timeout: number) => mockUseIdle(timeout),
+  localStorageRef: (_key: string, defaults: unknown) => ref(defaults),
+}));
 vi.mock("~/hooks/api", () => ({
   userApi: () => ({
     shopping: {
@@ -28,14 +32,14 @@ vi.mock("~/hooks/api", () => ({
   }),
 }));
 
-const mockUseOnline = vi.mocked(vuecore.useOnline);
-const mockUseIdle = vi.mocked(vuecore.useIdle);
+const mockUseOnline = vi.fn<() => Ref<boolean>>();
+const mockUseIdle = vi.fn<(timeout: number) => { idle: Ref<boolean>; stop: () => void }>();
 
 describe("use-shopping-list-data", () => {
   const isOnline = ref(true);
   const isIdle = ref(false);
   mockUseOnline.mockReturnValue(isOnline);
-  mockUseIdle.mockReturnValue({ idle: isIdle } as vuecore.UseIdleReturn);
+  mockUseIdle.mockReturnValue({ idle: isIdle, stop: vi.fn() });
 
   const list = { ...MOCK_SHOPPING_LIST, id: "1" };
   const shoppingList: Ref<ShoppingListOut | null> = ref(list);

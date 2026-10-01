@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, test, vi } from "vitest";
 import { MOCK_ITEM, MOCK_SHOPPING_LIST } from "../sub-composables/__tests__/mocks";
-import { useShoppingListPage } from "../use-shopping-list-page";
-import * as vue from "vue";
+import { renderHook } from "@testing-library/react";
+import { createShoppingListPage, useShoppingListPage } from "../use-shopping-list-page";
 
 const addRecipes = vi.fn().mockResolvedValue({ data: true });
 const removeRecipe = vi.fn().mockResolvedValue(({ data: true }));
@@ -58,9 +58,16 @@ vi.mock("../sub-composables/use-shopping-list-crud", () => ({
   createShoppingListCrud: () => crud,
 }));
 
-vi.mock("vue", { spy: true });
-vi.mocked(vue.onUnmounted).mockImplementation(fn => fn());
-vi.mocked(vue.onMounted).mockImplementation(fn => fn());
+/**
+ * The Vue test mocked onMounted/onUnmounted to run immediately; the React controller exposes the
+ * same lifecycle as start()/stop(), which `useShoppingListPage` calls from an effect.
+ */
+function setupPage(listId: string) {
+  const page = createShoppingListPage(listId);
+  page.start();
+  page.stop();
+  return page;
+}
 
 describe("useShoppingListPage", () => {
   const {
@@ -79,7 +86,7 @@ describe("useShoppingListPage", () => {
     toggleReorderLabelsDialog,
     saveLabelOrder,
     refresh,
-  } = useShoppingListPage("list_id");
+  } = setupPage("list_id");
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -245,11 +252,13 @@ describe("useShoppingListPage", () => {
   });
   describe("Lifecycle hooks", () => {
     test("starts polling on mount", async () => {
-      useShoppingListPage("list_id");
+      renderHook(() => useShoppingListPage("list_id"));
       expect(data.startPolling).toHaveBeenCalled();
     });
     test("stops polling on unmount", async () => {
-      useShoppingListPage("list_id");
+      const { unmount } = renderHook(() => useShoppingListPage("list_id"));
+      expect(data.stopPolling).not.toHaveBeenCalled();
+      unmount();
       expect(data.stopPolling).toHaveBeenCalled();
     });
   });

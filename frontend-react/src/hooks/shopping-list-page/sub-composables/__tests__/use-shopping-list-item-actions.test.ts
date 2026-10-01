@@ -1,5 +1,5 @@
-import * as vuecore from "@vueuse/core";
 import { beforeEach, describe, expect, test, vi } from "vitest";
+import { ref } from "~/lib/observable";
 import type { ShoppingListQueue } from "../use-shopping-list-item-actions";
 import { createShoppingListItemActions } from "../use-shopping-list-item-actions";
 import { MOCK_ITEM, MOCK_SHOPPING_LIST } from "./mocks";
@@ -10,11 +10,13 @@ const deleteMany = vi.fn().mockImplementation(async () => { });
 const updateMany = vi.fn().mockImplementation(async () => { });
 const createMany = vi.fn().mockImplementation(async () => { });
 
-vi.mock("@vueuse/core", { spy: true });
+// @vueuse/core's useOnline/useStorage in the Vue test; ~/lib/browser-state is their replacement.
+vi.mock("~/lib/browser-state", () => ({
+  onlineState: () => isOnline,
+  localStorageRef: () => storedValue,
+}));
 const isOnline = ref(true);
 const storedValue = ref<{ [key: string]: ShoppingListQueue } | undefined>(undefined);
-vi.mocked(vuecore.useOnline).mockReturnValue(isOnline);
-vi.mocked(vuecore.useStorage).mockReturnValue(storedValue);
 
 vi.mock("~/hooks/api", () => ({
   userApi: () => ({

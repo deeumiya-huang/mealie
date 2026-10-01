@@ -19,6 +19,18 @@ export interface ReadonlyRef<T> {
 
 type Listener = () => void;
 
+const REF_MARK = Symbol("observable-ref");
+
+/** Tags `box` as a ref, so `isRef` (and test helpers that unwrap refs) can tell it apart. */
+export function markRef<T extends object>(box: T): T {
+  Object.defineProperty(box, REF_MARK, { value: true });
+  return box;
+}
+
+export function isRef(value: unknown): value is Ref<unknown> {
+  return typeof value === "object" && value !== null && REF_MARK in value;
+}
+
 export class ChangeChannel {
   private listeners = new Set<Listener>();
   private scheduled = false;
@@ -46,7 +58,7 @@ export const defaultChannel = new ChangeChannel();
 
 export function ref<T>(initial: T, channel: ChangeChannel = defaultChannel): Ref<T> {
   let current = initial;
-  return {
+  return markRef({
     get value() {
       return current;
     },
@@ -54,16 +66,16 @@ export function ref<T>(initial: T, channel: ChangeChannel = defaultChannel): Ref
       current = next;
       channel.notify();
     },
-  };
+  });
 }
 
 /** A derived value, recomputed on every read (the inputs are small). */
 export function computed<T>(getter: () => T): ReadonlyRef<T> {
-  return {
+  return markRef({
     get value() {
       return getter();
     },
-  };
+  });
 }
 
 /** Plain object whose property writes notify (Vue `reactive`, shallow). */

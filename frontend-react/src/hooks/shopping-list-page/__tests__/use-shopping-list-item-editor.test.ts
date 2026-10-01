@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, test, vi } from "vitest";
-import type { ModelRef } from "vue";
+import { renderHook } from "@testing-library/react";
+import { ref } from "~/lib/observable";
 import type { ShoppingListItemOut } from "~/lib/api/types/household";
 import { MOCK_ITEM } from "../sub-composables/__tests__/mocks";
 import { useShoppingListItemEditor } from "../use-shopping-list-item-editor";
@@ -27,12 +28,13 @@ vi.mock("~/hooks/store", async (importOriginal) => {
 });
 
 describe("useShoppingListItemEditor", () => {
-  const item = ref(MOCK_ITEM) as ModelRef<ShoppingListItemOut>;
+  const item = ref<ShoppingListItemOut>(MOCK_ITEM);
+  // The editor calls the food/unit data hooks, so it runs inside a (throwaway) component.
   const {
     assignLabelToFood,
     createAssignFood,
     createAssignUnit,
-  } = useShoppingListItemEditor(item);
+  } = renderHook(() => useShoppingListItemEditor(item)).result.current;
 
   beforeEach(() => {
     item.value = MOCK_ITEM;
@@ -50,6 +52,9 @@ describe("useShoppingListItemEditor", () => {
       expect(foodStore.actions.createOne).toHaveBeenCalled();
     });
     test("does not overwrite unit when something goes wrong", () => {
+      // The Vue test got this foodId from earlier tests mutating the shared MOCK_ITEM in place;
+      // the React editor replaces the item instead, so set the existing food explicitly.
+      item.value = { ...MOCK_ITEM, foodId: "food_id" };
       foodStore.actions.createOne.mockReturnValueOnce(undefined);
       createAssignFood("Soylent Green");
       expect(item.value.foodId).toBe("food_id");
@@ -67,6 +72,9 @@ describe("useShoppingListItemEditor", () => {
       expect(unitStore.actions.createOne).toHaveBeenCalled();
     });
     test("does not overwrite unit when something goes wrong", () => {
+      // The Vue test got this unitId from earlier tests mutating the shared MOCK_ITEM in place;
+      // the React editor replaces the item instead, so set the existing unit explicitly.
+      item.value = { ...MOCK_ITEM, unitId: "unit_id" };
       unitStore.actions.createOne.mockReturnValueOnce(undefined);
       createAssignUnit("Wafer");
       expect(item.value.unitId).toBe("unit_id");

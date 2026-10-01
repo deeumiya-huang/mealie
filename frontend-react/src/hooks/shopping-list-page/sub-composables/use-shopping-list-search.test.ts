@@ -2,6 +2,7 @@ import { ref } from "~/lib/observable";
 import { describe, expect, test } from "vitest";
 import { SEARCH_MIN_LIST_SIZE, createShoppingListSearch } from "./use-shopping-list-search";
 import type { ShoppingListItemOut } from "~/lib/api/types/household";
+import type { MultiPurposeLabelSummary } from "~/lib/api/types/labels";
 
 function listItem(id: string, overrides: Partial<ShoppingListItemOut> = {}): ShoppingListItemOut {
   return {
@@ -74,9 +75,9 @@ describe("createShoppingListSearch matching", () => {
 
   test("matches on label name, so searching an aisle narrows the list to it", () => {
     const items = [
-      listItem("a", { note: "Persil Non Bio", label: { name: "Laundry" } }),
-      listItem("b", { note: "Comfort Fresh", label: { name: "Laundry" } }),
-      listItem("c", { note: "Bread", label: { name: "Bakery" } }),
+      listItem("a", { note: "Persil Non Bio", label: { name: "Laundry" } as MultiPurposeLabelSummary }),
+      listItem("b", { note: "Comfort Fresh", label: { name: "Laundry" } as MultiPurposeLabelSummary }),
+      listItem("c", { note: "Bread", label: { name: "Bakery" } as MultiPurposeLabelSummary }),
     ];
     const { matchesSearch, countMatches } = searchFor(items, "laundry");
 

@@ -1,6 +1,7 @@
 import { getGlobalI18n } from "~/hooks/use-global-i18n";
 import { describe, expect, test } from "vitest";
 import type { ShoppingListOut } from "~/lib/api/types/household";
+import { ref } from "~/lib/observable";
 import { makeWrapper } from "~/tests/utils";
 import { createShoppingListLabels } from "../use-shopping-list-labels";
 import { MOCK_ITEM, MOCK_LABEL, MOCK_LABEL2, MOCK_LABEL3, MOCK_SHOPPING_LIST } from "./mocks";

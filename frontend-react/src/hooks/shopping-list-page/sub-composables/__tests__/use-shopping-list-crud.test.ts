@@ -1,4 +1,6 @@
 import { beforeEach, describe, expect, test, vi } from "vitest";
+import { ref } from "~/lib/observable";
+import type { ShoppingListOut } from "~/lib/api/types/household";
 import { createShoppingListCrud } from "../use-shopping-list-crud";
 import { createShoppingListState } from "../use-shopping-list-state";
 import { MOCK_ITEM, MOCK_LABEL, MOCK_LABEL2, MOCK_LABEL3, MOCK_SHOPPING_LIST } from "./mocks";
@@ -276,7 +278,7 @@ describe("use-shopping-list-crud", () => {
       shoppingList.value = null;
       cancelLabelOrder();
       expect(loadingCounter.value).toBe(-1);
-      expect(localLabels.value).not.toEqual((shoppingList.value as any)?.labelSettings);
+      expect(localLabels.value).not.toEqual((shoppingList.value as ShoppingListOut | null)?.labelSettings);
     });
   });
   describe("save label order", () => {

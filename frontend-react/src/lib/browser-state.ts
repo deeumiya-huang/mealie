@@ -2,7 +2,7 @@
  * Browser state as observable refs for controllers (vueuse `useOnline`, `useIdle` and
  * `useLocalStorage` equivalents; see ~/lib/observable). Tests mock this module.
  */
-import { ref } from "~/lib/observable";
+import { markRef, ref } from "~/lib/observable";
 import type { Ref } from "~/lib/observable";
 
 /** `navigator.onLine`, kept up to date by the online/offline events. */
@@ -56,7 +56,7 @@ export function localStorageRef<T>(key: string, defaults: T): Ref<T> {
   catch {
     // unavailable or corrupt storage: start from the defaults
   }
-  return {
+  return markRef({
     get value() {
       return current;
     },
@@ -69,5 +69,5 @@ export function localStorageRef<T>(key: string, defaults: T): Ref<T> {
         // storage full or blocked; keep the in-memory value
       }
     },
-  };
+  });
 }
