@@ -1,0 +1,250 @@
+[WebServer] WARNING  2026-10-04T09:50:28 - Secrets directory '/run/secrets' does not exist
+[WebServer] WARNING  2026-10-04T09:50:44 - Secrets directory '/run/secrets' does not exist
+[WebServer] ERROR    2026-10-04T09:50:47 - Incorrect username or password from 127.0.0.1
+
+Running 82 tests using 2 workers
+
+  ✓   2 [routes] › tests/routes.spec.ts:12:5 › route table covers every page (25ms)
+  ✓   3 [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin.vue (4.4s)
+  ✓   4 [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/backups.vue (2.9s)
+  ✓   1 [flows] › tests/flows/admin.spec.ts:5:7 › admin › [flow] create a user and find them in user management (9.9s)
+  ✓   5 [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/debug/openai.vue (3.0s)
+  ✓   7 [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/debug/parser.vue (2.8s)
+  ✓   6 [flows] › tests/flows/auth.spec.ts:8:7 › auth › [flow] log in with valid credentials and land on the recipe list (4.1s)
+  ✓   8 [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/maintenance/index.vue (3.2s)
+[WebServer] ERROR    2026-10-04T09:51:17 - Incorrect username or password from 127.0.0.1
+  ✓   9 [flows] › tests/flows/auth.spec.ts:16:7 › auth › [flow] a wrong password is rejected (3.6s)
+  ✓  10 [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/manage/groups/[id].vue (3.3s)
+  ✓  12 [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/manage/groups/index.vue (3.5s)
+  ✓  11 [flows] › tests/flows/auth.spec.ts:27:7 › auth › [flow] log out ends the session (8.0s)
+  ✓  13 [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/manage/households/[id].vue (3.7s)
+  ✓  15 [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/manage/households/index.vue (3.4s)
+  ✓  14 [flows] › tests/flows/auth.spec.ts:39:7 › auth › [flow] a regular member is not offered admin pages (5.6s)
+  ✓  16 [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/manage/users/[id].vue (3.4s)
+  ✓  18 [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/manage/users/create.vue (3.4s)
+  ✓  17 [flows] › tests/flows/auth.spec.ts:50:7 › auth › [flow] an admin is offered admin pages (6.9s)
+  ✓  19 [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/manage/users/index.vue (3.6s)
+  ✓  21 [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/setup.vue (3.2s)
+  ✓  20 [flows] › tests/flows/mealplan.spec.ts:12:7 › meal plan › [flow] add a note to tomorrow's meal plan (7.5s)
+  ✓  22 [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/site-settings.vue (3.2s)
+  ✓  24 [routes] › tests/routes.spec.ts:23:9 › anonymous › [route] forgot-password.vue (2.2s)
+  ✓  23 [flows] › tests/flows/organize.spec.ts:5:7 › organizing › [flow] create a tag in data management (5.0s)
+  ✓  25 [routes] › tests/routes.spec.ts:23:9 › anonymous › [route] login.vue (2.3s)
+  ✓  27 [routes] › tests/routes.spec.ts:23:9 › anonymous › [route] register/index.vue (2.7s)
+  ✓  26 [flows] › tests/flows/profile.spec.ts:8:7 › profile › [flow] a member updates their full name (5.8s)
+  ✓  28 [routes] › tests/routes.spec.ts:23:9 › anonymous › [route] reset-password.vue (2.4s)
+  ✓  30 [routes] › tests/routes.spec.ts:23:9 › anonymous › [route] g/[groupSlug]/shared/r/[id].vue (3.9s)
+  ✓  31 [routes] › tests/routes.spec.ts:23:9 › admin › [route] index.vue (3.2s)
+  ✓  32 [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/index.vue (3.2s)
+  ✓  33 [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/r/[slug]/index.vue (4.1s)
+  ✓  34 [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/cookbooks/index.vue (2.6s)
+  ✓  35 [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/cookbooks/[slug].vue (3.2s)
+  ✓  36 [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/r/create.vue (2.7s)
+  ✓  37 [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/r/create/index.vue (3.0s)
+  ✓  38 [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/r/create/ai.vue (3.3s)
+  ✓  39 [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/r/create/bulk.vue (2.8s)
+  ✓  40 [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/r/create/debug.vue (3.1s)
+  ✓  41 [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/r/create/html.vue (3.1s)
+  ✓  42 [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/r/create/image.vue (3.1s)
+  ✓  43 [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/r/create/new.vue (2.7s)
+  ✓  44 [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/r/create/url.vue (3.2s)
+  ✘  29 [flows] › tests/flows/recipes.spec.ts:6:7 › recipes › [flow] open a recipe from the recipe list (47.7s)
+  ✓  45 [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/r/create/zip.vue (2.6s)
+  ✓  46 [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/recipes/categories/index.vue (3.2s)
+  ✓  48 [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/recipes/tags/index.vue (3.3s)
+  ✓  49 [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/recipes/tools/index.vue (2.9s)
+  ✓  50 [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/recipes/finder/index.vue (3.0s)
+  ✓  51 [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/recipes/timeline.vue (3.4s)
+  ✘  47 [flows] › tests/flows/recipes.spec.ts:15:7 › recipes › [flow] search narrows the recipe list (13.6s)
+  ✓  52 [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/index.vue (2.9s)
+  ✓  54 [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/migrations.vue (3.5s)
+  ✓  55 [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/reports/[id].vue (3.3s)
+  ✓  56 [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/data.vue (3.4s)
+  ✓  57 [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/data/index.vue (3.5s)
+  ✓  58 [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/data/foods.vue (3.2s)
+  ✓  59 [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/data/units.vue (3.2s)
+  ✘  53 [flows] › tests/flows/recipes.spec.ts:24:7 › recipes › [flow] create a recipe by name (19.0s)
+  ✓  60 [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/data/labels.vue (3.1s)
+  ✓  61 [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/data/categories.vue (3.6s)
+  ✓  62 [flows] › tests/flows/recipes.spec.ts:36:7 › recipes › [flow] comment on a recipe and see it after reload (6.5s)
+  ✓  63 [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/data/tags.vue (3.6s)
+  ✓  65 [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/data/tools.vue (3.8s)
+  ✓  64 [flows] › tests/flows/shopping.spec.ts:6:7 › shopping lists › [flow] create a shopping list (4.7s)
+  ✓  66 [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/data/recipes.vue (3.5s)
+  ✓  68 [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/data/recipe-actions.vue (3.5s)
+  ✓  69 [routes] › tests/routes.spec.ts:23:9 › admin › [route] household/index.vue (3.0s)
+  ✓  70 [routes] › tests/routes.spec.ts:23:9 › admin › [route] household/members.vue (2.9s)
+  ✓  71 [routes] › tests/routes.spec.ts:23:9 › admin › [route] household/notifiers.vue (2.8s)
+  ✓  72 [routes] › tests/routes.spec.ts:23:9 › admin › [route] household/webhooks.vue (2.6s)
+  ✓  73 [routes] › tests/routes.spec.ts:23:9 › admin › [route] household/mealplan/settings.vue (3.1s)
+  ✓  74 [routes] › tests/routes.spec.ts:23:9 › admin › [route] household/mealplan/planner.vue (3.0s)
+  ✓  75 [routes] › tests/routes.spec.ts:23:9 › admin › [route] household/mealplan/planner/view.vue (3.1s)
+  ✓  76 [routes] › tests/routes.spec.ts:23:9 › admin › [route] household/mealplan/planner/edit.vue (3.4s)
+  ✓  77 [routes] › tests/routes.spec.ts:23:9 › admin › [route] shopping-lists/index.vue (2.6s)
+  ✓  78 [routes] › tests/routes.spec.ts:23:9 › admin › [route] shopping-lists/[id].vue (2.8s)
+  ✓  79 [routes] › tests/routes.spec.ts:23:9 › admin › [route] user/profile/index.vue (2.9s)
+  ✓  80 [routes] › tests/routes.spec.ts:23:9 › admin › [route] user/profile/edit.vue (2.6s)
+  ✓  81 [routes] › tests/routes.spec.ts:23:9 › admin › [route] user/profile/api-tokens.vue (2.4s)
+  ✓  82 [routes] › tests/routes.spec.ts:23:9 › admin › [route] user/[id]/favorites.vue (2.7s)
+  ✘  67 [flows] › tests/flows/shopping.spec.ts:19:7 › shopping lists › [flow] add an item and check it off (1.5m)
+
+
+  1) [flows] › tests/flows/recipes.spec.ts:6:7 › recipes › [flow] open a recipe from the recipe list
+
+    Test timeout of 45000ms exceeded.
+
+    Error: locator.click: Test timeout of 45000ms exceeded.
+    Call log:
+      - waiting for getByRole('link', { name: 'E2E Pancakes' }).first()
+
+
+       7 |     const f = loadFixtures();
+       8 |     await page.goto(`/g/${f.groupSlug}`);
+    >  9 |     await page.getByRole("link", { name: NAMES.recipe }).first().click();
+         |                                                                  ^
+      10 |     await expect(page).toHaveURL(new RegExp(`/g/${f.groupSlug}/r/${f.recipeSlug}/?$`));
+      11 |     await expect(visibleText(page, NAMES.ingredient)).toBeVisible();
+      12 |     await expect(visibleText(page, NAMES.instruction)).toBeVisible();
+        at /home/deeumiya/mealie/frontend-e2e/tests/flows/recipes.spec.ts:9:66
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/flows-recipes-recipes-flow-64d93-recipe-from-the-recipe-list-flows/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/flows-recipes-recipes-flow-64d93-recipe-from-the-recipe-list-flows/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/flows-recipes-recipes-flow-64d93-recipe-from-the-recipe-list-flows/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/flows-recipes-recipes-flow-64d93-recipe-from-the-recipe-list-flows/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [flows] › tests/flows/recipes.spec.ts:15:7 › recipes › [flow] search narrows the recipe list ──
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('link', { name: 'E2E Pancakes' })
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('link', { name: 'E2E Pancakes' }) with timeout 10000ms
+      - waiting for getByRole('link', { name: 'E2E Pancakes' })
+
+
+      16 |     const f = loadFixtures();
+      17 |     await page.goto(`/g/${f.groupSlug}`);
+    > 18 |     await expect(page.getByRole("link", { name: NAMES.recipe })).toBeVisible();
+         |                                                                  ^
+      19 |     await page.getByRole("textbox", { name: "Search..." }).fill("Garden Salad");
+      20 |     await expect(page.getByRole("link", { name: NAMES.recipe2 })).toBeVisible();
+      21 |     await expect(page.getByRole("link", { name: NAMES.recipe })).toHaveCount(0);
+        at /home/deeumiya/mealie/frontend-e2e/tests/flows/recipes.spec.ts:18:66
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/flows-recipes-recipes-flow-search-narrows-the-recipe-list-flows/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/flows-recipes-recipes-flow-search-narrows-the-recipe-list-flows/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/flows-recipes-recipes-flow-search-narrows-the-recipe-list-flows/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/flows-recipes-recipes-flow-search-narrows-the-recipe-list-flows/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [flows] › tests/flows/recipes.spec.ts:24:7 › recipes › [flow] create a recipe by name ─────────
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('link', { name: 'E2E Flow Soup mutn7ne1tb' })
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('link', { name: 'E2E Flow Soup mutn7ne1tb' }) with timeout 10000ms
+      - waiting for getByRole('link', { name: 'E2E Flow Soup mutn7ne1tb' })
+
+
+      31 |
+      32 |     await page.goto(`/g/${f.groupSlug}`);
+    > 33 |     await expect(page.getByRole("link", { name })).toBeVisible();
+         |                                                    ^
+      34 |   });
+      35 |
+      36 |   test("[flow] comment on a recipe and see it after reload", async ({ page }) => {
+        at /home/deeumiya/mealie/frontend-e2e/tests/flows/recipes.spec.ts:33:52
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/flows-recipes-recipes-flow-create-a-recipe-by-name-flows/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/flows-recipes-recipes-flow-create-a-recipe-by-name-flows/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/flows-recipes-recipes-flow-create-a-recipe-by-name-flows/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/flows-recipes-recipes-flow-create-a-recipe-by-name-flows/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) [flows] › tests/flows/shopping.spec.ts:19:7 › shopping lists › [flow] add an item and check it off
+
+    Test timeout of 90000ms exceeded.
+
+    Error: locator.check: Test timeout of 90000ms exceeded.
+    Call log:
+      - waiting for getByText('E2E Hammer mutn8ehp9i', { exact: true }).visible().first().locator('xpath=ancestor::*[.//input[@type=\'checkbox\'] or .//*[@role=\'checkbox\']][1]').getByRole('checkbox').first()
+        - locator resolved to <input type="checkbox" data-indeterminate="false" class="PrivateSwitchBase-input mui-j8yymo"/>
+      - attempting click action
+        - waiting for element to be visible, enabled and stable
+        - element is visible, enabled and stable
+        - scrolling into view if needed
+        - done scrolling
+        - performing click action
+        - click action done
+        - waiting for scheduled navigations to finish
+        - navigations have finished
+
+
+      52 |     const saved = page.waitForResponse(r => r.url().includes("/api/households/shopping/items")
+      53 |       && ["PUT", "PATCH"].includes(r.request().method()) && r.ok());
+    > 54 |     await row.getByRole("checkbox").first().check();
+         |                                             ^
+      55 |     await expect(visibleText(page, "One item checked")).toBeVisible();
+      56 |     await saved;
+      57 |
+        at /home/deeumiya/mealie/frontend-e2e/tests/flows/shopping.spec.ts:54:45
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/flows-shopping-shopping-li-cc7f8-dd-an-item-and-check-it-off-flows/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/flows-shopping-shopping-li-cc7f8-dd-an-item-and-check-it-off-flows/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/flows-shopping-shopping-li-cc7f8-dd-an-item-and-check-it-off-flows/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/flows-shopping-shopping-li-cc7f8-dd-an-item-and-check-it-off-flows/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4 failed
+    [flows] › tests/flows/recipes.spec.ts:6:7 › recipes › [flow] open a recipe from the recipe list
+    [flows] › tests/flows/recipes.spec.ts:15:7 › recipes › [flow] search narrows the recipe list ───
+    [flows] › tests/flows/recipes.spec.ts:24:7 › recipes › [flow] create a recipe by name ──────────
+    [flows] › tests/flows/shopping.spec.ts:19:7 › shopping lists › [flow] add an item and check it off
+  78 passed (4.9m)
+
+To open last HTML report run:
+[36m[39m
+[36m  pnpm exec playwright show-report[39m
+[36m[39m

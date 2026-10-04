@@ -8,7 +8,8 @@ Everything here comes from branch `rewrite/phase0-baseline`; every workflow bran
 | `baseline/BASELINE.md` | Numbers for the Vue app before any rewrite |
 | `measure.sh` | Measures one frontend and appends a row to `metrics.csv` |
 | `metrics.csv` | One row per measurement (row 0 = Vue baseline) |
-| `runs/<run-id>/` | Logs and raw reports of each measurement |
+| `runs/<run-id>/` | Logs and raw reports of each measurement (`e2e-failures/` added by hand when a run is analysed) |
+| `WF1-EVALUATION.md` | Analysis of the WF1 (single prompt) result, its isolation check and its limitations |
 | `../frontend-e2e/` | The E2E yardstick (66 routes + 15 flows), see its README |
 
 ## One-time setup (per machine)
@@ -84,6 +85,8 @@ workflow its own clone that contains only that branch:
 
 ```bash
 git branch rewrite/wf1-baseline aaa5a8cf6          # baseline + deny rules, no frontend-e2e/ or measure.sh
+# Note: this commit still contains rewrite-evidence/baseline/, and WF1 read it first thing (see WF1-EVALUATION.md §4a).
+# To hide every evaluation file, start from a commit that has only the deny rules.
 git clone --no-local --single-branch --branch rewrite/wf1-baseline . ../mealie-wf1
 git -C ../mealie-wf1 remote remove origin
 # --no-local matters: a plain local clone hardlinks the whole object store, so the yardstick's
