@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { RouterProvider } from "react-router";
 import { setNavigate } from "@/lib/navigation";
 import { AppInfoProvider } from "@/providers/AppInfoProvider";
+import { I18nProvider } from "@/providers/I18nProvider";
 import { ThemeModeProvider } from "@/providers/ThemeModeProvider";
 import { createRouter } from "@/routes";
 
@@ -19,7 +20,9 @@ export default function App() {
   return (
     <AppInfoProvider>
       <ThemeModeProvider>
-        <RouterProvider router={router} />
+        <I18nProvider>
+          <RouterProvider router={router} />
+        </I18nProvider>
       </ThemeModeProvider>
     </AppInfoProvider>
   );

@@ -699,19 +699,30 @@ logged automatically by the user-level hooks.
 - D28 — 2026-10-05 — `v-no-autofill` directive → `useNoAutofill()` ref callback (`hooks/utils/use-no-autofill.ts`).
 - D29 — 2026-10-05 — WF2 hooks call `eslint --format json` (ESLint 10 removed the `unix` formatter) and print
   `file:line:col: message [rule]` themselves.
+- D30 — 2026-10-05 — i18next only stores the messages and tracks the language (react-i18next re-renders on change);
+  `src/i18n/compat.ts` formats them itself with vue-i18n's semantics (default plural rule incl. "no count = choice for
+  1", implicit `count`/`n`, `{0}` lists, missing value → "", missing key → key, en-US fallback). `t`/`d` are plain
+  functions; `useI18n()` returns per-language wrappers. — Exact parity with vue-i18n is simpler than configuring
+  i18next's interpolation/plural options to approximate it.
+- D31 — 2026-10-05 — `LanguageDialog` (listed in P3-04) is ported in P3-05 right after `BaseDialog`, which it renders.
+  — Dependency order; same session.
+- D32 — 2026-10-05 — `<i18n-t keypath>` + named slots → `<I18nT keypath slots={{ name: node }} />` (`src/i18n/I18nT.tsx`).
+  `useLocales()` returns `locale` + `setLocale(code)` instead of a writable computed. `<html lang dir>` follow the
+  locale (§1.6); the MUI theme direction stays `ltr` (Vuetify's rtl map has no `ar-SA`/`he-IL` keys, so the Vue app
+  never mirrored components either). — Closest to Vue, minimal surface.
 
 ---
 
 ## 9. Status
 
 ```
-current_step: P3-04
-state: not-started
-last_completed: P3-03 (2026-10-05)
+current_step: P3-05
+state: in-progress
+last_completed: P3-04 (2026-10-05)
 gate: none (next gate G2 after P3-12)
 ```
 
-Steps: [x] P1 (G1 approved 2026-10-05) · [x] P2 · [x] P3-01 · [x] P3-02 · [x] P3-03 · [ ] P3-04 … P3-12 · [ ] G2 · [ ] P4-01 … P4-08 · [ ] P5-01 … P5-04
+Steps: [x] P1 (G1 approved 2026-10-05) · [x] P2 · [x] P3-01 · [x] P3-02 · [x] P3-03 · [x] P3-04 · [ ] P3-05 … P3-12 · [ ] G2 · [ ] P4-01 … P4-08 · [ ] P5-01 … P5-04
 
 Active subagents: none
 
@@ -719,10 +730,7 @@ Active subagents: none
 |---|---|---|---|---|
 
 Pending wiring:
-- P3-04: `src/i18n/index.ts` has only the bare i18next instance + `getGlobalI18n()` (used by validators,
-  downloader); `src/test/utils.tsx` `stubI18n()` is a plain i18next en-US instance and `src/test/setup.ts` only
-  loads jest-dom. P3-04 adds the compat layer, locale loading, `I18nProvider` (insert in `App.tsx` between
-  ThemeModeProvider and RouterProvider), `useI18n()`, and makes `stubI18n()` use the compat layer.
+- P3-05: `LanguageDialog` (D31) — uses `useLocales()` (`hooks/use-locales`) and `I18nT` (`src/i18n/I18nT.tsx`).
 - P3-07 / P3-08: modules with module-level caches must call `registerCacheReset(reset)` (D26):
   `use-group-recipe-actions`, `use-groups`, `use-households`, `use-users/user-ratings`, `use-backups`,
   `recipes/use-recipes` (P3-08), `use-users/user-registration-form` (P3-07).
