@@ -64,6 +64,12 @@ Locales are imported from `../frontend/app/lang` via the `@locales` alias (never
   `useIdle`, `useIntervalFn`, `useClipboard`, `useWakeLock`, `useNoAutofill`.
 - `providers/app-info.ts` `useAppInfo()`; `providers/color-mode.ts` `useColorMode()`; `i18n` `getGlobalI18n()`
   for translation outside components.
+- `i18n` — `useI18n()` → `{ t, d, locale, setLocale }` with vue-i18n semantics (`t(key, count)`, `t(key, { named })`,
+  `t(key, [list])`); `<I18nT keypath slots={{ name: node }} />` for `<i18n-t>`; `hooks/use-locales` `useLocales()`.
+- `components/global` exemplars (read the usage comment at the top): `MdiIcon`, `BaseButton`, `BaseButtonGroup`,
+  `BaseMenu`, `BaseDialog` (`open`/`onOpenChange`), `BaseDataTable`, `BaseNumberInput`, `BaseImg`, `EmptyState`,
+  `AppLoader`, `SafeMarkdown`, `BasePageTitle`, `BaseCardSectionTitle`; forms: `useFormValidation` (`hooks/utils`).
+  Prop conventions: PROCESS.md D33. Component tests: `renderWithProviders` from `src/test/utils.tsx`.
 - A module that keeps state across navigations calls `registerCacheReset(reset)` (hooks/use-clear-composable-caches)
   so logout clears it.
 - ESLint includes the React-compiler rules of eslint-plugin-react-hooks v7: no synchronous `setState` in an

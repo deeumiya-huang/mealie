@@ -710,19 +710,32 @@ logged automatically by the user-level hooks.
   `useLocales()` returns `locale` + `setLocale(code)` instead of a writable computed. `<html lang dir>` follow the
   locale (§1.6); the MUI theme direction stays `ltr` (Vuetify's rtl map has no `ar-SA`/`he-IL` keys, so the Vue app
   never mirrored components either). — Closest to Vue, minimal surface.
+- D33 — 2026-10-05 — Component API conventions fixed by the P3-05 exemplars: a boolean `v-model` (dialogs) →
+  `open` + `onOpenChange(open)`; a value `v-model` → `value` + `onChange(value)`; dynamic `$emit(btn.event)`
+  (BaseButtonGroup) → `onAction(event)`, BaseMenu's `@menu` → `onMenu(event)`; `#activator` slots → `renderActivator(…)`;
+  `#item.<key>` table slots → `slots={{ key: item => node }}`; `v-form` + `:rules` → `useFormValidation({ name:
+  field(value, rules) })` + `fieldProps(name)`. Vuetify colour names map via `components/global/colors.ts`. —
+  One pattern for every porter.
+- D34 — 2026-10-05 — Vuetify-internal UI strings that the Mealie locale files do not contain (data-table footer
+  "Items per page", number-input stepper labels, "No data available") are not hard-coded: `BaseDataTable` uses MUI's
+  built-in pagination labels and shows `noDataText` only when a caller passes one; the number-input steppers are
+  `aria-hidden` mouse-only controls like Vuetify's (keyboard uses the native arrows). Recorded as GAP-1. — Rule §1.1.3
+  forbids new English strings; behaviour stays usable.
+- D35 — 2026-10-05 — Roboto self-hosted via `@fontsource/roboto` (300/400/500/700 imported in `main.tsx`), like
+  `@nuxt/fonts` in Vue. `useFormValidation` lives in `hooks/utils` (no Vue counterpart).
 
 ---
 
 ## 9. Status
 
 ```
-current_step: P3-05
-state: in-progress
-last_completed: P3-04 (2026-10-05)
+current_step: P3-06
+state: not-started
+last_completed: P3-05 (2026-10-05)
 gate: none (next gate G2 after P3-12)
 ```
 
-Steps: [x] P1 (G1 approved 2026-10-05) · [x] P2 · [x] P3-01 · [x] P3-02 · [x] P3-03 · [x] P3-04 · [ ] P3-05 … P3-12 · [ ] G2 · [ ] P4-01 … P4-08 · [ ] P5-01 … P5-04
+Steps: [x] P1 (G1 approved 2026-10-05) · [x] P2 · [x] P3-01 · [x] P3-02 · [x] P3-03 · [x] P3-04 · [x] P3-05 · [ ] P3-06 … P3-12 · [ ] G2 · [ ] P4-01 … P4-08 · [ ] P5-01 … P5-04
 
 Active subagents: none
 
@@ -730,24 +743,26 @@ Active subagents: none
 |---|---|---|---|---|
 
 Pending wiring:
-- P3-05: `LanguageDialog` (D31) — uses `useLocales()` (`hooks/use-locales`) and `I18nT` (`src/i18n/I18nT.tsx`).
 - P3-07 / P3-08: modules with module-level caches must call `registerCacheReset(reset)` (D26):
   `use-group-recipe-actions`, `use-groups`, `use-households`, `use-users/user-ratings`, `use-backups`,
   `recipes/use-recipes` (P3-08), `use-users/user-registration-form` (P3-07).
-- P3-05: font. Vue self-hosts Roboto via `@nuxt/fonts`; the MUI theme uses `"Roboto, sans-serif"` but no font
-  is bundled yet → add `@fontsource/roboto` (main adds the dependency) when doing the primitives.
 - P3-06: React replacements for `vue-advanced-cropper`, `json-editor-vue`, `vue-draggable-plus` (D18) — main
   adds the dependencies before spawning the porter.
 - P3-07: `TheSnackbar` renders `toastAlert`/`toastLoading` (`hooks/use-toast.ts`); header search is wired in P3-09.
 
-Known gaps (`GAP-<n>`): none
+Known gaps (`GAP-<n>`):
+- GAP-1 — Vuetify-internal strings absent from the Mealie locales (data-table footer, "No data available", number-input
+  stepper labels) are MUI's English built-ins / omitted (D34). Fix option for P5: MUI locale packs keyed by `i18n.language`.
 
 Skipped tests: none
 
 SHARED-CHANGE-REQUESTs: none
 
-Notes for the next session: start P3-04 (i18n). Unit tests: 16 files / 116 tests green; test-parity 15/48 Vue test
-files ported, equal counts. `src/lib/api` is ported code except the generated `types/` (D21) — run
-`node scripts/sync-api.mjs --check` after an upstream change. E2E env is installed (`.venv`,
-`frontend-e2e/node_modules`). `jq` is not installed. Bash `sed -i`/redirects with *relative* paths are resolved by
-the path guard against the session's working directory, not the `cd` target — use absolute paths in edits.
+Notes for the next session: start P3-06 (porter for the remaining `components/global/**`). Before spawning, main adds
+the React replacements for `vue-advanced-cropper`, `json-editor-vue`, `vue-draggable-plus` (D18) and commits the lockfile.
+Already done in `src/components/global/` (porter must import, not redo): MdiIcon, BaseButton, BaseButtonGroup, BaseMenu
+(+ `ButtonOption`), BaseDialog, BaseDialogContent, BasePageTitle, BaseCardSectionTitle, BaseDataTable, BaseNumberInput,
+BaseImg, EmptyState, AppLoader, SafeMarkdown, LanguageDialog, `colors.ts`; `hooks/utils/use-form-validation.ts`;
+`src/i18n` (`useI18n`, `I18nT`), `hooks/use-locales`. Conventions: D33. Unit tests: 20 files / 155 tests green;
+test-parity 15/48. `src/test/utils.tsx` has `renderWithProviders(ui, { route, dark })` and `stubI18n()`. `jq` is not
+installed. Use absolute paths in Bash edits (the path guard resolves relative paths against the session cwd).
