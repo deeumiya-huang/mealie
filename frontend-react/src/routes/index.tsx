@@ -1,36 +1,65 @@
+import type { ReactNode } from "react";
 import { createBrowserRouter, Outlet, type RouteObject } from "react-router";
-import { authBackend } from "@/hooks/use-auth-backend";
+import { adminRoutes } from "./admin";
+import { authRoutes } from "./auth";
+import { exploreRoutes } from "./explore";
+import { groupRoutes } from "./group";
+import { guard, initAuth, pwaShareTargetRedirect } from "./guards";
+import { householdRoutes } from "./household";
+import type { DomainRoutes } from "./lazy";
+import { recipeCreateRoutes } from "./recipe-create";
+import { recipePageRoutes } from "./recipe-page";
+import { shoppingRoutes } from "./shopping";
+import { userRoutes } from "./user";
+import AdminLayout from "@/layouts/AdminLayout";
+import BasicLayout from "@/layouts/BasicLayout";
+import BlankLayout from "@/layouts/BlankLayout";
+import DefaultLayout from "@/layouts/DefaultLayout";
+import ErrorPage from "@/layouts/ErrorPage";
 
-let authReady: Promise<void> | null = null;
+// plugins/init-auth.client.ts lives in guards.ts (every guarded loader awaits it); re-exported here.
+export { initAuth };
 
-/**
- * Port of plugins/init-auth.client.ts: hydrate the token from the cookie and load the session once,
- * before any route renders, so guards see the real session.
- */
-export function initAuth(): Promise<void> {
-  authReady ??= (async () => {
-    // Must come first: it hydrates the token from the cookie, which getSession checks before it
-    // will bother asking the server who we are.
-    authBackend.initTokenRefresh();
-    await authBackend.getSession();
-  })();
-  return authReady;
+const domains: DomainRoutes[] = [
+  authRoutes,
+  adminRoutes,
+  groupRoutes,
+  householdRoutes,
+  shoppingRoutes,
+  userRoutes,
+  exploreRoutes,
+  recipePageRoutes,
+  recipeCreateRoutes,
+];
+
+/** A layout route with the pages of every domain using it; none when no page uses it yet (a childless
+ * pathless route would match "/" by itself). */
+function layout(id: string, element: ReactNode, name: keyof DomainRoutes): RouteObject[] {
+  const children = domains.flatMap(domain => domain[name] ?? []);
+  return children.length ? [{ id, element, children }] : [];
 }
 
-// Root of the route tree. Layout groups and domain route files are added in P3-07 (§1.7);
-// a route is registered only once its page is ported.
+/**
+ * The route tree (PROCESS.md §1.7): the root loader waits for auth (port of the auth plugin) and applies
+ * the global `pwa-share-target-redirect` middleware; each layout is a pathless route whose children are
+ * the pages using it. Unknown URLs and errors render the error page (Vue layouts/error.vue).
+ */
 export const routes: RouteObject[] = [
   {
     id: "root",
     path: "/",
-    loader: async () => {
-      await initAuth();
-      return null;
-    },
-    shouldRevalidate: () => false,
+    loader: guard(pwaShareTargetRedirect),
+    shouldRevalidate: ({ nextUrl }) => nextUrl.pathname === "/r/create/url",
     HydrateFallback: () => null,
     element: <Outlet />,
-    children: [],
+    errorElement: <ErrorPage />,
+    children: [
+      ...layout("layout-default", <DefaultLayout />, "default"),
+      ...layout("layout-admin", <AdminLayout />, "admin"),
+      ...layout("layout-basic", <BasicLayout />, "basic"),
+      ...layout("layout-blank", <BlankLayout />, "blank"),
+      { path: "*", element: <ErrorPage /> },
+    ],
   },
 ];
 

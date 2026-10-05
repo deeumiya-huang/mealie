@@ -43,6 +43,12 @@ declare module "@mui/material/IconButton" {
   }
 }
 
+declare module "@mui/material/Badge" {
+  interface BadgePropsColorOverrides {
+    accent: true;
+  }
+}
+
 declare module "@mui/material/Chip" {
   interface ChipPropsColorOverrides {
     accent: true;
