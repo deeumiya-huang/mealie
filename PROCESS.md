@@ -654,19 +654,34 @@ logged automatically by the user-level hooks.
   every step's done criteria catches them. — Permission rules don't follow worktree paths.
 - D16 — 2026-10-05 — Porter commits end with `Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>`
   (their actual model); main-session commits with the Opus 5.5 line. — Accurate attribution.
+- D17 — 2026-10-05 — Package versions (P3-01): react/react-dom 19.3.0, react-router 8.4.0, @mui/material 9.4.0,
+  @mui/x-date-pickers 9.14.0, @mui/lab 9.0.0-beta.9, @emotion/react 11.14.0, i18next 26.4.2, react-i18next 17.0.15,
+  axios 1.20.0, date-fns 4.4.0, dompurify 3.4.16, marked 15.0.12 (same major as Vue), fuse.js 7.5.0, sse.js 2.8.0,
+  vite 8.3.2, @vitejs/plugin-react 6.1.1, vitest 5.0.3, jsdom 30.1.2, @testing-library/react 16.3.3,
+  eslint 10.12.0, typescript-eslint 8.71.0, typescript **6.0.3** (not 7.x: typescript-eslint requires <6.1).
+  — Latest stable majors; TS pinned by the linter's peer range.
+- D18 — 2026-10-05 — `dompurify` instead of `isomorphic-dompurify`; Vue-only libraries (`vue-advanced-cropper`,
+  `json-editor-vue`, `vue-draggable-plus`/`sortablejs`) get React replacements added by main right before the
+  step that needs them (P3-06 for the global components). — SPA and jsdom tests both have a `window`; adding
+  deps only when a step needs them keeps the lockfile changes in main.
+- D19 — 2026-10-05 — `test-parity.mjs` counts `test(`/`it(` calls statically (Vue: 453 call sites, 817 expects in
+  48 files); the 517 in §1.9 is vitest's runtime count incl. `test.each` rows. — Per-file static parity is
+  comparable on both sides; the runtime total is checked by measure.sh.
+- D20 — 2026-10-05 — ESLint stylistic = Nuxt's defaults (`stylistic.configs.customize`, arrow parens as-needed,
+  stroustrup braces) + the same overrides as `frontend/eslint.config.mjs`. — Same style as `frontend/`.
 
 ---
 
 ## 9. Status
 
 ```
-current_step: P3-01
-state: not-started
+current_step: P3-02
+state: in-progress
 last_completed: P2 (2026-10-05)
 gate: none (next gate G2 after P3-12)
 ```
 
-Steps: [x] P1 (G1 approved 2026-10-05) · [x] P2 · [ ] P3-01 … P3-12 · [ ] G2 · [ ] P4-01 … P4-08 · [ ] P5-01 … P5-04
+Steps: [x] P1 (G1 approved 2026-10-05) · [x] P2 · [x] P3-01 · [ ] P3-02 … P3-12 · [ ] G2 · [ ] P4-01 … P4-08 · [ ] P5-01 … P5-04
 
 Active subagents: none
 
