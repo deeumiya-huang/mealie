@@ -1,7 +1,7 @@
 // Usage: <ImageCropper img={url} cropperWidth="100%" submitted={saving} onSave={blob => …} onDelete={() => …} />
 // Image cropper (react-advanced-cropper) with delete / save buttons and an edit menu to flip and rotate.
 // The save button shows once the image was changed; `changed` counts cropper changes (−1 right after loading).
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import { Cropper, type CropperRef, type CropperState } from "react-advanced-cropper";
 import "react-advanced-cropper/dist/style.css";
@@ -29,7 +29,7 @@ interface ImageCropperProps {
 interface Control {
   color: "info";
   icon: string;
-  callback: () => void;
+  action: "flip-horizontal" | "flip-vertical" | "rotate-left" | "rotate-right";
 }
 
 function FilledIconButton({ color, ...props }: { color: "error" | "success" | "info"; disabled?: boolean; onClick?: (event: React.MouseEvent<HTMLElement>) => void; children: React.ReactNode }) {
@@ -47,7 +47,7 @@ function FilledIconButton({ color, ...props }: { color: "error" | "success" | "i
 }
 
 export function ImageCropper({ img, cropperWidth, submitted = false, className, onSave, onDelete }: ImageCropperProps) {
-  const [cropper, setCropper] = useState<CropperRef | null>(null);
+  const cropperRef = useRef<CropperRef>(null);
   const [changed, setChanged] = useState(0);
   // Left to the cropper's own sizing until the image is rotated; see rotate().
   const [aspectRatio, setAspectRatio] = useState<string | number>("auto");
@@ -59,12 +59,14 @@ export function ImageCropper({ img, cropperWidth, submitted = false, className, 
   }
 
   function flip(horizontal: boolean, vertical?: boolean) {
+    const cropper = cropperRef.current;
     if (!cropper) return;
     cropper.flipImage(horizontal, vertical);
     setChanged(current => current + 1);
   }
 
   function rotate(angle: number) {
+    const cropper = cropperRef.current;
     if (!cropper) return;
     cropper.rotateImage(angle);
     setChanged(current => current + 1);
@@ -83,16 +85,30 @@ export function ImageCropper({ img, cropperWidth, submitted = false, className, 
 
   const controls: Control[][] = [
     [
-      { color: "info", icon: icons.flipHorizontal, callback: () => flip(true, false) },
-      { color: "info", icon: icons.flipVertical, callback: () => flip(false, true) },
+      { color: "info", icon: icons.flipHorizontal, action: "flip-horizontal" },
+      { color: "info", icon: icons.flipVertical, action: "flip-vertical" },
     ],
     [
-      { color: "info", icon: icons.rotateLeft, callback: () => rotate(-90) },
-      { color: "info", icon: icons.rotateRight, callback: () => rotate(90) },
+      { color: "info", icon: icons.rotateLeft, action: "rotate-left" },
+      { color: "info", icon: icons.rotateRight, action: "rotate-right" },
     ],
   ];
 
+  function runControl(action: Control["action"]) {
+    switch (action) {
+      case "flip-horizontal":
+        return flip(true, false);
+      case "flip-vertical":
+        return flip(false, true);
+      case "rotate-left":
+        return rotate(-90);
+      case "rotate-right":
+        return rotate(90);
+    }
+  }
+
   function save() {
+    const cropper = cropperRef.current;
     if (!cropper) return;
     const canvas = cropper.getCanvas();
     if (!canvas) return;
@@ -140,7 +156,7 @@ export function ImageCropper({ img, cropperWidth, submitted = false, className, 
             {controls.map((row, keyRow) => (
               <List key={keyRow}>
                 {row.map((control, keyControl) => (
-                  <ListItemButton key={keyControl} disabled={submitted} onClick={() => control.callback()}>
+                  <ListItemButton key={keyControl} disabled={submitted} onClick={() => runControl(control.action)}>
                     <ListItemIcon sx={{ minWidth: 0 }}>
                       <MdiIcon path={control.icon} color={control.color} />
                     </ListItemIcon>
@@ -153,7 +169,7 @@ export function ImageCropper({ img, cropperWidth, submitted = false, className, 
 
         {/* Image Row */}
         <Cropper
-          ref={setCropper}
+          ref={cropperRef}
           className="cropper"
           src={img}
           defaultSize={defaultSize}
