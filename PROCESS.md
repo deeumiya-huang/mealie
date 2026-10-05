@@ -724,13 +724,19 @@ logged automatically by the user-level hooks.
 - D35 — 2026-10-05 — Roboto self-hosted via `@fontsource/roboto` (300/400/500/700 imported in `main.tsx`), like
   `@nuxt/fonts` in Vue. `useFormValidation` lives in `hooks/utils` (no Vue counterpart).
 
+- D36 — 2026-10-05 — D18 replacements: `react-advanced-cropper` 0.20.1 (same author/engine as `vue-advanced-cropper`;
+  ref API `flipImage`/`rotateImage`/`getCanvas`/`refresh`), `vanilla-jsoneditor` 3.13.0 (the editor `json-editor-vue`
+  wraps; same version as `frontend/`, mounted with `createJSONEditor` in an effect), `sortablejs` 1.15.7 (+ types; the
+  engine of `vue-draggable-plus`). The first step that needs drag-and-drop (P3-10 `QueryFilterBuilder`) writes a shared
+  `hooks/utils/use-sortable.ts`; later steps import it. — Same engines as Vue → same UX, no wrapper-library guesswork.
+
 ---
 
 ## 9. Status
 
 ```
 current_step: P3-06
-state: not-started
+state: in-progress
 last_completed: P3-05 (2026-10-05)
 gate: none (next gate G2 after P3-12)
 ```
@@ -741,13 +747,14 @@ Active subagents: none
 
 | step | branch | worktree | started | state |
 |---|---|---|---|---|
+| P3-06 | wf2/P3-06-global | (agent worktree) | 2026-10-05 | running |
 
 Pending wiring:
 - P3-07 / P3-08: modules with module-level caches must call `registerCacheReset(reset)` (D26):
   `use-group-recipe-actions`, `use-groups`, `use-households`, `use-users/user-ratings`, `use-backups`,
   `recipes/use-recipes` (P3-08), `use-users/user-registration-form` (P3-07).
-- P3-06: React replacements for `vue-advanced-cropper`, `json-editor-vue`, `vue-draggable-plus` (D18) — main
-  adds the dependencies before spawning the porter.
+- P3-10: `QueryFilterBuilder` writes the shared `hooks/utils/use-sortable.ts` on `sortablejs` (D36); P4 steps
+  (shopping list, planner edit, cookbooks, recipe page) import it.
 - P3-07: `TheSnackbar` renders `toastAlert`/`toastLoading` (`hooks/use-toast.ts`); header search is wired in P3-09.
 
 Known gaps (`GAP-<n>`):
