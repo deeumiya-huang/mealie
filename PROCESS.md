@@ -735,7 +735,7 @@ logged automatically by the user-level hooks.
 
 ```
 current_step: P3-07
-state: not-started
+state: in-progress
 last_completed: P3-06 (2026-10-06)
 gate: none (next gate G2 after P3-12)
 ```
