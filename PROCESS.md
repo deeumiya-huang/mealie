@@ -669,26 +669,68 @@ logged automatically by the user-level hooks.
   comparable on both sides; the runtime total is checked by measure.sh.
 - D20 — 2026-10-05 — ESLint stylistic = Nuxt's defaults (`stylistic.configs.customize`, arrow parens as-needed,
   stroustrup braces) + the same overrides as `frontend/eslint.config.mjs`. — Same style as `frontend/`.
+- D21 — 2026-10-05 — Amends D1: `sync-api.mjs` copies only the **generated** type files (`lib/api/types/*.ts` with the
+  `/* tslint:disable */` codegen header). The hand-written clients and `types/{activity,non-generated}.ts` are
+  ported code: Nuxt auto-imports made explicit (`useNuxtApp().$axios` → `http`, `useMealieAuth().token` → token
+  cookie, `useGlobalI18n().locale` → `i18n.language`, `useI18n` type → `GlobalI18n`), strict-TS fixes (base CRUD
+  constructor defaults for subclasses that declare routes as fields, typed `put` payloads, no `any`), upstream
+  `TODO` comments reworded. The Explore tools-by-id URL quirk (ignores the id) is kept as in Vue. — The upstream
+  clients never ran under strict `tsc` and relied on Nuxt globals, so a verbatim copy cannot compile.
+- D22 — 2026-10-05 — P3-02 and P3-03 executed in one pass (the API clients need `lib/http`, the token cookie and
+  auth from P3-03); two commits split by file, checks run on the combined tree. — Dependency, not preference.
+- D23 — 2026-10-05 — Module-level state = `createStore` stores with plain (non-hook) actions next to a hook view:
+  `authBackend` + `useAuthBackend()`, `alert`/`loader` + `toastAlert`/`toastLoading` stores, list stores via
+  `createStoreActions`/`createReadOnlyActions` (renamed from `use…`: no hooks inside, §1.3). Navigation outside
+  components goes through `navigateTo()` in `lib/navigation.ts` (App registers the router's `navigate`). Composable
+  tests use `renderHook` + `act`; tests of plain factories call them directly. — Same semantics as the Vue
+  module refs, usable from loaders/interceptors, testable without a component.
+- D24 — 2026-10-05 — API clients are singletons; `useUserApi()`/`useAdminApi()`/`usePublicApi()`/
+  `usePublicExploreApi(slug)` return them (no `i18n` argument). `Accept-Language` is set per request from
+  `i18n.language` in `lib/http.ts` instead of mutating axios defaults in `useRequests`. — Stateless wrappers;
+  same header on the wire.
+- D25 — 2026-10-05 — No `ToastProvider`: `TheSnackbar` (P3-07) subscribes to the toast stores. — The Vue toasts are
+  module state too; a provider would add nothing.
+- D26 — 2026-10-05 — `clearComposableCaches()` runs resets registered with `registerCacheReset(fn)` at module
+  scope by each stateful hook module (instead of importing them all). — Avoids a dependency on modules ported
+  later; a never-imported module has no state to clear.
+- D27 — 2026-10-05 — `useAsyncData(key, fn, deps)`: `pending` is true for the first load and explicit `refresh()`;
+  reloads caused by `deps` keep showing the previous data. — React-hooks v7 forbids synchronous setState in
+  effects; matches what users see in Nuxt (cached data while refreshing).
+- D28 — 2026-10-05 — `v-no-autofill` directive → `useNoAutofill()` ref callback (`hooks/utils/use-no-autofill.ts`).
+- D29 — 2026-10-05 — WF2 hooks call `eslint --format json` (ESLint 10 removed the `unix` formatter) and print
+  `file:line:col: message [rule]` themselves.
 
 ---
 
 ## 9. Status
 
 ```
-current_step: P3-02
-state: in-progress
-last_completed: P2 (2026-10-05)
+current_step: P3-04
+state: not-started
+last_completed: P3-03 (2026-10-05)
 gate: none (next gate G2 after P3-12)
 ```
 
-Steps: [x] P1 (G1 approved 2026-10-05) · [x] P2 · [x] P3-01 · [ ] P3-02 … P3-12 · [ ] G2 · [ ] P4-01 … P4-08 · [ ] P5-01 … P5-04
+Steps: [x] P1 (G1 approved 2026-10-05) · [x] P2 · [x] P3-01 · [x] P3-02 · [x] P3-03 · [ ] P3-04 … P3-12 · [ ] G2 · [ ] P4-01 … P4-08 · [ ] P5-01 … P5-04
 
 Active subagents: none
 
 | step | branch | worktree | started | state |
 |---|---|---|---|---|
 
-Pending wiring: none
+Pending wiring:
+- P3-04: `src/i18n/index.ts` has only the bare i18next instance + `getGlobalI18n()` (used by validators,
+  downloader); `src/test/utils.tsx` `stubI18n()` is a plain i18next en-US instance and `src/test/setup.ts` only
+  loads jest-dom. P3-04 adds the compat layer, locale loading, `I18nProvider` (insert in `App.tsx` between
+  ThemeModeProvider and RouterProvider), `useI18n()`, and makes `stubI18n()` use the compat layer.
+- P3-07 / P3-08: modules with module-level caches must call `registerCacheReset(reset)` (D26):
+  `use-group-recipe-actions`, `use-groups`, `use-households`, `use-users/user-ratings`, `use-backups`,
+  `recipes/use-recipes` (P3-08), `use-users/user-registration-form` (P3-07).
+- P3-05: font. Vue self-hosts Roboto via `@nuxt/fonts`; the MUI theme uses `"Roboto, sans-serif"` but no font
+  is bundled yet → add `@fontsource/roboto` (main adds the dependency) when doing the primitives.
+- P3-06: React replacements for `vue-advanced-cropper`, `json-editor-vue`, `vue-draggable-plus` (D18) — main
+  adds the dependencies before spawning the porter.
+- P3-07: `TheSnackbar` renders `toastAlert`/`toastLoading` (`hooks/use-toast.ts`); header search is wired in P3-09.
 
 Known gaps (`GAP-<n>`): none
 
@@ -696,6 +738,8 @@ Skipped tests: none
 
 SHARED-CHANGE-REQUESTs: none
 
-Notes for the next session: start P3-01. `jq` is not installed (use `python3 -m json.tool`). This checkout
-has no `.venv`, `frontend/node_modules` or `frontend-e2e/node_modules` yet (P3-01 sets up E2E);
-chromium-1243 is already in `~/.cache/ms-playwright`. Weekly usage was 57 % at the end of session 1.
+Notes for the next session: start P3-04 (i18n). Unit tests: 16 files / 116 tests green; test-parity 15/48 Vue test
+files ported, equal counts. `src/lib/api` is ported code except the generated `types/` (D21) — run
+`node scripts/sync-api.mjs --check` after an upstream change. E2E env is installed (`.venv`,
+`frontend-e2e/node_modules`). `jq` is not installed. Bash `sed -i`/redirects with *relative* paths are resolved by
+the path guard against the session's working directory, not the `cd` target — use absolute paths in edits.

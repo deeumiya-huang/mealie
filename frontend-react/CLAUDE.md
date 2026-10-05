@@ -49,3 +49,22 @@ Locales are imported from `../frontend/app/lang` via the `@locales` alias (never
 - Tests: same titles and counts as Vue, never weaken or delete an assertion; unportable → `test.skip`
   with `// skip: <reason>`.
 - Hooks in `.claude/settings.json` run eslint + tsc after each edit and gate session stops on them.
+
+## Building blocks (read the file header before using)
+- `lib/store.ts` — `createStore(initial)` + `useStore(store, selector?)` for module-level shared state.
+- `hooks/api` — `useUserApi()`, `useAdminApi()`, `usePublicApi()`, `usePublicExploreApi(groupSlug)`,
+  `useStaticRoutes()`; `lib/http.ts` `http` = the axios instance (interceptors, toasts, 401 refresh).
+- `hooks/use-auth-backend.ts` — `authBackend` (plain actions/state for loaders, interceptors) and
+  `useAuthBackend()`; components use `useMealieAuth()` → `{ user, loggedIn, token, signIn, signOut, … }`.
+- `hooks/use-toast.ts` — `alert.success/error/info/warning(text)`; `lib/navigation.ts` `navigateTo(path)`
+  outside components (inside components use `useNavigate()`).
+- `hooks/store` — shared list stores: `const { store, actions } = useFoodStore()` (`store` is the array).
+- `hooks/utils` — `useAsyncData(key, fn, deps)`, `useLocalStorage/useSessionStorage(key, default, opts)` →
+  `[value, setValue]`, `useDisplay()`, `usePageTitle(title)`, `useDebouncedValue/Callback`, `useOnline`,
+  `useIdle`, `useIntervalFn`, `useClipboard`, `useWakeLock`, `useNoAutofill`.
+- `providers/app-info.ts` `useAppInfo()`; `providers/color-mode.ts` `useColorMode()`; `i18n` `getGlobalI18n()`
+  for translation outside components.
+- A module that keeps state across navigations calls `registerCacheReset(reset)` (hooks/use-clear-composable-caches)
+  so logout clears it.
+- ESLint includes the React-compiler rules of eslint-plugin-react-hooks v7: no synchronous `setState` in an
+  effect body (set state in event handlers, in async callbacks, or derive it during render).

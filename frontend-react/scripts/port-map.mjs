@@ -30,7 +30,7 @@ export const EXCEPTIONS = {
   "plugins/theme.ts": "providers/theme.ts",
   "plugins/globals.ts": "lib/icons/index.ts",
   "plugins/init-auth.client.ts": "routes/index.tsx",
-  "plugins/no-autofill.client.ts": "App.tsx",
+  "plugins/no-autofill.client.ts": "hooks/utils/use-no-autofill.ts",
   "i18n.config.ts": "i18n/index.ts",
   "composables/use-global-i18n.ts": "i18n/index.ts",
   "tests/setup.ts": "test/setup.ts",

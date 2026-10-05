@@ -73,6 +73,21 @@ def write_counter(repo: str, n: int) -> None:
         pass
 
 
+
+def eslint_lines(out: str, root: str) -> list[str]:
+    """ESLint 10 dropped the `unix` formatter: read the JSON report and print file:line:col lines."""
+    import json
+    try:
+        report = json.loads(out[out.index("["):])
+    except Exception:
+        return [l for l in out.splitlines() if l.strip()]
+    lines = []
+    for f in report:
+        for m in f.get("messages", []):
+            if m.get("severity") == 2:
+                lines.append(f"{os.path.relpath(f['filePath'], root)}:{m.get('line')}:{m.get('column')}: {m.get('message')} [{m.get('ruleId')}]")
+    return lines
+
 def main() -> None:
     try:
         event = json.load(sys.stdin)
@@ -107,9 +122,9 @@ def main() -> None:
         problems.append(f"tsc --noEmit failed ({len(errs)} lines):")
         problems += errs[:MAX_LINES]
     code, out = run([os.path.join(bin_dir, "eslint"), ".", "--cache", "--cache-location",
-                     "node_modules/.cache/eslint/", "--quiet", "--format", "unix"], app, 300)
+                     "node_modules/.cache/eslint/", "--quiet", "--format", "json"], app, 300)
     if code != 0:
-        errs = [l for l in out.splitlines() if l.strip()]
+        errs = eslint_lines(out, app)
         problems.append(f"eslint failed ({len(errs)} lines):")
         problems += errs[:MAX_LINES]
     if dirty:

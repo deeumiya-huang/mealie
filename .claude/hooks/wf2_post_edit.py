@@ -54,6 +54,21 @@ def acquire_lock():
             time.sleep(1)
 
 
+
+def eslint_lines(out: str, root: str) -> list[str]:
+    """ESLint 10 dropped the `unix` formatter: read the JSON report and print file:line:col lines."""
+    import json
+    try:
+        report = json.loads(out[out.index("["):])
+    except Exception:
+        return [l for l in out.splitlines() if l.strip()]
+    lines = []
+    for f in report:
+        for m in f.get("messages", []):
+            if m.get("severity") == 2:
+                lines.append(f"{os.path.relpath(f['filePath'], root)}:{m.get('line')}:{m.get('column')}: {m.get('message')} [{m.get('ruleId')}]")
+    return lines
+
 def main() -> None:
     try:
         event = json.load(sys.stdin)
@@ -71,9 +86,9 @@ def main() -> None:
     problems: list[str] = []
 
     code, out = run([os.path.join(bin_dir, "eslint"), "--cache", "--cache-location",
-                     "node_modules/.cache/eslint/", "--format", "unix", rel], root, 90)
+                     "node_modules/.cache/eslint/", "--format", "json", rel], root, 90)
     if code != 0:
-        problems += [l for l in out.splitlines() if l.strip() and not l.startswith(("\n", " "))][:MAX_LINES]
+        problems += eslint_lines(out, root)[:MAX_LINES]
 
     lock = acquire_lock()
     if lock is None:
