@@ -723,7 +723,6 @@ logged automatically by the user-level hooks.
   forbids new English strings; behaviour stays usable.
 - D35 — 2026-10-05 — Roboto self-hosted via `@fontsource/roboto` (300/400/500/700 imported in `main.tsx`), like
   `@nuxt/fonts` in Vue. `useFormValidation` lives in `hooks/utils` (no Vue counterpart).
-
 - D36 — 2026-10-05 — D18 replacements: `react-advanced-cropper` 0.20.1 (same author/engine as `vue-advanced-cropper`;
   ref API `flipImage`/`rotateImage`/`getCanvas`/`refresh`), `vanilla-jsoneditor` 3.13.0 (the editor `json-editor-vue`
   wraps; same version as `frontend/`, mounted with `createJSONEditor` in an effect), `sortablejs` 1.15.7 (+ types; the
@@ -735,19 +734,18 @@ logged automatically by the user-level hooks.
 ## 9. Status
 
 ```
-current_step: P3-06
-state: in-progress
-last_completed: P3-05 (2026-10-05)
+current_step: P3-07
+state: not-started
+last_completed: P3-06 (2026-10-06)
 gate: none (next gate G2 after P3-12)
 ```
 
-Steps: [x] P1 (G1 approved 2026-10-05) · [x] P2 · [x] P3-01 · [x] P3-02 · [x] P3-03 · [x] P3-04 · [x] P3-05 · [ ] P3-06 … P3-12 · [ ] G2 · [ ] P4-01 … P4-08 · [ ] P5-01 … P5-04
+Steps: [x] P1 (G1 approved 2026-10-05) · [x] P2 · [x] P3-01 · [x] P3-02 · [x] P3-03 · [x] P3-04 · [x] P3-05 · [x] P3-06 · [ ] P3-07 … P3-12 · [ ] G2 · [ ] P4-01 … P4-08 · [ ] P5-01 … P5-04
 
 Active subagents: none
 
 | step | branch | worktree | started | state |
 |---|---|---|---|---|
-| P3-06 | wf2/P3-06-global | (agent worktree) | 2026-10-05 | running |
 
 Pending wiring:
 - P3-07 / P3-08: modules with module-level caches must call `registerCacheReset(reset)` (D26):
@@ -760,16 +758,29 @@ Pending wiring:
 Known gaps (`GAP-<n>`):
 - GAP-1 — Vuetify-internal strings absent from the Mealie locales (data-table footer, "No data available", number-input
   stepper labels) are MUI's English built-ins / omitted (D34). Fix option for P5: MUI locale packs keyed by `i18n.language`.
+- GAP-2 — `CrudTable` accepts the Vue per-header `sort` comparator but `BaseDataTable` sorts with its default compare
+  (no comparator hook). Fix option for P5: add an optional `sort` to `BaseDataTable` headers and pass it through.
 
 Skipped tests: none
 
-SHARED-CHANGE-REQUESTs: none
+SHARED-CHANGE-REQUESTs (from P3-06, for P3-08):
+- `hooks/use-search.ts`: `components/global/use-item-search.ts` is a full port of `composables/use-search.ts`
+  (used by `InputLabelType`). P3-08 ports `use-search` there and makes `use-item-search.ts` re-export it (or
+  re-points `InputLabelType`) — no second copy.
+- `types/auto-forms` + `forms/*`: `components/global/auto-form-types.ts` holds `fieldTypes`/`FormField` types; P3-08
+  moves them to `src/types/auto-forms.ts` (or re-exports) and re-points `AutoForm`.
+- `use-context-presents`: its `ContextMenuItem` = the type declared in `components/global/ContextMenu.tsx`; import
+  one from the other.
+- `WakelockSwitch` reads `useLocalStorage("user-experience-preferences", …)` directly; P3-08's
+  `use-users/preferences` must keep that key (same state).
 
-Notes for the next session: start P3-06 (porter for the remaining `components/global/**`). Before spawning, main adds
-the React replacements for `vue-advanced-cropper`, `json-editor-vue`, `vue-draggable-plus` (D18) and commits the lockfile.
-Already done in `src/components/global/` (porter must import, not redo): MdiIcon, BaseButton, BaseButtonGroup, BaseMenu
-(+ `ButtonOption`), BaseDialog, BaseDialogContent, BasePageTitle, BaseCardSectionTitle, BaseDataTable, BaseNumberInput,
-BaseImg, EmptyState, AppLoader, SafeMarkdown, LanguageDialog, `colors.ts`; `hooks/utils/use-form-validation.ts`;
-`src/i18n` (`useI18n`, `I18nT`), `hooks/use-locales`. Conventions: D33. Unit tests: 20 files / 155 tests green;
-test-parity 15/48. `src/test/utils.tsx` has `renderWithProviders(ui, { route, dark })` and `stubI18n()`. `jq` is not
-installed. Use absolute paths in Bash edits (the path guard resolves relative paths against the session cwd).
+Notes for the next session: start P3-07 (main: router, guards, layouts, auth pages, TheSnackbar). All 40
+`components/global/**` are ported (P3-06 porter, merged): import them, never redo. P3-06 deviations worth knowing:
+`CrudTable` slots → `slots`/`buttonRow`/`buttonBottom` props, events `onEditOne`/`onDeleteOne`/`onBulkAction(event,
+items)` (per-header `sort` comparator ignored — BaseDataTable has no comparator hook); `ContextMenu`/`BaseOverflowButton`
+→ `onAction(event)`; `AutoForm` `v-model:isValid` → `onIsValidChange`; `InputColor` = native colour input + hex field
+(§1.5); `HelpIcon` opens on hover+click (Popper); `Spin/SwipeTransition` need keyed children accepting `className` +
+`onAnimationEnd`, no FLIP move animation, removed children linger ≤ 400 ms in jsdom; `MarkdownEditor` emits
+`onPreviewChange` whenever `preview` is controlled (Vue only when truthy — Vue bug). Unit tests: 21 files / 169
+tests green; test-parity 16/48. `src/test/utils.tsx` has `renderWithProviders(ui, { route, dark })` and `stubI18n()`.
+`jq` is not installed. Use absolute paths in Bash edits (the path guard resolves relative paths against the session cwd).
