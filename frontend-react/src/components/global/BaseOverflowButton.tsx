@@ -12,6 +12,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { Link } from "react-router";
 import { useI18n } from "@/i18n";
 import { icons } from "@/lib/icons";
+import { isPaletteColor } from "./colors";
 import { MdiIcon } from "./MdiIcon";
 
 type OverflowMode = "model" | "link" | "event";
@@ -30,6 +31,8 @@ export interface BaseOverflowButtonProps extends Omit<ButtonProps, "onChange" | 
   mode?: OverflowMode;
   items: MenuItemSpec[];
   disabled?: boolean;
+  /** Vuetify colour name (default "primary"). */
+  color?: string;
   btnClass?: string;
   btnText?: string;
   value?: string;
@@ -41,6 +44,7 @@ export function BaseOverflowButton({
   mode = "model",
   items,
   disabled = false,
+  color = "primary",
   btnClass = "",
   btnText,
   value = "",
@@ -69,9 +73,9 @@ export function BaseOverflowButton({
   return (
     <>
       <Button
-        color="primary"
         variant="contained"
         {...buttonProps}
+        color={isPaletteColor(color) ? color : "inherit"}
         className={[btnClass, className].filter(Boolean).join(" ")}
         disabled={disabled}
         startIcon={activeObj.icon ? <MdiIcon path={activeObj.icon} /> : undefined}
