@@ -15,7 +15,6 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
-    "noImplicitOverride": true,
     "types": ["vite/client", "vitest/globals", "@testing-library/jest-dom/vitest", "node"],
     "paths": {
       "@/*": ["./src/*"],
