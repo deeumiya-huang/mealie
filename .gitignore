@@ -176,3 +176,7 @@ dev/code-generation/openapi.json
 .task/*
 .dev.env
 frontend/eslint.config.deprecated.js
+
+# WF2 agent workflow (PROCESS.md)
+.claude/worktrees/
+.claude/.wf2-*

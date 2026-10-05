@@ -1,5 +1,21 @@
 # Mealie Development Guide for AI Agents
 
+## WF2 rewrite in progress — how to continue
+
+This branch (`rewrite/wf2-orchestrated`) runs workflow WF2: porting `frontend/` to React in
+`frontend-react/`. **`PROCESS.md` (repo root) is the source of truth.** When the human types
+"繼續" (or a session starts without other instructions):
+
+1. Read `PROCESS.md` §9 Status, then `git status`, `git log --oneline -5`, `git worktree list`.
+2. Follow `PROCESS.md` §5.1: resume an unfinished/WIP step, or start the next step; at gate G2 a
+   "繼續" means approved. Work through steps until one marked **Ends = yes** is done or the usage cap blocks.
+3. Hand off per §5.3: update §9, commit with `[WF2-<step-id>] `, log usage, tell the human
+   "Run /clear, then type 繼續."
+
+Never edit `frontend/`, `mealie/`, `frontend-e2e/`, `rewrite-evidence/measure.sh` or locale files;
+never push or publish. Outside gates, never wait for the human: decide, log it in `PROCESS.md` §8.
+Inside `frontend-react/`, also read `frontend-react/CLAUDE.md`.
+
 ## Project Overview
 
 Mealie is a self-hosted recipe manager, meal planner, and shopping list application with a FastAPI backend (Python 3.14) and Nuxt 4 frontend (Vue 3 + TypeScript). It uses SQLAlchemy ORM with support for SQLite and PostgreSQL databases.
