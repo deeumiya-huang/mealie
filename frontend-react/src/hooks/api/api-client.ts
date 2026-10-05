@@ -59,9 +59,10 @@ export function getRequests(axiosInstance: AxiosInstance): ApiRequestInstance {
 /** The shared request wrapper, for module-level API clients (stores). */
 export const apiRequests = getRequests(http);
 const requests = apiRequests;
-const adminApi = new AdminAPI(requests);
-const userApi = new UserApi(requests);
-const publicApi = new PublicApi(requests);
+// Also exported for plain modules (module-level stores, loaders) that must not call `use…` hooks.
+export const adminApi = new AdminAPI(requests);
+export const userApi = new UserApi(requests);
+export const publicApi = new PublicApi(requests);
 const exploreApis = new Map<string, PublicExploreApi>();
 
 export function useRequests(): ApiRequestInstance {
