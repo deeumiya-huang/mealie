@@ -769,31 +769,32 @@ logged automatically by the user-level hooks.
   (P3-09), so the timeline trio moved to P3-09 (P3-09 ≈ 5 k Vue lines, P3-10 ≈ 2.3 k). Concurrency stays at 2
   subagents: WSL2 has 3.8 GiB RAM (the human will not raise it), and parallel porters share one quota.
 
+- D42 — 2026-10-06 — Both PG-D porters hit the usage cap; the main session resumed them per §4.4.6 with briefs rebuilt
+  from the step rows (the original briefs were not saved). From now on main keeps each porter brief in the session
+  scratchpad until the merge. P3-09 deviations accepted: `RecipeTimelineBadge` ported with the timeline trio; imperative
+  `open()`/`close()` via React 19 `ref` prop; AppHeader xs search button gets `aria-label` `search.search` (an existing
+  locale key). — Keeps resumes faithful; deviations are behaviour-neutral or accessibility gains.
+
 ---
 
 ## 9. Status
 
 ```
-current_step: P3-09 ∥ P3-10 (PG-D)
-state: in-progress
-last_completed: P3-08 (2026-10-06)
+current_step: P3-11
+state: not-started
+last_completed: P3-09 ∥ P3-10 (PG-D, 2026-10-06)
 gate: none (next gate G2 after P3-12)
 ```
 
-Steps: [x] P1 (G1 approved 2026-10-05) · [x] P2 · [x] P3-01 · [x] P3-02 · [x] P3-03 · [x] P3-04 · [x] P3-05 · [x] P3-06 · [x] P3-07 · [x] P3-08 · [ ] P3-09 … P3-12 · [ ] G2 · [ ] P4-01 … P4-08 · [ ] P5-01 … P5-04
+Steps: [x] P1 (G1 approved 2026-10-05) · [x] P2 · [x] P3-01 · [x] P3-02 · [x] P3-03 · [x] P3-04 · [x] P3-05 · [x] P3-06 · [x] P3-07 · [x] P3-08 · [x] P3-09 · [x] P3-10 · [ ] P3-11 · [ ] P3-12 · [ ] G2 · [ ] P4-01 … P4-08 · [ ] P5-01 … P5-04
 
 Active subagents:
 
 | step | branch | worktree | started | state |
 |---|---|---|---|---|
-| P3-09 | wf2/P3-09-shared-components-a | (harness worktree) | 2026-10-06 | resumed 2026-10-06 (after usage cap) |
-| P3-10 | wf2/P3-10-shared-components-b | (removed) | 2026-10-06 | merged + verified 2026-10-06 |
+| – | – | – | – | none |
 
 Pending wiring:
-- P3-09: `AppHeader` (components/Layout/LayoutParts) gets the recipe search: `RecipeDialogSearch` + read-only search
-  field (max-width 250, placeholder `search.search-hint`, search icon) on ≥ sm, an icon button on xs, and the "/" key
-  shortcut (not in INPUT/TEXTAREA) — all opening the dialog (Vue `activateSearch`). `UserAvatar` and `AppScrollToTop`
-  are already ported (D37): import them.
 - `hooks/utils/use-sortable.ts` (P3-10, D36) exists: `useSortable(containerRef, { onReorder({oldIndex,newIndex}), handle,
   animation, disabled, … })`, `useSortableList(containerRef, list, setList, options)`, `moveItem(list, from, to)`; it
   reverts Sortable's DOM move so React renders the order; no cross-list drags / `pull: "clone"`. Import it by path
@@ -808,26 +809,34 @@ Known gaps (`GAP-<n>`):
   stepper labels) are MUI's English built-ins / omitted (D34). Fix option for P5: MUI locale packs keyed by `i18n.language`.
 - GAP-2 — `CrudTable` accepts the Vue per-header `sort` comparator but `BaseDataTable` sorts with its default compare
   (no comparator hook). Fix option for P5: add an optional `sort` to `BaseDataTable` headers and pass it through.
+- GAP-3 — Organizer hydration in `QueryFilterBuilder`: the readonly store's `refresh()` returns nothing, so it reads
+  `actions.getAll()` and the store's `initialized` flag stays unset (P3-10). Fix option for P5: have `refresh()` return
+  the list.
 
 Skipped tests: none
 
 SHARED-CHANGE-REQUESTs: none open (P3-06's four were applied in P3-08).
 
-Notes for the next session: start PG-D = P3-09 ∥ P3-10 (two porters at once; brief §4.2, spawn per §4.4; D41). P3-09
-includes the timeline trio and the header-search wiring from "Pending wiring" (give it
-`components/Layout/LayoutParts/AppHeader.tsx` as owned). The session ends after both are merged and verified.
-P3-08 delivered (porter, merged): `hooks/recipes/*` (not `use-parse-ingredients-dialog`, D40), `recipe-page/shared-state`,
-`shopping-list-page/use-add-to-shopping-list-dialog`, `use-search` (global `use-item-search.ts` re-exports it),
-`use-query-filter-builder`, `use-group-mealplan`, `use-users/{index,user-form,user-ratings}`, `use-ai-providers`,
-`use-context-presents` (owns `ContextMenuItem`; `ContextMenu.tsx` re-exports), `use-copy`, `use-group-recipe-actions`,
-`use-backups`, `use-navigation-warning`, `use-scroll-position`, `forms/*`, `types/auto-forms.ts` (global
-`auto-form-types.ts` re-exports). Cache resets registered (D26) in use-recipes, user-ratings, use-backups,
-use-group-recipe-actions. React API notes: writable refs → value + setter (`setUnitSystem`, `setQuery`, …); non-hook
-helpers renamed (`foodName`, `getParsedIngredientText`, `frac`/`cont`) with the Vue `use…` names kept as aliases;
-`allRecipes`/`recentRecipes` are `createStore` stores; `useRecipePermissions(recipe, household, user)` takes plain
-values; fetch-on-setup runs in mount effects. Unit tests: 34 files / 331 tests green; test-parity 29/48 equal.
-port-status still lists `types/auth.d.ts` and `types/recipe/organizers.ts` missing: the first step that needs them ports
-them (organizers most likely P3-10). Branches `worktree-agent-*` are harness leftovers (kept, unused).
+Notes for the next session: start P3-11 (pilot of the P4 procedure: domain `user`, one porter, brief §4.2, run as a P4
+step per §4.4), then P3-12 (G2 packet, Ends = yes). Keep each porter brief in the scratchpad until merged — a usage-cap
+resume needs the same brief (PG-D's briefs were rebuilt from the step rows).
+PG-D delivered (2 porters, merged, verified): CHECKS green (tsc 0, eslint 0, 50 files / 399 tests, build ok),
+RecipeDialogSearch 5/13 and GroupAIProviderDialog 1/2 parity equal; test-parity 32/48 files; port-status 150 missing.
+P3-09: recipe cards (`RecipeCard`, `…Mobile`, `…Section` with sentinel infinite scroll, `…Image/Rating/LineItem`), chips,
+favorite badge, `RecipeContextMenu/*` (content lazy-loaded; unknown item events → `onEvent(event)`; `print`,
+`mealplanEdit`, `mealplanRemove` named callbacks), dialogs (AddToShoppingList, BulkAdd, PrintPreferences, Search, Share),
+`RecipePrintView`, `RecipeTimeCard`, ingredient list item + substitutions (+ editor: `onChange(index, patch)`, `onAdd`,
+`onDelete`, `onFoodChanged` — callers store the patch), timeline trio + `RecipeTimelineBadge`, `MealPlanAddRecipeDialog`,
+`MealPlanDatePicker`, `WeekStartLocalization`; `AppHeader` search wired (+ `AppHeader.test.tsx`). `RecipeDialogSearch`/
+`RecipeDialogBulkAdd` expose `open()`/`close()` via a React 19 `ref` prop (Vue `defineExpose`); Search's default slot →
+`children({ open, close })`. 11 extra component test files.
+P3-10: `RecipeOrganizerSelector` (mounts only the selected type's store; option equality by `id`), `QueryFilterBuilder`
+(MUI `DateCalendar` in a local `LocalizationProvider`/`AdapterDateFns`; local `yyyy-MM-dd`), `SearchFilter`,
+`RecipeOrganizerDialog`, `RecipeSettingsSwitches`, `RecipeTimeInput`, Group AI provider dialog/editor, group/household
+preference editors, `UserInviteDialog`. `types/recipe/organizers.ts` is empty in Vue too. Optional requests (not applied):
+`SafeMarkdown` `className`/`inline` prop; re-export `use-sortable` from `hooks/utils/index.ts`.
+port-status still lists `types/auth.d.ts` missing: the first step that needs it ports it. Branches `worktree-agent-*` are
+harness leftovers (kept, unused).
 Earlier: all 40 `components/global/**` are ported: import them, never redo (P3-06 deviations: see D33 and the component
 headers). `src/test/utils.tsx` has `renderWithProviders(ui, { route, dark })` and `stubI18n()`. `jq` is not installed.
 Use absolute paths in Bash edits (the path guard resolves relative paths against the session cwd); copying a Vue file
