@@ -64,7 +64,7 @@ function getSwipePoint(event: TouchEvent) {
 const isRtl = false;
 
 export function ShoppingListItem({
-  item,
+  item: itemProp,
   onChange,
   labels,
   units,
@@ -81,6 +81,12 @@ export function ShoppingListItem({
   const { t, d } = useI18n();
   const online = useOnline();
   const isOffline = online === false;
+
+  // Vue writes the toggled copy into the row's own model (`model.value = updated`) before emitting, so the row shows
+  // its new state even while it leaves its list (the parent moves it between the unchecked and checked lists). The
+  // row keeps that copy until the parent passes a different item.
+  const [toggled, setToggled] = useState<{ source: ShoppingListItemOut; value: ShoppingListItemOut } | null>(null);
+  const item = toggled?.source === itemProp ? toggled.value : itemProp;
 
   const [displayRecipeRefs, setDisplayRecipeRefs] = useState(false);
   const [menuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null);
@@ -101,6 +107,7 @@ export function ShoppingListItem({
 
   function toggleChecked() {
     const updated = { ...item, checked: !item.checked } as ShoppingListItemOut;
+    setToggled({ source: itemProp, value: updated });
     onChange?.(updated);
     onChecked?.(updated);
   }

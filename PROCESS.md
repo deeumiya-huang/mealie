@@ -791,7 +791,7 @@ logged automatically by the user-level hooks.
 
 ```
 current_step: P4-01 ∥ P4-02 (PG-A)
-state: in-progress
+state: in-progress (paused 2026-10-07: human asked a billing question; uncommitted P4-01 follow-up — row toggle state + scroll-x TransitionGroup on shopping list — committed as WIP, checks not yet run)
 last_completed: P3-12 (G2 packet, 2026-10-06)
 gate: G2 approved 2026-10-07
 ```

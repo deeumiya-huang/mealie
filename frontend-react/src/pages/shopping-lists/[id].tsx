@@ -14,6 +14,7 @@ import { RecipeList } from "@/components/Domain/Recipe/RecipeList";
 import { MultiPurposeLabelSection } from "@/components/Domain/ShoppingList/MultiPurposeLabelSection";
 import { ShoppingListAddItemForm } from "@/components/Domain/ShoppingList/ShoppingListAddItemForm";
 import { ShoppingListItem } from "@/components/Domain/ShoppingList/ShoppingListItem";
+import { AnimatedChildren, type AnimationSpec } from "@/components/global/Transition/AnimatedChildren";
 import { ShoppingListItemEditor } from "@/components/Domain/ShoppingList/ShoppingListItemEditor";
 import { BannerWarning } from "@/components/global/BannerWarning";
 import { BaseButtonGroup } from "@/components/global/BaseButtonGroup";
@@ -74,6 +75,14 @@ interface SortableItemsProps {
   renderItem: (item: ShoppingListItemOut, index: number) => ReactNode;
 }
 
+// Vue `<TransitionGroup name="scroll-x-transition">` around the item rows: a row fades in from the left and, when it
+// leaves its list (checked off, unchecked, deleted), stays in place while it fades out to the right.
+const SCROLL_X_TRANSITION: AnimationSpec = {
+  name: "scroll-x-transition",
+  enterFrom: "opacity: 0; transform: translateX(-15px);",
+  leaveTo: "opacity: 0; transform: translateX(15px);",
+};
+
 /** The items of one label: a sortable list whose rows are rendered by `renderItem` (hidden rows return null). */
 function SortableItems({ items, disabled, onStart, onEnd, onReorder, renderItem }: SortableItemsProps) {
   const listRef = useRef<HTMLDivElement>(null);
@@ -89,7 +98,12 @@ function SortableItems({ items, disabled, onStart, onEnd, onReorder, renderItem 
 
   return (
     <div ref={listRef}>
-      {items.map((item, index) => renderItem(item, index))}
+      <AnimatedChildren animation={SCROLL_X_TRANSITION}>
+        {items.map((item, index) => {
+          const row = renderItem(item, index);
+          return row && <div key={item.id}>{row}</div>;
+        })}
+      </AnimatedChildren>
     </div>
   );
 }
@@ -571,20 +585,22 @@ export default function ShoppingListPage() {
                 </Box>
               </AccordionSummary>
               <AccordionDetails sx={{ p: "2px 0 2px 12px" }}>
-                {listItems.checked.map((item, idx) => (
-                  <div key={item.id} style={matchesSearch(item) ? undefined : { display: "none" }}>
-                    <ShoppingListItem
-                      item={item}
-                      onChange={updated => replaceAt(listItems.checked, idx, updated)}
-                      labels={allLabels}
-                      units={allUnits}
-                      foods={allFoods}
-                      onChecked={saveListItem}
-                      onSave={saveListItem}
-                      onDelete={() => deleteListItem(item)}
-                    />
-                  </div>
-                ))}
+                <AnimatedChildren animation={SCROLL_X_TRANSITION}>
+                  {listItems.checked.map((item, idx) => (
+                    <div key={item.id} style={matchesSearch(item) ? undefined : { display: "none" }}>
+                      <ShoppingListItem
+                        item={item}
+                        onChange={updated => replaceAt(listItems.checked, idx, updated)}
+                        labels={allLabels}
+                        units={allUnits}
+                        foods={allFoods}
+                        onChecked={saveListItem}
+                        onSave={saveListItem}
+                        onDelete={() => deleteListItem(item)}
+                      />
+                    </div>
+                  ))}
+                </AnimatedChildren>
               </AccordionDetails>
             </Accordion>
           )}
