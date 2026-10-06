@@ -774,18 +774,20 @@ logged automatically by the user-level hooks.
 ## 9. Status
 
 ```
-current_step: P3-09
-state: not-started
+current_step: P3-09 ∥ P3-10 (PG-D)
+state: in-progress
 last_completed: P3-08 (2026-10-06)
 gate: none (next gate G2 after P3-12)
 ```
 
 Steps: [x] P1 (G1 approved 2026-10-05) · [x] P2 · [x] P3-01 · [x] P3-02 · [x] P3-03 · [x] P3-04 · [x] P3-05 · [x] P3-06 · [x] P3-07 · [x] P3-08 · [ ] P3-09 … P3-12 · [ ] G2 · [ ] P4-01 … P4-08 · [ ] P5-01 … P5-04
 
-Active subagents: none
+Active subagents:
 
 | step | branch | worktree | started | state |
 |---|---|---|---|---|
+| P3-09 | wf2/P3-09-shared-components-a | (harness worktree) | 2026-10-06 | running |
+| P3-10 | wf2/P3-10-shared-components-b | (harness worktree) | 2026-10-06 | running |
 
 Pending wiring:
 - P3-09: `AppHeader` (components/Layout/LayoutParts) gets the recipe search: `RecipeDialogSearch` + read-only search
