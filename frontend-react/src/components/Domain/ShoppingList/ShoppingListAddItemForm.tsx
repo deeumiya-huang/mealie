@@ -48,6 +48,9 @@ export function ShoppingListAddItemForm({ listItem, labels, units, foods, sx, on
     if (!target) {
       return;
     }
+    if (typeof ResizeObserver === "undefined") {
+      return;
+    }
     const observer = new ResizeObserver(() => setDrawerHeight(target.offsetHeight));
     observer.observe(target);
     return () => observer.disconnect();

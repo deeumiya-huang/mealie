@@ -536,6 +536,8 @@ export default function ShoppingListPage() {
               sx={{ "borderRadius": 1, "&:before": { display: "none" } }}
             >
               <AccordionSummary
+                // holds buttons of its own, so it cannot be a <button> itself
+                component="div"
                 sx={{ "py": 0.5, "border": "thin solid", "borderColor": "divider", "& .MuiAccordionSummary-content": { my: 0 } }}
                 expandIcon={<MdiIcon path={icons.chevronDown} />}
               >
