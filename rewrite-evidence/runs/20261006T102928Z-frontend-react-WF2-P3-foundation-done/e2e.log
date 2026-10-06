@@ -1,0 +1,2863 @@
+[WebServer] WARNING  2026-10-06T10:31:38 - Secrets directory '/run/secrets' does not exist
+[WebServer] WARNING  2026-10-06T10:31:49 - Secrets directory '/run/secrets' does not exist
+[WebServer] ERROR    2026-10-06T10:31:52 - Incorrect username or password from 127.0.0.1
+
+Running 82 tests using 2 workers
+
+  ✓   2 [routes] › tests/routes.spec.ts:12:5 › route table covers every page (13ms)
+  ✘   3 [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin.vue (11.1s)
+  ✘   1 [flows] › tests/flows/admin.spec.ts:5:7 › admin › [flow] create a user and find them in user management (17.0s)
+  ✘   4 [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/backups.vue (10.8s)
+  ✘   5 [flows] › tests/flows/auth.spec.ts:8:7 › auth › [flow] log in with valid credentials and land on the recipe list (12.4s)
+[WebServer] ERROR    2026-10-06T10:32:35 - Incorrect username or password from 127.0.0.1
+  ✓   7 [flows] › tests/flows/auth.spec.ts:16:7 › auth › [flow] a wrong password is rejected (2.1s)
+  ✘   6 [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/debug/openai.vue (10.8s)
+  ✘   9 [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/debug/parser.vue (10.8s)
+  ✘  10 [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/maintenance/index.vue (10.8s)
+  ✘  11 [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/manage/groups/[id].vue (10.8s)
+  ✘   8 [flows] › tests/flows/auth.spec.ts:27:7 › auth › [flow] log out ends the session (45.3s)
+  ✘  12 [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/manage/groups/index.vue (10.8s)
+  ✘  13 [flows] › tests/flows/auth.spec.ts:39:7 › auth › [flow] a regular member is not offered admin pages (12.5s)
+  ✘  14 [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/manage/households/[id].vue (10.8s)
+  ✘  16 [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/manage/households/index.vue (10.8s)
+  ✘  17 [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/manage/users/[id].vue (10.8s)
+  ✘  18 [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/manage/users/create.vue (10.8s)
+  ✘  15 [flows] › tests/flows/auth.spec.ts:50:7 › auth › [flow] an admin is offered admin pages (45.3s)
+  ✘  19 [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/manage/users/index.vue (10.8s)
+  ✘  21 [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/setup.vue (10.8s)
+  ✘  22 [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/site-settings.vue (10.8s)
+  ✓  23 [routes] › tests/routes.spec.ts:23:9 › anonymous › [route] forgot-password.vue (1.6s)
+  ✓  24 [routes] › tests/routes.spec.ts:23:9 › anonymous › [route] login.vue (1.5s)
+  ✓  25 [routes] › tests/routes.spec.ts:23:9 › anonymous › [route] register/index.vue (1.5s)
+  ✓  26 [routes] › tests/routes.spec.ts:23:9 › anonymous › [route] reset-password.vue (1.5s)
+  ✘  27 [routes] › tests/routes.spec.ts:23:9 › anonymous › [route] g/[groupSlug]/shared/r/[id].vue (10.8s)
+  ✘  20 [flows] › tests/flows/mealplan.spec.ts:12:7 › meal plan › [flow] add a note to tomorrow's meal plan (45.2s)
+  ✘  28 [routes] › tests/routes.spec.ts:23:9 › admin › [route] index.vue (10.8s)
+  ✘  30 [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/index.vue (10.8s)
+  ✘  31 [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/r/[slug]/index.vue (10.9s)
+  ✘  29 [flows] › tests/flows/organize.spec.ts:5:7 › organizing › [flow] create a tag in data management (45.3s)
+  ✘  32 [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/cookbooks/index.vue (10.8s)
+  ✓  33 [flows] › tests/flows/profile.spec.ts:8:7 › profile › [flow] a member updates their full name (3.8s)
+  ✘  34 [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/cookbooks/[slug].vue (10.9s)
+  ✘  36 [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/r/create.vue (10.8s)
+  ✘  37 [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/r/create/index.vue (10.8s)
+  ✘  38 [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/r/create/ai.vue (10.8s)
+  ✘  35 [flows] › tests/flows/recipes.spec.ts:6:7 › recipes › [flow] open a recipe from the recipe list (45.2s)
+  ✘  39 [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/r/create/bulk.vue (10.8s)
+  ✘  40 [flows] › tests/flows/recipes.spec.ts:15:7 › recipes › [flow] search narrows the recipe list (10.8s)
+  ✘  41 [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/r/create/debug.vue (10.8s)
+  ✘  43 [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/r/create/html.vue (10.8s)
+  ✘  44 [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/r/create/image.vue (10.8s)
+  ✘  42 [flows] › tests/flows/recipes.spec.ts:24:7 › recipes › [flow] create a recipe by name (45.2s)
+  ✘  45 [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/r/create/new.vue (10.8s)
+  ✘  47 [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/r/create/url.vue (11.0s)
+  ✘  48 [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/r/create/zip.vue (10.8s)
+  ✘  49 [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/recipes/categories/index.vue (10.8s)
+  ✘  46 [flows] › tests/flows/recipes.spec.ts:36:7 › recipes › [flow] comment on a recipe and see it after reload (45.2s)
+  ✘  50 [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/recipes/tags/index.vue (10.8s)
+  ✘  51 [flows] › tests/flows/shopping.spec.ts:6:7 › shopping lists › [flow] create a shopping list (10.8s)
+  ✘  52 [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/recipes/tools/index.vue (10.8s)
+  ✘  54 [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/recipes/finder/index.vue (10.8s)
+  ✘  55 [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/recipes/timeline.vue (10.8s)
+  ✘  56 [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/index.vue (10.8s)
+  ✘  57 [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/migrations.vue (10.8s)
+  ✘  58 [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/reports/[id].vue (10.8s)
+  ✘  59 [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/data.vue (10.8s)
+  ✘  60 [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/data/index.vue (10.8s)
+  ✘  53 [flows] › tests/flows/shopping.spec.ts:19:7 › shopping lists › [flow] add an item and check it off (1.5m)
+  ✘  61 [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/data/foods.vue (10.8s)
+  ✘  62 [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/data/units.vue (10.8s)
+  ✘  63 [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/data/labels.vue (10.8s)
+  ✘  64 [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/data/categories.vue (10.8s)
+  ✘  65 [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/data/tags.vue (10.4s)
+  ✘  66 [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/data/tools.vue (10.8s)
+  ✘  67 [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/data/recipes.vue (11.2s)
+  ✘  68 [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/data/recipe-actions.vue (10.8s)
+  ✘  69 [routes] › tests/routes.spec.ts:23:9 › admin › [route] household/index.vue (10.9s)
+  ✘  70 [routes] › tests/routes.spec.ts:23:9 › admin › [route] household/members.vue (10.9s)
+  ✘  71 [routes] › tests/routes.spec.ts:23:9 › admin › [route] household/notifiers.vue (10.8s)
+  ✘  72 [routes] › tests/routes.spec.ts:23:9 › admin › [route] household/webhooks.vue (10.8s)
+  ✘  73 [routes] › tests/routes.spec.ts:23:9 › admin › [route] household/mealplan/settings.vue (10.8s)
+  ✘  74 [routes] › tests/routes.spec.ts:23:9 › admin › [route] household/mealplan/planner.vue (10.8s)
+  ✘  75 [routes] › tests/routes.spec.ts:23:9 › admin › [route] household/mealplan/planner/view.vue (10.8s)
+  ✘  76 [routes] › tests/routes.spec.ts:23:9 › admin › [route] household/mealplan/planner/edit.vue (10.8s)
+  ✘  77 [routes] › tests/routes.spec.ts:23:9 › admin › [route] shopping-lists/index.vue (10.8s)
+  ✘  78 [routes] › tests/routes.spec.ts:23:9 › admin › [route] shopping-lists/[id].vue (10.8s)
+  ✓  79 [routes] › tests/routes.spec.ts:23:9 › admin › [route] user/profile/index.vue (1.9s)
+  ✓  80 [routes] › tests/routes.spec.ts:23:9 › admin › [route] user/profile/edit.vue (1.8s)
+  ✓  81 [routes] › tests/routes.spec.ts:23:9 › admin › [route] user/profile/api-tokens.vue (1.7s)
+  ✓  82 [routes] › tests/routes.spec.ts:23:9 › admin › [route] user/[id]/favorites.vue (1.8s)
+
+
+  1) [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin.vue ──────────────────────────────
+
+    Error: visible text "E2E Admin"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('E2E Admin').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "E2E Admin" getByText('E2E Admin').visible().first() with timeout 10000ms
+      - waiting for getByText('E2E Admin').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-admin-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-admin-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-admin-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-admin-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/backups.vue ──────────────────────
+
+    Error: visible text "Backups"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Backups').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Backups" getByText('Backups').visible().first() with timeout 10000ms
+      - waiting for getByText('Backups').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-admin-backups-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-admin-backups-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-admin-backups-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-admin-backups-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/debug/openai.vue ─────────────────
+
+    Error: visible text "Debug OpenAI Services"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Debug OpenAI Services').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Debug OpenAI Services" getByText('Debug OpenAI Services').visible().first() with timeout 10000ms
+      - waiting for getByText('Debug OpenAI Services').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-admin-debug-openai-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-admin-debug-openai-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-admin-debug-openai-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-admin-debug-openai-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/debug/parser.vue ─────────────────
+
+    Error: visible text "Ingredients Natural Language Processor"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Ingredients Natural Language Processor').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Ingredients Natural Language Processor" getByText('Ingredients Natural Language Processor').visible().first() with timeout 10000ms
+      - waiting for getByText('Ingredients Natural Language Processor').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-admin-debug-parser-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-admin-debug-parser-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-admin-debug-parser-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-admin-debug-parser-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/maintenance/index.vue ────────────
+
+    Error: visible text "Site Maintenance"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Site Maintenance').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Site Maintenance" getByText('Site Maintenance').visible().first() with timeout 10000ms
+      - waiting for getByText('Site Maintenance').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-admin-maintenance-index-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-admin-maintenance-index-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-admin-maintenance-index-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-admin-maintenance-index-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  6) [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/manage/groups/[id].vue ───────────
+
+    Error: visible text "Admin Group Management"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Admin Group Management').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Admin Group Management" getByText('Admin Group Management').visible().first() with timeout 10000ms
+      - waiting for getByText('Admin Group Management').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-admin-manage-groups-id-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-admin-manage-groups-id-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-admin-manage-groups-id-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-admin-manage-groups-id-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  7) [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/manage/groups/index.vue ──────────
+
+    Error: visible text "Group Management"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Group Management').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Group Management" getByText('Group Management').visible().first() with timeout 10000ms
+      - waiting for getByText('Group Management').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-admin-manage-groups-index-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-admin-manage-groups-index-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-admin-manage-groups-index-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-admin-manage-groups-index-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  8) [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/manage/households/[id].vue ───────
+
+    Error: visible text "Admin Household Management"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Admin Household Management').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Admin Household Management" getByText('Admin Household Management').visible().first() with timeout 10000ms
+      - waiting for getByText('Admin Household Management').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-admin-manage-households-id-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-admin-manage-households-id-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-admin-manage-households-id-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-admin-manage-households-id-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  9) [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/manage/households/index.vue ──────
+
+    Error: visible text "Household Management"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Household Management').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Household Management" getByText('Household Management').visible().first() with timeout 10000ms
+      - waiting for getByText('Household Management').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-admin-manage-households-index-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-admin-manage-households-index-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-admin-manage-households-index-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-admin-manage-households-index-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  10) [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/manage/users/[id].vue ───────────
+
+    Error: visible text "Admin User Management"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Admin User Management').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Admin User Management" getByText('Admin User Management').visible().first() with timeout 10000ms
+      - waiting for getByText('Admin User Management').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-admin-manage-users-id-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-admin-manage-users-id-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-admin-manage-users-id-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-admin-manage-users-id-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  11) [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/manage/users/create.vue ─────────
+
+    Error: visible text "Admin User Creation"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Admin User Creation').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Admin User Creation" getByText('Admin User Creation').visible().first() with timeout 10000ms
+      - waiting for getByText('Admin User Creation').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-admin-manage-users-create-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-admin-manage-users-create-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-admin-manage-users-create-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-admin-manage-users-create-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  12) [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/manage/users/index.vue ──────────
+
+    Error: visible text "User Management"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('User Management').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "User Management" getByText('User Management').visible().first() with timeout 10000ms
+      - waiting for getByText('User Management').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-admin-manage-users-index-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-admin-manage-users-index-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-admin-manage-users-index-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-admin-manage-users-index-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  13) [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/setup.vue ───────────────────────
+
+    Error: visible text "Welcome to Mealie! Let's get started"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Welcome to Mealie! Let\'s get started').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Welcome to Mealie! Let's get started" getByText('Welcome to Mealie! Let\'s get started').visible().first() with timeout 10000ms
+      - waiting for getByText('Welcome to Mealie! Let\'s get started').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-admin-setup-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-admin-setup-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-admin-setup-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-admin-setup-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  14) [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/site-settings.vue ───────────────
+
+    Error: visible text "Site Settings"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Site Settings').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Site Settings" getByText('Site Settings').visible().first() with timeout 10000ms
+      - waiting for getByText('Site Settings').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-admin-site-settings-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-admin-site-settings-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-admin-site-settings-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-admin-site-settings-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  15) [routes] › tests/routes.spec.ts:23:9 › anonymous › [route] g/[groupSlug]/shared/r/[id].vue ───
+
+    Error: visible text "E2E Pancakes"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('E2E Pancakes').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "E2E Pancakes" getByText('E2E Pancakes').visible().first() with timeout 10000ms
+      - waiting for getByText('E2E Pancakes').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-anonymous-route-g-groupSlug-shared-r-id-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-anonymous-route-g-groupSlug-shared-r-id-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-anonymous-route-g-groupSlug-shared-r-id-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-anonymous-route-g-groupSlug-shared-r-id-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  16) [routes] › tests/routes.spec.ts:23:9 › admin › [route] index.vue ─────────────────────────────
+
+    Error: visible text "E2E Pancakes"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('E2E Pancakes').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "E2E Pancakes" getByText('E2E Pancakes').visible().first() with timeout 10000ms
+      - waiting for getByText('E2E Pancakes').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-index-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-index-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-index-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-index-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  17) [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/index.vue ───────────────
+
+    Error: visible text "E2E Pancakes"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('E2E Pancakes').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "E2E Pancakes" getByText('E2E Pancakes').visible().first() with timeout 10000ms
+      - waiting for getByText('E2E Pancakes').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-g-groupSlug-index-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-g-groupSlug-index-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-g-groupSlug-index-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-g-groupSlug-index-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  18) [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/r/[slug]/index.vue ──────
+
+    Error: visible text "E2E Pancakes"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('E2E Pancakes').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "E2E Pancakes" getByText('E2E Pancakes').visible().first() with timeout 10000ms
+      - waiting for getByText('E2E Pancakes').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-g-groupSlug-r-slug-index-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-g-groupSlug-r-slug-index-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-g-groupSlug-r-slug-index-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-g-groupSlug-r-slug-index-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  19) [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/cookbooks/index.vue ─────
+
+    Error: visible text "Cookbooks"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Cookbooks').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Cookbooks" getByText('Cookbooks').visible().first() with timeout 10000ms
+      - waiting for getByText('Cookbooks').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-g-groupSlug-cookbooks-index-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-g-groupSlug-cookbooks-index-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-g-groupSlug-cookbooks-index-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-g-groupSlug-cookbooks-index-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  20) [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/cookbooks/[slug].vue ────
+
+    Error: visible text "E2E Cookbook"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('E2E Cookbook').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "E2E Cookbook" getByText('E2E Cookbook').visible().first() with timeout 10000ms
+      - waiting for getByText('E2E Cookbook').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-g-groupSlug-cookbooks-slug-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-g-groupSlug-cookbooks-slug-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-g-groupSlug-cookbooks-slug-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-g-groupSlug-cookbooks-slug-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  21) [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/r/create.vue ────────────
+
+    Error: visible text "Recipe Creation"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Recipe Creation').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Recipe Creation" getByText('Recipe Creation').visible().first() with timeout 10000ms
+      - waiting for getByText('Recipe Creation').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-g-groupSlug-r-create-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-g-groupSlug-r-create-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-g-groupSlug-r-create-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-g-groupSlug-r-create-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  22) [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/r/create/index.vue ──────
+
+    Error: visible text "Recipe Creation"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Recipe Creation').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Recipe Creation" getByText('Recipe Creation').visible().first() with timeout 10000ms
+      - waiting for getByText('Recipe Creation').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-g-groupSlug-r-create-index-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-g-groupSlug-r-create-index-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-g-groupSlug-r-create-index-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-g-groupSlug-r-create-index-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  23) [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/r/create/ai.vue ─────────
+
+    Error: visible text "Recipe Creation"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Recipe Creation').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Recipe Creation" getByText('Recipe Creation').visible().first() with timeout 10000ms
+      - waiting for getByText('Recipe Creation').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-g-groupSlug-r-create-ai-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-g-groupSlug-r-create-ai-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-g-groupSlug-r-create-ai-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-g-groupSlug-r-create-ai-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  24) [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/r/create/bulk.vue ───────
+
+    Error: visible text "Recipe Creation"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Recipe Creation').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Recipe Creation" getByText('Recipe Creation').visible().first() with timeout 10000ms
+      - waiting for getByText('Recipe Creation').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-g-groupSlug-r-create-bulk-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-g-groupSlug-r-create-bulk-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-g-groupSlug-r-create-bulk-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-g-groupSlug-r-create-bulk-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  25) [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/r/create/debug.vue ──────
+
+    Error: visible text "Recipe Creation"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Recipe Creation').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Recipe Creation" getByText('Recipe Creation').visible().first() with timeout 10000ms
+      - waiting for getByText('Recipe Creation').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-g-groupSlug-r-create-debug-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-g-groupSlug-r-create-debug-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-g-groupSlug-r-create-debug-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-g-groupSlug-r-create-debug-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  26) [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/r/create/html.vue ───────
+
+    Error: visible text "Recipe Creation"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Recipe Creation').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Recipe Creation" getByText('Recipe Creation').visible().first() with timeout 10000ms
+      - waiting for getByText('Recipe Creation').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-g-groupSlug-r-create-html-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-g-groupSlug-r-create-html-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-g-groupSlug-r-create-html-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-g-groupSlug-r-create-html-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  27) [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/r/create/image.vue ──────
+
+    Error: visible text "Recipe Creation"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Recipe Creation').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Recipe Creation" getByText('Recipe Creation').visible().first() with timeout 10000ms
+      - waiting for getByText('Recipe Creation').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-g-groupSlug-r-create-image-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-g-groupSlug-r-create-image-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-g-groupSlug-r-create-image-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-g-groupSlug-r-create-image-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  28) [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/r/create/new.vue ────────
+
+    Error: visible text "Recipe Creation"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Recipe Creation').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Recipe Creation" getByText('Recipe Creation').visible().first() with timeout 10000ms
+      - waiting for getByText('Recipe Creation').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-g-groupSlug-r-create-new-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-g-groupSlug-r-create-new-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-g-groupSlug-r-create-new-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-g-groupSlug-r-create-new-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  29) [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/r/create/url.vue ────────
+
+    Error: visible text "Recipe Creation"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Recipe Creation').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Recipe Creation" getByText('Recipe Creation').visible().first() with timeout 10000ms
+      - waiting for getByText('Recipe Creation').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-g-groupSlug-r-create-url-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-g-groupSlug-r-create-url-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-g-groupSlug-r-create-url-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-g-groupSlug-r-create-url-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  30) [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/r/create/zip.vue ────────
+
+    Error: visible text "Recipe Creation"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Recipe Creation').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Recipe Creation" getByText('Recipe Creation').visible().first() with timeout 10000ms
+      - waiting for getByText('Recipe Creation').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-g-groupSlug-r-create-zip-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-g-groupSlug-r-create-zip-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-g-groupSlug-r-create-zip-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-g-groupSlug-r-create-zip-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  31) [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/recipes/categories/index.vue 
+
+    Error: visible text "Categories"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Categories').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Categories" getByText('Categories').visible().first() with timeout 10000ms
+      - waiting for getByText('Categories').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-g-groupSlug-recipes-categories-index-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-g-groupSlug-recipes-categories-index-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-g-groupSlug-recipes-categories-index-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-g-groupSlug-recipes-categories-index-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  32) [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/recipes/tags/index.vue ──
+
+    Error: visible text "Tags"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Tags').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Tags" getByText('Tags').visible().first() with timeout 10000ms
+      - waiting for getByText('Tags').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-g-groupSlug-recipes-tags-index-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-g-groupSlug-recipes-tags-index-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-g-groupSlug-recipes-tags-index-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-g-groupSlug-recipes-tags-index-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  33) [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/recipes/tools/index.vue ─
+
+    Error: visible text "Tools"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Tools').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Tools" getByText('Tools').visible().first() with timeout 10000ms
+      - waiting for getByText('Tools').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-g-groupSlug-recipes-tools-index-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-g-groupSlug-recipes-tools-index-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-g-groupSlug-recipes-tools-index-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-g-groupSlug-recipes-tools-index-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  34) [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/recipes/finder/index.vue 
+
+    Error: visible text "Recipe Finder"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Recipe Finder').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Recipe Finder" getByText('Recipe Finder').visible().first() with timeout 10000ms
+      - waiting for getByText('Recipe Finder').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-g-groupSlug-recipes-finder-index-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-g-groupSlug-recipes-finder-index-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-g-groupSlug-recipes-finder-index-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-g-groupSlug-recipes-finder-index-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  35) [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/recipes/timeline.vue ────
+
+    Error: visible text "Global Timeline"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Global Timeline').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Global Timeline" getByText('Global Timeline').visible().first() with timeout 10000ms
+      - waiting for getByText('Global Timeline').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-g-groupSlug-recipes-timeline-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-g-groupSlug-recipes-timeline-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-g-groupSlug-recipes-timeline-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-g-groupSlug-recipes-timeline-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  36) [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/index.vue ───────────────────────
+
+    Error: visible text "Group Settings"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Group Settings').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Group Settings" getByText('Group Settings').visible().first() with timeout 10000ms
+      - waiting for getByText('Group Settings').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-group-index-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-group-index-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-group-index-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-group-index-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  37) [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/migrations.vue ──────────────────
+
+    Error: visible text "Recipe Data Migrations"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Recipe Data Migrations').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Recipe Data Migrations" getByText('Recipe Data Migrations').visible().first() with timeout 10000ms
+      - waiting for getByText('Recipe Data Migrations').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-group-migrations-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-group-migrations-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-group-migrations-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-group-migrations-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  38) [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/reports/[id].vue ────────────────
+
+    Error: visible text "Report"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Report').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Report" getByText('Report').visible().first() with timeout 10000ms
+      - waiting for getByText('Report').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-group-reports-id-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-group-reports-id-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-group-reports-id-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-group-reports-id-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  39) [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/data.vue ────────────────────────
+
+    Error: visible text "Data Management"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Data Management').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Data Management" getByText('Data Management').visible().first() with timeout 10000ms
+      - waiting for getByText('Data Management').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-group-data-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-group-data-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-group-data-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-group-data-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  40) [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/data/index.vue ──────────────────
+
+    Error: visible text "Data Management"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Data Management').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Data Management" getByText('Data Management').visible().first() with timeout 10000ms
+      - waiting for getByText('Data Management').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-group-data-index-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-group-data-index-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-group-data-index-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-group-data-index-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  41) [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/data/foods.vue ──────────────────
+
+    Error: visible text "Food Data"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Food Data').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Food Data" getByText('Food Data').visible().first() with timeout 10000ms
+      - waiting for getByText('Food Data').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-group-data-foods-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-group-data-foods-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-group-data-foods-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-group-data-foods-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  42) [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/data/units.vue ──────────────────
+
+    Error: visible text "Units"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Units').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Units" getByText('Units').visible().first() with timeout 10000ms
+      - waiting for getByText('Units').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-group-data-units-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-group-data-units-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-group-data-units-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-group-data-units-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  43) [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/data/labels.vue ─────────────────
+
+    Error: visible text "Labels"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Labels').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Labels" getByText('Labels').visible().first() with timeout 10000ms
+      - waiting for getByText('Labels').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-group-data-labels-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-group-data-labels-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-group-data-labels-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-group-data-labels-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  44) [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/data/categories.vue ─────────────
+
+    Error: visible text "Category Data"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Category Data').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Category Data" getByText('Category Data').visible().first() with timeout 10000ms
+      - waiting for getByText('Category Data').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-group-data-categories-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-group-data-categories-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-group-data-categories-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-group-data-categories-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  45) [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/data/tags.vue ───────────────────
+
+    Error: visible text "Tag Data"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Tag Data').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Tag Data" getByText('Tag Data').visible().first() with timeout 10000ms
+      - waiting for getByText('Tag Data').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-group-data-tags-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-group-data-tags-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-group-data-tags-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-group-data-tags-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  46) [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/data/tools.vue ──────────────────
+
+    Error: visible text "Tool Data"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Tool Data').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Tool Data" getByText('Tool Data').visible().first() with timeout 10000ms
+      - waiting for getByText('Tool Data').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-group-data-tools-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-group-data-tools-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-group-data-tools-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-group-data-tools-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  47) [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/data/recipes.vue ────────────────
+
+    Error: visible text "Recipe Data"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Recipe Data').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Recipe Data" getByText('Recipe Data').visible().first() with timeout 10000ms
+      - waiting for getByText('Recipe Data').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-group-data-recipes-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-group-data-recipes-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-group-data-recipes-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-group-data-recipes-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  48) [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/data/recipe-actions.vue ─────────
+
+    Error: visible text "Recipe Actions Data"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Recipe Actions Data').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Recipe Actions Data" getByText('Recipe Actions Data').visible().first() with timeout 10000ms
+      - waiting for getByText('Recipe Actions Data').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-group-data-recipe-actions-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-group-data-recipe-actions-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-group-data-recipe-actions-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-group-data-recipe-actions-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  49) [routes] › tests/routes.spec.ts:23:9 › admin › [route] household/index.vue ───────────────────
+
+    Error: visible text "Household Settings"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Household Settings').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Household Settings" getByText('Household Settings').visible().first() with timeout 10000ms
+      - waiting for getByText('Household Settings').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-household-index-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-household-index-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-household-index-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-household-index-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  50) [routes] › tests/routes.spec.ts:23:9 › admin › [route] household/members.vue ─────────────────
+
+    Error: visible text "Manage Members"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Manage Members').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Manage Members" getByText('Manage Members').visible().first() with timeout 10000ms
+      - waiting for getByText('Manage Members').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-household-members-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-household-members-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-household-members-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-household-members-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  51) [routes] › tests/routes.spec.ts:23:9 › admin › [route] household/notifiers.vue ───────────────
+
+    Error: visible text "Event Notifiers"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Event Notifiers').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Event Notifiers" getByText('Event Notifiers').visible().first() with timeout 10000ms
+      - waiting for getByText('Event Notifiers').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-household-notifiers-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-household-notifiers-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-household-notifiers-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-household-notifiers-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  52) [routes] › tests/routes.spec.ts:23:9 › admin › [route] household/webhooks.vue ────────────────
+
+    Error: visible text "Webhooks"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Webhooks').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Webhooks" getByText('Webhooks').visible().first() with timeout 10000ms
+      - waiting for getByText('Webhooks').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-household-webhooks-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-household-webhooks-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-household-webhooks-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-household-webhooks-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  53) [routes] › tests/routes.spec.ts:23:9 › admin › [route] household/mealplan/settings.vue ───────
+
+    Error: visible text "Meal Plan Rules"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Meal Plan Rules').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Meal Plan Rules" getByText('Meal Plan Rules').visible().first() with timeout 10000ms
+      - waiting for getByText('Meal Plan Rules').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-household-mealplan-settings-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-household-mealplan-settings-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-household-mealplan-settings-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-household-mealplan-settings-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  54) [routes] › tests/routes.spec.ts:23:9 › admin › [route] household/mealplan/planner.vue ────────
+
+    Error: visible text "Tuesday, Oct 6"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Tuesday, Oct 6').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Tuesday, Oct 6" getByText('Tuesday, Oct 6').visible().first() with timeout 10000ms
+      - waiting for getByText('Tuesday, Oct 6').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-household-mealplan-planner-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-household-mealplan-planner-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-household-mealplan-planner-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-household-mealplan-planner-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  55) [routes] › tests/routes.spec.ts:23:9 › admin › [route] household/mealplan/planner/view.vue ───
+
+    Error: visible text "Tuesday, Oct 6"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Tuesday, Oct 6').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Tuesday, Oct 6" getByText('Tuesday, Oct 6').visible().first() with timeout 10000ms
+      - waiting for getByText('Tuesday, Oct 6').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-household-mealplan-planner-view-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-household-mealplan-planner-view-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-household-mealplan-planner-view-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-household-mealplan-planner-view-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  56) [routes] › tests/routes.spec.ts:23:9 › admin › [route] household/mealplan/planner/edit.vue ───
+
+    Error: visible text "Tuesday, Oct 6"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('Tuesday, Oct 6').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "Tuesday, Oct 6" getByText('Tuesday, Oct 6').visible().first() with timeout 10000ms
+      - waiting for getByText('Tuesday, Oct 6').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-household-mealplan-planner-edit-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-household-mealplan-planner-edit-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-household-mealplan-planner-edit-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-household-mealplan-planner-edit-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  57) [routes] › tests/routes.spec.ts:23:9 › admin › [route] shopping-lists/index.vue ──────────────
+
+    Error: visible text "E2E Groceries"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('E2E Groceries').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "E2E Groceries" getByText('E2E Groceries').visible().first() with timeout 10000ms
+      - waiting for getByText('E2E Groceries').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-shopping-lists-index-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-shopping-lists-index-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-shopping-lists-index-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-shopping-lists-index-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  58) [routes] › tests/routes.spec.ts:23:9 › admin › [route] shopping-lists/[id].vue ───────────────
+
+    Error: visible text "E2E Groceries"
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByText('E2E Groceries').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - visible text "E2E Groceries" getByText('E2E Groceries').visible().first() with timeout 10000ms
+      - waiting for getByText('E2E Groceries').visible().first()
+
+
+      28 |
+      29 |       for (const text of route.texts(f)) {
+    > 30 |         await expect(page.getByText(text, { exact: false }).filter({ visible: true }).first(), `visible text "${text}"`).toBeVisible();
+         |                                                                                                                          ^
+      31 |       }
+      32 |       for (const value of route.values?.(f) ?? []) {
+      33 |         await expectFieldValue(page, value);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/routes.spec.ts:30:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/routes-admin-route-shopping-lists-id-vue-routes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/routes-admin-route-shopping-lists-id-vue-routes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/routes-admin-route-shopping-lists-id-vue-routes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/routes-admin-route-shopping-lists-id-vue-routes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  59) [flows] › tests/flows/admin.spec.ts:5:7 › admin › [flow] create a user and find them in user management 
+
+    Error: Timeout 15000ms exceeded while waiting on the predicate
+
+       at ../lib/ui.ts:66
+
+      64 |     await page.getByRole("combobox", { name: label }).click({ force: true });
+      65 |     await page.getByRole("option", { name: option, exact: true }).click({ timeout: 2_000 });
+    > 66 |   }).toPass({ timeout: 15_000 });
+         |      ^
+      67 | }
+      68 |
+      69 | /** Accepted labels for the button that submits a create/edit dialog. */
+        at selectOption (/home/deeumiya/mealie-wf2/frontend-e2e/lib/ui.ts:66:6)
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/flows/admin.spec.ts:11:23
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/flows-admin-admin-flow-cre-c67c8-ind-them-in-user-management-flows/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/flows-admin-admin-flow-cre-c67c8-ind-them-in-user-management-flows/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/flows-admin-admin-flow-cre-c67c8-ind-them-in-user-management-flows/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/flows-admin-admin-flow-cre-c67c8-ind-them-in-user-management-flows/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  60) [flows] › tests/flows/auth.spec.ts:8:7 › auth › [flow] log in with valid credentials and land on the recipe list 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText('E2E Pancakes').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByText('E2E Pancakes').visible().first() with timeout 10000ms
+      - waiting for getByText('E2E Pancakes').visible().first()
+
+
+      10 |     await loginViaUi(page, ADMIN.email, ADMIN.password);
+      11 |     await expect(page).toHaveURL(new RegExp(`/g/${f.groupSlug}/?$`));
+    > 12 |     await expect(visibleText(page, NAMES.recipe)).toBeVisible();
+         |                                                   ^
+      13 |     await expect(visibleText(page, ADMIN.fullName)).toBeVisible();
+      14 |   });
+      15 |
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/flows/auth.spec.ts:12:51
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/flows-auth-auth-flow-log-i-b63b5-and-land-on-the-recipe-list-flows/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/flows-auth-auth-flow-log-i-b63b5-and-land-on-the-recipe-list-flows/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/flows-auth-auth-flow-log-i-b63b5-and-land-on-the-recipe-list-flows/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/flows-auth-auth-flow-log-i-b63b5-and-land-on-the-recipe-list-flows/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  61) [flows] › tests/flows/auth.spec.ts:27:7 › auth › [flow] log out ends the session ─────────────
+
+    Test timeout of 45000ms exceeded.
+
+    Error: locator.click: Test timeout of 45000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: 'Logout' })
+
+
+      28 |     const f = loadFixtures();
+      29 |     await loginViaUi(page, ADMIN.email, ADMIN.password);
+    > 30 |     await page.getByRole("button", { name: "Logout" }).click();
+         |                                                        ^
+      31 |     await expect(page).toHaveURL(/\/login\/?/);
+      32 |     await page.goto(`/g/${f.groupSlug}/r/${f.recipeSlug}`);
+      33 |     await expect(page).toHaveURL(/\/login\/?/);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/flows/auth.spec.ts:30:56
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/flows-auth-auth-flow-log-out-ends-the-session-flows/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/flows-auth-auth-flow-log-out-ends-the-session-flows/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/flows-auth-auth-flow-log-out-ends-the-session-flows/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/flows-auth-auth-flow-log-out-ends-the-session-flows/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  62) [flows] › tests/flows/auth.spec.ts:39:7 › auth › [flow] a regular member is not offered admin pages 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText('E2E Member').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByText('E2E Member').visible().first() with timeout 10000ms
+      - waiting for getByText('E2E Member').visible().first()
+
+
+      41 |     await loginViaUi(page, MEMBER.email, MEMBER.password);
+      42 |     await page.goto(`/g/${f.groupSlug}`);
+    > 43 |     await expect(visibleText(page, MEMBER.fullName)).toBeVisible();
+         |                                                      ^
+      44 |     await expect(visibleText(page, NAMES.recipe)).toBeVisible();
+      45 |     await page.getByText("Settings", { exact: true }).filter({ visible: true }).first().click();
+      46 |     await expect(page.locator('a[href^="/household"]').filter({ visible: true }).first()).toBeVisible();
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/flows/auth.spec.ts:43:54
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/flows-auth-auth-flow-a-reg-15752--is-not-offered-admin-pages-flows/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/flows-auth-auth-flow-a-reg-15752--is-not-offered-admin-pages-flows/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/flows-auth-auth-flow-a-reg-15752--is-not-offered-admin-pages-flows/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/flows-auth-auth-flow-a-reg-15752--is-not-offered-admin-pages-flows/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  63) [flows] › tests/flows/auth.spec.ts:50:7 › auth › [flow] an admin is offered admin pages ──────
+
+    Test timeout of 45000ms exceeded.
+
+    Error: locator.click: Test timeout of 45000ms exceeded.
+    Call log:
+      - waiting for getByText('Settings', { exact: true }).visible().first()
+
+
+      52 |     await loginViaUi(page, ADMIN.email, ADMIN.password);
+      53 |     await page.goto(`/g/${f.groupSlug}`);
+    > 54 |     await page.getByText("Settings", { exact: true }).filter({ visible: true }).first().click();
+         |                                                                                         ^
+      55 |     await page.locator('a[href="/admin/site-settings"]').filter({ visible: true }).first().click();
+      56 |     await expect(page.getByRole("heading", { name: "Site Settings" })).toBeVisible();
+      57 |   });
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/flows/auth.spec.ts:54:89
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/flows-auth-auth-flow-an-admin-is-offered-admin-pages-flows/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/flows-auth-auth-flow-an-admin-is-offered-admin-pages-flows/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/flows-auth-auth-flow-an-admin-is-offered-admin-pages-flows/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/flows-auth-auth-flow-an-admin-is-offered-admin-pages-flows/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  64) [flows] › tests/flows/mealplan.spec.ts:12:7 › meal plan › [flow] add a note to tomorrow's meal plan 
+
+    Test timeout of 45000ms exceeded.
+
+    Error: locator.waitFor: Test timeout of 45000ms exceeded.
+    Call log:
+      - waiting for getByText('Wednesday, Oct 7', { exact: true }).visible().first().locator('xpath=ancestor::*[.//button][1]').getByRole('button').visible().first() to be visible
+
+
+       at ../lib/ui.ts:31
+
+      29 |  */
+      30 | export async function clickButton(page: Page, scope: Locator, name: string) {
+    > 31 |   await scope.getByRole("button").filter({ visible: true }).first().waitFor();
+         |                                                                     ^
+      32 |   const named = scope.getByRole("button", { name, exact: true }).filter({ visible: true });
+      33 |   if (await named.count()) {
+      34 |     await named.first().click();
+        at clickButton (/home/deeumiya/mealie-wf2/frontend-e2e/lib/ui.ts:31:69)
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/flows/mealplan.spec.ts:19:22
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/flows-mealplan-meal-plan-f-18cb0-ote-to-tomorrow-s-meal-plan-flows/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/flows-mealplan-meal-plan-f-18cb0-ote-to-tomorrow-s-meal-plan-flows/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/flows-mealplan-meal-plan-f-18cb0-ote-to-tomorrow-s-meal-plan-flows/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/flows-mealplan-meal-plan-f-18cb0-ote-to-tomorrow-s-meal-plan-flows/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  65) [flows] › tests/flows/organize.spec.ts:5:7 › organizing › [flow] create a tag in data management 
+
+    Test timeout of 45000ms exceeded.
+
+    Error: locator.click: Test timeout of 45000ms exceeded.
+    Call log:
+      - waiting for getByRole('main').getByRole('button', { name: 'Create', exact: true })
+
+
+       6 |     const name = uniqueName("E2E Flow Tag");
+       7 |     await page.goto("/group/data/tags");
+    >  8 |     await page.getByRole("main").getByRole("button", { name: "Create", exact: true }).click();
+         |                                                                                       ^
+       9 |     const dialog = openDialog(page);
+      10 |     await dialog.getByRole("textbox", { name: "Name" }).fill(name);
+      11 |     await dialog.getByRole("button", { name: SUBMIT }).click();
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/flows/organize.spec.ts:8:87
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/flows-organize-organizing--3ef44-te-a-tag-in-data-management-flows/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/flows-organize-organizing--3ef44-te-a-tag-in-data-management-flows/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/flows-organize-organizing--3ef44-te-a-tag-in-data-management-flows/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/flows-organize-organizing--3ef44-te-a-tag-in-data-management-flows/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  66) [flows] › tests/flows/recipes.spec.ts:6:7 › recipes › [flow] open a recipe from the recipe list 
+
+    Test timeout of 45000ms exceeded.
+
+    Error: locator.click: Test timeout of 45000ms exceeded.
+    Call log:
+      - waiting for getByRole('link', { name: 'E2E Pancakes' }).first()
+
+
+       7 |     const f = loadFixtures();
+       8 |     await page.goto(`/g/${f.groupSlug}`);
+    >  9 |     await page.getByRole("link", { name: NAMES.recipe }).first().click();
+         |                                                                  ^
+      10 |     await expect(page).toHaveURL(new RegExp(`/g/${f.groupSlug}/r/${f.recipeSlug}/?$`));
+      11 |     await expect(visibleText(page, NAMES.ingredient)).toBeVisible();
+      12 |     await expect(visibleText(page, NAMES.instruction)).toBeVisible();
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/flows/recipes.spec.ts:9:66
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/flows-recipes-recipes-flow-64d93-recipe-from-the-recipe-list-flows/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/flows-recipes-recipes-flow-64d93-recipe-from-the-recipe-list-flows/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/flows-recipes-recipes-flow-64d93-recipe-from-the-recipe-list-flows/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/flows-recipes-recipes-flow-64d93-recipe-from-the-recipe-list-flows/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  67) [flows] › tests/flows/recipes.spec.ts:15:7 › recipes › [flow] search narrows the recipe list ─
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('link', { name: 'E2E Pancakes' })
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('link', { name: 'E2E Pancakes' }) with timeout 10000ms
+      - waiting for getByRole('link', { name: 'E2E Pancakes' })
+
+
+      16 |     const f = loadFixtures();
+      17 |     await page.goto(`/g/${f.groupSlug}`);
+    > 18 |     await expect(page.getByRole("link", { name: NAMES.recipe })).toBeVisible();
+         |                                                                  ^
+      19 |     await page.getByRole("textbox", { name: "Search..." }).fill("Garden Salad");
+      20 |     await expect(page.getByRole("link", { name: NAMES.recipe2 })).toBeVisible();
+      21 |     await expect(page.getByRole("link", { name: NAMES.recipe })).toHaveCount(0);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/flows/recipes.spec.ts:18:66
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/flows-recipes-recipes-flow-search-narrows-the-recipe-list-flows/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/flows-recipes-recipes-flow-search-narrows-the-recipe-list-flows/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/flows-recipes-recipes-flow-search-narrows-the-recipe-list-flows/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/flows-recipes-recipes-flow-search-narrows-the-recipe-list-flows/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  68) [flows] › tests/flows/recipes.spec.ts:24:7 › recipes › [flow] create a recipe by name ────────
+
+    Test timeout of 45000ms exceeded.
+
+    Error: locator.fill: Test timeout of 45000ms exceeded.
+    Call log:
+      - waiting for getByRole('textbox', { name: 'Recipe Name' })
+
+
+      26 |     const name = uniqueName("E2E Flow Soup");
+      27 |     await page.goto(`/g/${f.groupSlug}/r/create/new`);
+    > 28 |     await page.getByRole("textbox", { name: "Recipe Name" }).fill(name);
+         |                                                              ^
+      29 |     await page.getByRole("main").getByRole("button", { name: "Create", exact: true }).click();
+      30 |     await expect(page).toHaveURL(new RegExp(`/g/${f.groupSlug}/r/e2e-flow-soup-[a-z0-9-]+`));
+      31 |
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/flows/recipes.spec.ts:28:62
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/flows-recipes-recipes-flow-create-a-recipe-by-name-flows/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/flows-recipes-recipes-flow-create-a-recipe-by-name-flows/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/flows-recipes-recipes-flow-create-a-recipe-by-name-flows/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/flows-recipes-recipes-flow-create-a-recipe-by-name-flows/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  69) [flows] › tests/flows/recipes.spec.ts:36:7 › recipes › [flow] comment on a recipe and see it after reload 
+
+    Test timeout of 45000ms exceeded.
+
+    Error: locator.fill: Test timeout of 45000ms exceeded.
+    Call log:
+      - waiting for getByRole('textbox', { name: 'Join the Conversation' })
+
+
+      38 |     const comment = uniqueName("E2E comment");
+      39 |     await page.goto(`/g/${f.groupSlug}/r/${f.recipe2Slug}`);
+    > 40 |     await page.getByRole("textbox", { name: "Join the Conversation" }).fill(comment);
+         |                                                                        ^
+      41 |     await page.getByRole("button", { name: "Submit" }).click();
+      42 |     await expect(visibleText(page, comment)).toBeVisible();
+      43 |     await page.reload();
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/flows/recipes.spec.ts:40:72
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/flows-recipes-recipes-flow-a3d3d-ipe-and-see-it-after-reload-flows/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/flows-recipes-recipes-flow-a3d3d-ipe-and-see-it-after-reload-flows/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/flows-recipes-recipes-flow-a3d3d-ipe-and-see-it-after-reload-flows/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/flows-recipes-recipes-flow-a3d3d-ipe-and-see-it-after-reload-flows/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  70) [flows] › tests/flows/shopping.spec.ts:6:7 › shopping lists › [flow] create a shopping list ──
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText('E2E Groceries').visible().first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByText('E2E Groceries').visible().first() with timeout 10000ms
+      - waiting for getByText('E2E Groceries').visible().first()
+
+
+       7 |     const name = uniqueName("E2E Flow List");
+       8 |     await page.goto("/shopping-lists");
+    >  9 |     await expect(visibleText(page, NAMES.shoppingList)).toBeVisible();
+         |                                                         ^
+      10 |     await page.getByRole("main").getByRole("button", { name: "Create", exact: true }).click();
+      11 |     const dialog = openDialog(page);
+      12 |     await dialog.getByRole("textbox", { name: "New List" }).fill(name);
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/flows/shopping.spec.ts:9:57
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/flows-shopping-shopping-lists-flow-create-a-shopping-list-flows/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/flows-shopping-shopping-lists-flow-create-a-shopping-list-flows/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/flows-shopping-shopping-lists-flow-create-a-shopping-list-flows/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/flows-shopping-shopping-lists-flow-create-a-shopping-list-flows/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  71) [flows] › tests/flows/shopping.spec.ts:19:7 › shopping lists › [flow] add an item and check it off 
+
+    Test timeout of 90000ms exceeded.
+
+    Error: locator.click: Test timeout of 90000ms exceeded.
+    Call log:
+      - waiting for getByRole('main').getByRole('button', { name: 'Create', exact: true })
+
+
+      23 |     const listName = uniqueName("E2E Flow Checklist");
+      24 |     await page.goto("/shopping-lists?disableRedirect=true");
+    > 25 |     await page.getByRole("main").getByRole("button", { name: "Create", exact: true }).click();
+         |                                                                                       ^
+      26 |     const dialog = openDialog(page);
+      27 |     await dialog.getByRole("textbox", { name: "New List" }).fill(listName);
+      28 |     await dialog.getByRole("button", { name: SUBMIT }).click();
+        at /home/deeumiya/mealie-wf2/frontend-e2e/tests/flows/shopping.spec.ts:25:87
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/flows-shopping-shopping-li-cc7f8-dd-an-item-and-check-it-off-flows/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/flows-shopping-shopping-li-cc7f8-dd-an-item-and-check-it-off-flows/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/flows-shopping-shopping-li-cc7f8-dd-an-item-and-check-it-off-flows/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/flows-shopping-shopping-li-cc7f8-dd-an-item-and-check-it-off-flows/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  71 failed
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin.vue ───────────────────────────────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/backups.vue ───────────────────────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/debug/openai.vue ──────────────────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/debug/parser.vue ──────────────────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/maintenance/index.vue ─────────────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/manage/groups/[id].vue ────────────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/manage/groups/index.vue ───────────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/manage/households/[id].vue ────────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/manage/households/index.vue ───────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/manage/users/[id].vue ─────────────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/manage/users/create.vue ───────────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/manage/users/index.vue ────────────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/setup.vue ─────────────────────────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] admin/site-settings.vue ─────────────────
+    [routes] › tests/routes.spec.ts:23:9 › anonymous › [route] g/[groupSlug]/shared/r/[id].vue ─────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] index.vue ───────────────────────────────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/index.vue ─────────────────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/r/[slug]/index.vue ────────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/cookbooks/index.vue ───────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/cookbooks/[slug].vue ──────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/r/create.vue ──────────────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/r/create/index.vue ────────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/r/create/ai.vue ───────────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/r/create/bulk.vue ─────────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/r/create/debug.vue ────────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/r/create/html.vue ─────────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/r/create/image.vue ────────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/r/create/new.vue ──────────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/r/create/url.vue ──────────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/r/create/zip.vue ──────────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/recipes/categories/index.vue 
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/recipes/tags/index.vue ────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/recipes/tools/index.vue ───
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/recipes/finder/index.vue ──
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] g/[groupSlug]/recipes/timeline.vue ──────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/index.vue ─────────────────────────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/migrations.vue ────────────────────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/reports/[id].vue ──────────────────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/data.vue ──────────────────────────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/data/index.vue ────────────────────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/data/foods.vue ────────────────────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/data/units.vue ────────────────────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/data/labels.vue ───────────────────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/data/categories.vue ───────────────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/data/tags.vue ─────────────────────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/data/tools.vue ────────────────────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/data/recipes.vue ──────────────────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] group/data/recipe-actions.vue ───────────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] household/index.vue ─────────────────────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] household/members.vue ───────────────────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] household/notifiers.vue ─────────────────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] household/webhooks.vue ──────────────────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] household/mealplan/settings.vue ─────────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] household/mealplan/planner.vue ──────────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] household/mealplan/planner/view.vue ─────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] household/mealplan/planner/edit.vue ─────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] shopping-lists/index.vue ────────────────
+    [routes] › tests/routes.spec.ts:23:9 › admin › [route] shopping-lists/[id].vue ─────────────────
+    [flows] › tests/flows/admin.spec.ts:5:7 › admin › [flow] create a user and find them in user management 
+    [flows] › tests/flows/auth.spec.ts:8:7 › auth › [flow] log in with valid credentials and land on the recipe list 
+    [flows] › tests/flows/auth.spec.ts:27:7 › auth › [flow] log out ends the session ───────────────
+    [flows] › tests/flows/auth.spec.ts:39:7 › auth › [flow] a regular member is not offered admin pages 
+    [flows] › tests/flows/auth.spec.ts:50:7 › auth › [flow] an admin is offered admin pages ────────
+    [flows] › tests/flows/mealplan.spec.ts:12:7 › meal plan › [flow] add a note to tomorrow's meal plan 
+    [flows] › tests/flows/organize.spec.ts:5:7 › organizing › [flow] create a tag in data management 
+    [flows] › tests/flows/recipes.spec.ts:6:7 › recipes › [flow] open a recipe from the recipe list 
+    [flows] › tests/flows/recipes.spec.ts:15:7 › recipes › [flow] search narrows the recipe list ───
+    [flows] › tests/flows/recipes.spec.ts:24:7 › recipes › [flow] create a recipe by name ──────────
+    [flows] › tests/flows/recipes.spec.ts:36:7 › recipes › [flow] comment on a recipe and see it after reload 
+    [flows] › tests/flows/shopping.spec.ts:6:7 › shopping lists › [flow] create a shopping list ────
+    [flows] › tests/flows/shopping.spec.ts:19:7 › shopping lists › [flow] add an item and check it off 
+  11 passed (12.3m)

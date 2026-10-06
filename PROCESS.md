@@ -774,19 +774,24 @@ logged automatically by the user-level hooks.
   scratchpad until the merge. P3-09 deviations accepted: `RecipeTimelineBadge` ported with the timeline trio; imperative
   `open()`/`close()` via React 19 `ref` prop; AppHeader xs search button gets `aria-label` `search.search` (an existing
   locale key). — Keeps resumes faithful; deviations are behaviour-neutral or accessibility gains.
+- D43 — 2026-10-06 — P3-11 porter deviations accepted (§9 notes). The pilot showed that `Container` (mapping for
+  `v-container`) lacks Vuetify's 16 px vertical padding, so page content sits tight under the app bar (visible in
+  `docs/g2/user-favorites-light.png`). Recorded as GAP-4 and deferred to P5-01 as a one-line theme default
+  (`MuiContainer` root `py: 2`) rather than patched per page. — A theme-level fix needs no change in P4 pages, so
+  deferring it does not multiply work; changing it now would invalidate the G2 metrics row and screenshots.
 
 ---
 
 ## 9. Status
 
 ```
-current_step: P3-12
-state: in-progress
-last_completed: P3-11 (pilot `user`, 2026-10-06)
-gate: none (next gate G2 after P3-12)
+current_step: P4-01 ∥ P4-02 (PG-A)
+state: not-started
+last_completed: P3-12 (G2 packet, 2026-10-06)
+gate: G2 waiting
 ```
 
-Steps: [x] P1 (G1 approved 2026-10-05) · [x] P2 · [x] P3-01 · [x] P3-02 · [x] P3-03 · [x] P3-04 · [x] P3-05 · [x] P3-06 · [x] P3-07 · [x] P3-08 · [x] P3-09 · [x] P3-10 · [x] P3-11 · [ ] P3-12 · [ ] G2 · [ ] P4-01 … P4-08 · [ ] P5-01 … P5-04
+Steps: [x] P1 (G1 approved 2026-10-05) · [x] P2 · [x] P3-01 · [x] P3-02 · [x] P3-03 · [x] P3-04 · [x] P3-05 · [x] P3-06 · [x] P3-07 · [x] P3-08 · [x] P3-09 · [x] P3-10 · [x] P3-11 · [x] P3-12 · [ ] G2 · [ ] P4-01 … P4-08 · [ ] P5-01 … P5-04
 
 Active subagents:
 
@@ -812,13 +817,30 @@ Known gaps (`GAP-<n>`):
 - GAP-3 — Organizer hydration in `QueryFilterBuilder`: the readonly store's `refresh()` returns nothing, so it reads
   `actions.getAll()` and the store's `initialized` flag stays unset (P3-10). Fix option for P5: have `refresh()` return
   the list.
+- GAP-4 — MUI `Container` has no vertical padding (Vuetify `v-container` has 16 px), so pages sit tight under the app
+  bar (D43). Fix for P5-01: theme `components.MuiContainer.styleOverrides.root` `paddingTop/Bottom: 16px`, then drop
+  any per-page compensation.
 
 Skipped tests: none
 
 SHARED-CHANGE-REQUESTs: none open (P3-06's four were applied in P3-08).
 
-Notes for the next session: P3-12 (G2 packet, Ends = yes). Keep each porter brief in the scratchpad until merged — a
-usage-cap resume needs the same brief.
+G2 checklist (PROCESS.md §6; ≈ 15 min):
+1. `rewrite-evidence/metrics.csv` last row `WF2-P3-foundation-done` (commit dfb3f85f7, dirty 0): build_ok 1, tsc 0,
+   lint 0 (0 warnings), unit 409 passed / 0 failed / 0 skipped, routes 8/66 (4 auth + 4 user), flows 2/15
+   (`wrong password`, `full name`), test_files 55, expect_count 744 (Vue 48/817; the React count includes new
+   component tests; test-parity: 31/48 Vue test files ported, rest belong to P4), any_count 3, todo_count 0.
+2. Screenshots `frontend-react/docs/g2/`: `login-light.png`, `user-profile-light.png`, `user-profile-dark.png`,
+   `user-favorites-light.png` (empty favorites of a fresh DB), `language-dialog-light.png`. Known visual diff: GAP-4
+   (no vertical padding under the app bar, best seen on favorites).
+3. Read `frontend-react/src/components/global/BaseDialog.tsx` (main-written) and
+   `frontend-react/src/pages/user/profile/index.tsx` (porter-written) against their Vue sources.
+4. Skim §8 D1–D43 and veto any.
+Reply "繼續" = approved → P4 PG-A (P4-01 shopping ∥ P4-02 admin). Anything else = change requests, done before P4.
+
+Notes for the next session: if G2 is approved, start PG-A per §4.4 (two porters; keep each brief in the scratchpad until
+merged). Screenshots were taken by a scratchpad Playwright script against `start-backend.sh` on port 9093 (fresh DB,
+default admin taken over via API like `global-setup.ts`).
 P3-11 (pilot, 1 porter, merged, verified): CHECKS green (tsc 0, eslint 0, 55 files / 409 tests, build ok), port-status
 `user` 5/0 missing, test-parity 31/48 files (all misses belong to P4 domains), E2E `[route] user/` 4/4 + `full name` 1/1.
 The §4.2 brief worked as-is; useful additions for P4 briefs: give the routes entries (path + guards per middleware)
