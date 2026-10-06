@@ -508,38 +508,44 @@ export default function ShoppingListPage() {
                 </Box>
               )}
 
-          {Object.entries(itemsByLabel.value).map(([key, value]) => hasMatches(value) && (
-            <BaseExpansionPanels key={key} startOpen>
-              <Accordion disableGutters square sx={{ "boxShadow": "none", "border": "none", "&:before": { display: "none" } }}>
-                {/* the label colour fills the header bar; an uncoloured (or unlabelled) header is muted instead */}
-                <AccordionSummary
-                  sx={{
-                    "minHeight": "30px",
-                    "py": "2px",
-                    "px": "10px",
-                    "fontSize": "0.9rem",
-                    "fontWeight": 700,
-                    "bgcolor": getLabelColor(key),
-                    "color": getLabelColor(key) ? undefined : "text.secondary",
-                    "& .MuiAccordionSummary-content": { my: "4px" },
-                  }}
-                  expandIcon={<MdiIcon path={icons.chevronDown} />}
-                >
-                  {key}
-                </AccordionSummary>
-                <AccordionDetails sx={{ p: "2px 0 2px 12px" }}>
-                  <SortableItems
-                    items={value}
-                    disabled={isSearching}
-                    onStart={() => loadingCounter.set(loadingCounter.value + 1)}
-                    onEnd={() => loadingCounter.set(loadingCounter.value - 1)}
-                    onReorder={reordered => updateIndexUncheckedByLabel(key, reordered)}
-                    renderItem={(item, index) => renderItemRow(item, index, value)}
-                  />
-                </AccordionDetails>
-              </Accordion>
-            </BaseExpansionPanels>
-          ))}
+          {/* Vue wraps the label groups in a `scroll-x-transition` TransitionGroup too: a group that empties (its last item
+              checked off) fades out with that item still in it */}
+          <AnimatedChildren animation={SCROLL_X_TRANSITION}>
+            {Object.entries(itemsByLabel.value).map(([key, value]) => hasMatches(value) && (
+              <div key={key}>
+                <BaseExpansionPanels startOpen>
+                  <Accordion disableGutters square sx={{ "boxShadow": "none", "border": "none", "&:before": { display: "none" } }}>
+                    {/* the label colour fills the header bar; an uncoloured (or unlabelled) header is muted instead */}
+                    <AccordionSummary
+                      sx={{
+                        "minHeight": "30px",
+                        "py": "2px",
+                        "px": "10px",
+                        "fontSize": "0.9rem",
+                        "fontWeight": 700,
+                        "bgcolor": getLabelColor(key),
+                        "color": getLabelColor(key) ? undefined : "text.secondary",
+                        "& .MuiAccordionSummary-content": { my: "4px" },
+                      }}
+                      expandIcon={<MdiIcon path={icons.chevronDown} />}
+                    >
+                      {key}
+                    </AccordionSummary>
+                    <AccordionDetails sx={{ p: "2px 0 2px 12px" }}>
+                      <SortableItems
+                        items={value}
+                        disabled={isSearching}
+                        onStart={() => loadingCounter.set(loadingCounter.value + 1)}
+                        onEnd={() => loadingCounter.set(loadingCounter.value - 1)}
+                        onReorder={reordered => updateIndexUncheckedByLabel(key, reordered)}
+                        renderItem={(item, index) => renderItemRow(item, index, value)}
+                      />
+                    </AccordionDetails>
+                  </Accordion>
+                </BaseExpansionPanels>
+              </div>
+            ))}
+          </AnimatedChildren>
           {/* Checked Items */}
           {listItems.checked && hasMatches(listItems.checked) && (
             <Accordion

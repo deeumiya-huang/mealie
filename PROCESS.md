@@ -785,24 +785,32 @@ logged automatically by the user-level hooks.
   rebuilt from its commits and code by main); P4-01 stopped at a `WIP: usage cap` commit and was resumed per §4.4.6.
   — Human's explicit instruction; the default 70 % applies again from the next session.
 
+- D45 — 2026-10-07 — P4-01 verification found the `check it off` flow failing: Vue keeps a checked-off row (checked) in the
+  DOM during its `scroll-x-transition` leave, and Playwright's `check()` re-reads that row. Ported both Vue
+  TransitionGroups of `shopping-lists/[id]` (label groups and item rows) with `AnimatedChildren`; `ShoppingListItem` keeps
+  its toggled copy like Vue's `model.value = updated`; fixed shared `AnimatedChildren` to snapshot every new `children`
+  (it kept the elements of the last key-set change, so a row refreshed since then left with stale props) + 2 tests. The
+  previous session was cut off by an API error mid-fix; this session completed it. — Behaviour parity with Vue; the
+  shared fix is invisible to SpinTransition/SwipeTransition users (auth/user/admin E2E re-run green).
+
 ---
 
 ## 9. Status
 
 ```
-current_step: P4-01 ∥ P4-02 (PG-A)
-state: in-progress (paused 2026-10-07: human asked a billing question; uncommitted P4-01 follow-up — row toggle state + scroll-x TransitionGroup on shopping list — committed as WIP, checks not yet run)
-last_completed: P3-12 (G2 packet, 2026-10-06)
+current_step: P4-03 ∥ P4-04 (PG-B)
+state: not started
+last_completed: PG-A (P4-01 + P4-02, 2026-10-07)
 gate: G2 approved 2026-10-07
 ```
 
-Steps: [x] P1 (G1 approved 2026-10-05) · [x] P2 · [x] P3-01 · [x] P3-02 · [x] P3-03 · [x] P3-04 · [x] P3-05 · [x] P3-06 · [x] P3-07 · [x] P3-08 · [x] P3-09 · [x] P3-10 · [x] P3-11 · [x] P3-12 · [x] G2 (approved 2026-10-07) · [x] P4-02 · [ ] P4-01, P4-03 … P4-08 · [ ] P5-01 … P5-04
+Steps: [x] P1 (G1 approved 2026-10-05) · [x] P2 · [x] P3-01 · [x] P3-02 · [x] P3-03 · [x] P3-04 · [x] P3-05 · [x] P3-06 · [x] P3-07 · [x] P3-08 · [x] P3-09 · [x] P3-10 · [x] P3-11 · [x] P3-12 · [x] G2 (approved 2026-10-07) · [x] P4-01 · [x] P4-02 · [ ] P4-03 … P4-08 · [ ] P5-01 … P5-04
 
 Active subagents:
 
 | step | branch | worktree | started | state |
 |---|---|---|---|---|
-| P4-01 | `wf2/P4-01-shopping` | (agent worktree) | 2026-10-07 00:20, resumed 2026-10-07 | resumed |
+| P4-01 | `wf2/P4-01-shopping` | removed | 2026-10-07 00:20, resumed 2026-10-07 | merged, verified |
 | P4-02 | `wf2/P4-02-admin` | removed | 2026-10-07 00:20 | merged, verified |
 
 Pending wiring:
@@ -844,13 +852,19 @@ G2 checklist (PROCESS.md §6; ≈ 15 min):
 4. Skim §8 D1–D43 and veto any.
 Reply "繼續" = approved → P4 PG-A (P4-01 shopping ∥ P4-02 admin). Anything else = change requests, done before P4.
 
+P4-01 (shopping, merged, verified 2026-10-07): CHECKS green (tsc 0, eslint 0, 69 files / 556 tests, build ok),
+port-status `shopping` 20/0 missing, test-parity 42/48 files (React 384 tests / 634 expects, 0 skipped), E2E
+`[route] shopping-lists/` 2/2 + `create a shopping list|check it off` 2/2; auth/user/admin subsets re-run 22/22 + 3/3
+after the shared `AnimatedChildren` fix (D45). The porter's final report was lost with the interrupted session; main
+scanned the diff: no `any`, no TODO-likes, one commented `exhaustive-deps` disable (polling starts on mount only, like
+Vue `onMounted`), no new SHARED-CHANGE-REQUESTs. Shopping uses `useSortable` for label reorder and item rows.
 P4-02 (admin, merged, verified 2026-10-07): CHECKS green (tsc 0, eslint 0, 55 files / 409 tests, build ok), port-status
 `admin` 18/0 missing, E2E `[route] admin` 14/14 + `create a user` 1/1. The porter ended without a final report (D44);
 main reviewed the diff: no `any`, no new SHARED-CHANGE-REQUESTs, one commented `exhaustive-deps` disable (users/[id]
 loads once on mount like Vue `onMounted`). Routes: one `admin` parent route (guard auth + admin-only, `<Outlet />`)
 per layout group (`default` = /admin itself, `admin` = 12 pages, `blank` = setup).
-Notes for the next session: if G2 is approved, start PG-A per §4.4 (two porters; keep each brief in the scratchpad until
-merged). Screenshots were taken by a scratchpad Playwright script against `start-backend.sh` on port 9093 (fresh DB,
+Notes for the next session: start PG-B (P4-03 household ∥ P4-04 group) per §4.4 (two porters; keep each brief in the
+scratchpad until merged). Default usage cap 70 % applies again (D44). Screenshots were taken by a scratchpad Playwright script against `start-backend.sh` on port 9093 (fresh DB,
 default admin taken over via API like `global-setup.ts`).
 P3-11 (pilot, 1 porter, merged, verified): CHECKS green (tsc 0, eslint 0, 55 files / 409 tests, build ok), port-status
 `user` 5/0 missing, test-parity 31/48 files (all misses belong to P4 domains), E2E `[route] user/` 4/4 + `full name` 1/1.

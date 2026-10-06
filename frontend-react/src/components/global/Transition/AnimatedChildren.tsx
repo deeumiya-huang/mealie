@@ -39,6 +39,7 @@ interface ChildProps {
 }
 
 interface Snapshot {
+  children: ReactNode;
   keys: Key[];
   elements: Map<Key, ReactElement<ChildProps>>;
 }
@@ -58,19 +59,23 @@ export function AnimatedChildren({ animation, mode = "group", hideOverflow = fal
   const current = Children.toArray(children).filter((child): child is ReactElement<ChildProps> => isValidElement(child));
   const keys = current.map(child => child.key as Key);
 
-  const [snapshot, setSnapshot] = useState<Snapshot>(() => ({ keys, elements: new Map(current.map(child => [child.key as Key, child])) }));
+  const [snapshot, setSnapshot] = useState<Snapshot>(() => ({ children, keys, elements: new Map(current.map(child => [child.key as Key, child])) }));
   const [departed, setDeparted] = useState<Departed[]>([]);
 
   // Derived while rendering: elements that vanished from `children` are kept as `departed` until their leave animation ends.
-  if (!sameKeys(keys, snapshot.keys)) {
-    const removed = snapshot.keys.filter(key => !keys.includes(key));
-    setDeparted(previous => [
-      ...previous.filter(entry => !keys.includes(entry.key)),
-      ...removed
-        .filter(key => !previous.some(entry => entry.key === key))
-        .map(key => ({ key, element: snapshot.elements.get(key) as ReactElement<ChildProps>, index: snapshot.keys.indexOf(key) })),
-    ]);
-    setSnapshot({ keys, elements: new Map(current.map(child => [child.key as Key, child])) });
+  // The snapshot follows every new `children`, so a departing child leaves with the props of its last render (not those it
+  // had when the key set last changed).
+  if (children !== snapshot.children) {
+    if (!sameKeys(keys, snapshot.keys)) {
+      const removed = snapshot.keys.filter(key => !keys.includes(key));
+      setDeparted(previous => [
+        ...previous.filter(entry => !keys.includes(entry.key)),
+        ...removed
+          .filter(key => !previous.some(entry => entry.key === key))
+          .map(key => ({ key, element: snapshot.elements.get(key) as ReactElement<ChildProps>, index: snapshot.keys.indexOf(key) })),
+      ]);
+    }
+    setSnapshot({ children, keys, elements: new Map(current.map(child => [child.key as Key, child])) });
   }
 
   // Fallback for environments where `animationend` never fires (reduced motion, hidden elements, jsdom).
