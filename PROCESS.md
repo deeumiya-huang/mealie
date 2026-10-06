@@ -786,18 +786,19 @@ logged automatically by the user-level hooks.
 
 ```
 current_step: P4-01 ∥ P4-02 (PG-A)
-state: not-started
+state: in-progress
 last_completed: P3-12 (G2 packet, 2026-10-06)
-gate: G2 waiting
+gate: G2 approved 2026-10-07
 ```
 
-Steps: [x] P1 (G1 approved 2026-10-05) · [x] P2 · [x] P3-01 · [x] P3-02 · [x] P3-03 · [x] P3-04 · [x] P3-05 · [x] P3-06 · [x] P3-07 · [x] P3-08 · [x] P3-09 · [x] P3-10 · [x] P3-11 · [x] P3-12 · [ ] G2 · [ ] P4-01 … P4-08 · [ ] P5-01 … P5-04
+Steps: [x] P1 (G1 approved 2026-10-05) · [x] P2 · [x] P3-01 · [x] P3-02 · [x] P3-03 · [x] P3-04 · [x] P3-05 · [x] P3-06 · [x] P3-07 · [x] P3-08 · [x] P3-09 · [x] P3-10 · [x] P3-11 · [x] P3-12 · [x] G2 (approved 2026-10-07) · [ ] P4-01 … P4-08 · [ ] P5-01 … P5-04
 
 Active subagents:
 
 | step | branch | worktree | started | state |
 |---|---|---|---|---|
-| – | – | – | – | none |
+| P4-01 | `wf2/P4-01-shopping` | (agent worktree) | 2026-10-07 00:20 | running |
+| P4-02 | `wf2/P4-02-admin` | (agent worktree) | 2026-10-07 00:20 | running |
 
 Pending wiring:
 - `hooks/utils/use-sortable.ts` (P3-10, D36) exists: `useSortable(containerRef, { onReorder({oldIndex,newIndex}), handle,
