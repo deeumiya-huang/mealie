@@ -799,7 +799,7 @@ logged automatically by the user-level hooks.
 
 ```
 current_step: P4-03 ∥ P4-04 (PG-B)
-state: not started
+state: in-progress
 last_completed: PG-A (P4-01 + P4-02, 2026-10-07)
 gate: G2 approved 2026-10-07
 ```
@@ -812,6 +812,8 @@ Active subagents:
 |---|---|---|---|---|
 | P4-01 | `wf2/P4-01-shopping` | removed | 2026-10-07 00:20, resumed 2026-10-07 | merged, verified |
 | P4-02 | `wf2/P4-02-admin` | removed | 2026-10-07 00:20 | merged, verified |
+| P4-03 | `wf2/P4-03-household` | (agent worktree) | 2026-10-07 | running |
+| P4-04 | `wf2/P4-04-group` | (agent worktree) | 2026-10-07 | running |
 
 Pending wiring:
 - `hooks/utils/use-sortable.ts` (P3-10, D36) exists: `useSortable(containerRef, { onReorder({oldIndex,newIndex}), handle,
