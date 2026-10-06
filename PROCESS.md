@@ -781,7 +781,7 @@ logged automatically by the user-level hooks.
 
 ```
 current_step: P3-11
-state: not-started
+state: in-progress
 last_completed: P3-09 ∥ P3-10 (PG-D, 2026-10-06)
 gate: none (next gate G2 after P3-12)
 ```
@@ -792,7 +792,7 @@ Active subagents:
 
 | step | branch | worktree | started | state |
 |---|---|---|---|---|
-| – | – | – | – | none |
+| P3-11 | wf2/P3-11-user | (harness worktree) | 2026-10-06 | running |
 
 Pending wiring:
 - `hooks/utils/use-sortable.ts` (P3-10, D36) exists: `useSortable(containerRef, { onReorder({oldIndex,newIndex}), handle,
