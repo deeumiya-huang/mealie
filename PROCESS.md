@@ -780,6 +780,11 @@ logged automatically by the user-level hooks.
   (`MuiContainer` root `py: 2`) rather than patched per page. — A theme-level fix needs no change in P4 pages, so
   deferring it does not multiply work; changing it now would invalidate the G2 metrics row and screenshots.
 
+- D44 — 2026-10-07 — The human allowed exceeding the 70 % 5-hour usage cap once, to finish PG-A (restarted with
+  `USAGE_CAP_PCT=95`). Both PG-A porters had stopped without a final report: P4-02 had all 18 files committed (report
+  rebuilt from its commits and code by main); P4-01 stopped at a `WIP: usage cap` commit and was resumed per §4.4.6.
+  — Human's explicit instruction; the default 70 % applies again from the next session.
+
 ---
 
 ## 9. Status
@@ -797,8 +802,8 @@ Active subagents:
 
 | step | branch | worktree | started | state |
 |---|---|---|---|---|
-| P4-01 | `wf2/P4-01-shopping` | (agent worktree) | 2026-10-07 00:20 | running |
-| P4-02 | `wf2/P4-02-admin` | (agent worktree) | 2026-10-07 00:20 | running |
+| P4-01 | `wf2/P4-01-shopping` | (agent worktree) | 2026-10-07 00:20, resumed 2026-10-07 | resumed |
+| P4-02 | `wf2/P4-02-admin` | `.claude/worktrees/agent-a81177d82f04dc486` | 2026-10-07 00:20 | finished, merging |
 
 Pending wiring:
 - `hooks/utils/use-sortable.ts` (P3-10, D36) exists: `useSortable(containerRef, { onReorder({oldIndex,newIndex}), handle,
