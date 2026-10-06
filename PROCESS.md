@@ -780,19 +780,19 @@ logged automatically by the user-level hooks.
 ## 9. Status
 
 ```
-current_step: P3-11
+current_step: P3-12
 state: in-progress
-last_completed: P3-09 ∥ P3-10 (PG-D, 2026-10-06)
+last_completed: P3-11 (pilot `user`, 2026-10-06)
 gate: none (next gate G2 after P3-12)
 ```
 
-Steps: [x] P1 (G1 approved 2026-10-05) · [x] P2 · [x] P3-01 · [x] P3-02 · [x] P3-03 · [x] P3-04 · [x] P3-05 · [x] P3-06 · [x] P3-07 · [x] P3-08 · [x] P3-09 · [x] P3-10 · [ ] P3-11 · [ ] P3-12 · [ ] G2 · [ ] P4-01 … P4-08 · [ ] P5-01 … P5-04
+Steps: [x] P1 (G1 approved 2026-10-05) · [x] P2 · [x] P3-01 · [x] P3-02 · [x] P3-03 · [x] P3-04 · [x] P3-05 · [x] P3-06 · [x] P3-07 · [x] P3-08 · [x] P3-09 · [x] P3-10 · [x] P3-11 · [ ] P3-12 · [ ] G2 · [ ] P4-01 … P4-08 · [ ] P5-01 … P5-04
 
 Active subagents:
 
 | step | branch | worktree | started | state |
 |---|---|---|---|---|
-| P3-11 | wf2/P3-11-user | (harness worktree) | 2026-10-06 | running |
+| – | – | – | – | none |
 
 Pending wiring:
 - `hooks/utils/use-sortable.ts` (P3-10, D36) exists: `useSortable(containerRef, { onReorder({oldIndex,newIndex}), handle,
@@ -817,9 +817,16 @@ Skipped tests: none
 
 SHARED-CHANGE-REQUESTs: none open (P3-06's four were applied in P3-08).
 
-Notes for the next session: start P3-11 (pilot of the P4 procedure: domain `user`, one porter, brief §4.2, run as a P4
-step per §4.4), then P3-12 (G2 packet, Ends = yes). Keep each porter brief in the scratchpad until merged — a usage-cap
-resume needs the same brief (PG-D's briefs were rebuilt from the step rows).
+Notes for the next session: P3-12 (G2 packet, Ends = yes). Keep each porter brief in the scratchpad until merged — a
+usage-cap resume needs the same brief.
+P3-11 (pilot, 1 porter, merged, verified): CHECKS green (tsc 0, eslint 0, 55 files / 409 tests, build ok), port-status
+`user` 5/0 missing, test-parity 31/48 files (all misses belong to P4 domains), E2E `[route] user/` 4/4 + `full name` 1/1.
+The §4.2 brief worked as-is; useful additions for P4 briefs: give the routes entries (path + guards per middleware)
+and the E2E flow spec file explicitly. Porter deviations: `UserProfileLinkCard` avoids nested anchors (button is the
+`Link`, card `onClick` navigates); profile/edit TextFields without `required` (MUI would append " *" to the name);
+password eye icon kept Vue's mapping (local state, not `usePasswordField`); activity-preferences combobox = MUI
+`Autocomplete freeSolo`; `createAPIToken` result cast to `LongLiveTokenCreateResponse` (generated type lacks `token`);
+StatsCards min-width "158px"; `scrollToTop`/page name `UserProfile` not carried. 10 new React tests (5 files).
 PG-D delivered (2 porters, merged, verified): CHECKS green (tsc 0, eslint 0, 50 files / 399 tests, build ok),
 RecipeDialogSearch 5/13 and GroupAIProviderDialog 1/2 parity equal; test-parity 32/48 files; port-status 150 missing.
 P3-09: recipe cards (`RecipeCard`, `…Mobile`, `…Section` with sentinel infinite scroll, `…Image/Rating/LineItem`), chips,
