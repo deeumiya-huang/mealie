@@ -411,7 +411,7 @@ Hooks (exact behaviour):
 | P3-07 | Router + guards + layouts + auth domain: `routes/index.tsx`, `guards.ts` (+ `auth.test` port), all 9 domain route files (auth filled, others empty arrays), layouts (default/admin/basic/blank/error + `components/Layout/**` incl. `AppHeader`, `AppSidebar`, `AppFooter`, `TheSnackbar`), `AnnouncementDialog` + `Announcements/*` (+ `announcements.test`) + `use-announcements`, auth pages (`index`, `login`, `register/index` + `register/states.ts` + its test, `forgot-password`, `reset-password`) + `UserRegistrationForm`, `UserPasswordStrength`, `use-users/user-registration-form`, `use-default-activity`. Header search button is wired in P3-09 (record it in §9 Pending wiring) | `pages/*` listed, `layouts/*`, `middleware/*`, `components/Layout/**` | main | – | `CHECKS`; build; E2E per §3.1 for P3-07 green | **yes** |
 | P3-08 | Shared hooks used by ≥ 2 domains: `hooks/recipes/*` (+9 tests), `recipe-page/shared-state`, `shopping-list-page/use-add-to-shopping-list-dialog`, `use-search` (+test), `use-query-filter-builder` (+test), `use-group-mealplan`, `use-users/{index,preferences,user-form,user-ratings}`, `use-ai-providers`, `use-context-presents`, `use-copy`, `use-group-recipe-actions`, `use-groups`, `use-households`, `use-backups`, `use-navigation-warning`, `use-router`, `use-scroll-position`, `forms/*`, `api/use-downloader` | `composables/**` listed | porter | – | main: `CHECKS`; test-parity equal for the 11 test files | **yes** |
 | P3-09 | Shared components A (recipe cards, menus, dialogs): `RecipeCard`, `RecipeCardImage`, `RecipeCardMobile`, `RecipeCardRating`, `RecipeCardSection`, `RecipeCardLineItem`, `RecipeChips`, `RecipeFavoriteBadge`, `RecipeContextMenu/*`, `RecipeDialogAddToShoppingList`, `RecipeDialogBulkAdd`, `RecipeDialogPrintPreferences`, `RecipeDialogSearch` (+test), `RecipeDialogShare`, `RecipePrintView`, `RecipeTimeCard`, `RecipeIngredientListItem`, `RecipeIngredientSubstitutions`, `RecipeIngredientSubstitutionEditor`, `MealPlanAddRecipeDialog`, `MealPlanDatePicker`, `UserAvatar`, `AppScrollToTop`, `RecipeTimeline`, `RecipeTimelineItem`, `RecipeTimelineContextMenu` (moved from P3-10, D41); wire header search | `components/Domain/**` listed | porter | D | main: `CHECKS`; RecipeDialogSearch test parity; header search opens dialog (unit test) | no |
-| P3-10 | Shared components B: `RecipeOrganizerDialog`, `RecipeOrganizerSelector`, `RecipeSettingsSwitches`, `RecipeTimeInput`, `QueryFilterBuilder`, `SearchFilter`, `GroupAIProviderDialog` (+test), `GroupAIProviderSettingsEditor`, `GroupPreferencesEditor`, `HouseholdPreferencesEditor`, `UserInviteDialog` | `components/Domain/**` listed | porter | D | main: `CHECKS`; GroupAIProviderDialog test parity | no |
+| P3-10 | Shared components B: `RecipeOrganizerDialog`, `RecipeOrganizerSelector`, `RecipeSettingsSwitches`, `RecipeTimeInput`, `QueryFilterBuilder`, `SearchFilter`, `GroupAIProviderDialog` (+test), `GroupAIProviderSettingsEditor`, `GroupPreferencesEditor`, `HouseholdPreferencesEditor`, `UserInviteDialog` | `components/Domain/**` listed | porter | D | main: `CHECKS`; GroupAIProviderDialog test parity | **yes** (after both PG-D steps) |
 | P3-11 | **Pilot of the P4 procedure**: domain `user` (4 pages + `Domain/User/UserProfileLinkCard`) run exactly as a P4 step (§4.4) | `pages/user/**` | porter | – | P4 done criteria for `user` incl. E2E per §3.1 | no |
 | P3-12 | Foundation checkpoint + **G2 packet**: `./rewrite-evidence/measure.sh --app frontend-react --label WF2-P3-foundation-done`; screenshots (Playwright script in scratchpad, not in `frontend-e2e/`) of `/login` light, `/user/profile` light + dark, `/user/<id>/favorites`, an open `LanguageDialog` → `frontend-react/docs/g2/*.png`; write §9 G2 checklist | — | main | – | metrics row appended (build_ok 1, tsc 0, lint 0, unit_failed 0); commit incl. metrics/runs; log `WF2-G2-ready`; tell human G2 is ready | **yes (G2)** |
 
@@ -423,11 +423,11 @@ Each step owns the pages of its domain (§1.7), its routes file, and the domain-
 | ID | Domain | Owned Vue sources besides pages (`components/` and `composables/` prefixes omitted) | Tests to port | PG | Ends |
 |---|---|---|---|---|---|
 | P4-01 | shopping | `Domain/ShoppingList/{MultiPurposeLabelSection,ShoppingListAddItemForm,ShoppingListItem,ShoppingListItemDetails,ShoppingListItemEditor}`, `Domain/Recipe/RecipeList`, `shopping-list-page/**` except `use-add-to-shopping-list-dialog` | the 11 under `shopping-list-page/**` | A | no |
-| P4-02 | admin | `Domain/Admin/Setup/EndPageContent`, `use-setup/*`, `use-user.ts` | – | A | no |
+| P4-02 | admin | `Domain/Admin/Setup/EndPageContent`, `use-setup/*`, `use-user.ts` | – | A | **yes** |
 | P4-03 | household | `Domain/Household/{GroupMealPlanEntryDialog,GroupMealPlanRuleForm,GroupWebhookEditor}`, `Domain/Mealplan/{MealPlanDay,MealPlanDayHeader,MealPlanLayout,MealPlanNoteMenu}`, `Domain/Recipe/RecipeSelector`, `use-group-webhooks`, `use-mealplan-rules` | `use-mealplan-rules` | B | no |
-| P4-04 | group | `Domain/Group/{GroupDataPage,GroupExportData}`, `Domain/Recipe/{RecipeDataAliasManagerDialog,RecipeDataSubstitutionManagerDialog,RecipeDataTable}`, `Domain/ShoppingList/MultiPurposeLabel` | `RecipeDataAliasManagerDialog` | B | no |
+| P4-04 | group | `Domain/Group/{GroupDataPage,GroupExportData}`, `Domain/Recipe/{RecipeDataAliasManagerDialog,RecipeDataSubstitutionManagerDialog,RecipeDataTable}`, `Domain/ShoppingList/MultiPurposeLabel` | `RecipeDataAliasManagerDialog` | B | **yes** |
 | P4-05 | explore | `Domain/Cookbook/*`, `Domain/Recipe/RecipeExplorerPage/**`, `Domain/Recipe/{RecipeOrganizerPage,RecipeSuggestion}`, `use-group-cookbooks`, `use-recipe-explorer-search` | – (`recipe-finder` done in P3-02) | C | no |
-| P4-06 | recipe-create | `Domain/Recipe/RecipeImportImages`, `use-new-recipe-options` | – | C | no |
+| P4-06 | recipe-create | `Domain/Recipe/RecipeImportImages`, `use-new-recipe-options` | – | C | **yes** |
 | P4-07 | recipe-page | `Domain/Recipe/RecipePage/**`, `Domain/Recipe/{RecipeActionMenu,RecipeAssets,RecipeImageLightbox,RecipeImageUploadBtn,RecipeIngredientEditor,RecipeIngredientEditorLayout,RecipeIngredientHtml,RecipeIngredients,RecipeLastMade,RecipeNotes,RecipeNutrition,RecipePrintContainer,RecipeRating,RecipeScaleEditButton,RecipeSettingsMenu,RecipeTimelineBadge,RecipeUnitSystemButton,RecipeYield}`, `recipe-page/{use-cook-mode-query,use-extract-ingredient-references}`, `recipes/use-parse-ingredients-dialog` | `RecipeIngredients`, `use-cook-mode-query`, `use-extract-ingredient-references`, `use-parse-ingredients-dialog` | – (alone; ~7 k lines, may need a resume; porter runs on Opus, D41) | **yes** |
 | P4-08 | checkpoint: `./rewrite-evidence/measure.sh --app frontend-react --label WF2-P4-done`; list failing routes/flows in §9 as the P5-01 work list (main) | – | – | – | **yes** |
 
@@ -456,8 +456,7 @@ P4-05 regex covers 5 flows (`offered admin` matches both admin-navigation flows)
 P4-05 before P4-06 (the create flow ends on the recipe list).
 
 P4 step procedure (main session): §4.4. Order: PG-A (P4-01 ∥ P4-02) → PG-B (P4-03 ∥ P4-04) →
-PG-C (P4-05 ∥ P4-06) → P4-07 → P4-08. A session runs PG after PG (D41) and hands off after P4-07, at the usage
-cap, or at the context limit (§5.1.4).
+PG-C (P4-05 ∥ P4-06) → P4-07 → P4-08. A PG's session ends after both its steps are merged and verified.
 
 ### P5 — Integration, independent review, final
 
@@ -763,8 +762,9 @@ logged automatically by the user-level hooks.
 
 - D41 — 2026-10-06 — Throughput changes requested by the human (stays within §0): porter `effort: high` (Sonnet kept: the
   P3-08 Sonnet porter delivered green checks and full test parity; Opus burns the Pro 5-hour quota much faster);
-  P4-07 (largest, ~7 k lines) is spawned with `model: "opus"`. Fewer handoffs: Ends = no for P3-09, P3-10, P4-02,
-  P4-04, P4-06 (sessions still end at G2, after P4-07, P4-08, P5 steps, the usage cap, or the context limit §5.1.4).
+  P4-07 (largest, ~7 k lines) is spawned with `model: "opus"`. Sessions end once per PG (amended the same day: the
+  human chose shorter sessions over fewer handoffs, because every turn re-sends the whole context); PG-D ends after
+  P3-10. Safety net §5.1.4: hand off early after an auto-compaction or at ~60 % context.
   P3-09 ∥ P3-10 as PG-D: the only cross-dependency was `RecipeTimelineItem` (P3-10) rendering `RecipeCardMobile`
   (P3-09), so the timeline trio moved to P3-09 (P3-09 ≈ 5 k Vue lines, P3-10 ≈ 2.3 k). Concurrency stays at 2
   subagents: WSL2 has 3.8 GiB RAM (the human will not raise it), and parallel porters share one quota.
@@ -810,7 +810,7 @@ SHARED-CHANGE-REQUESTs: none open (P3-06's four were applied in P3-08).
 
 Notes for the next session: start PG-D = P3-09 ∥ P3-10 (two porters at once; brief §4.2, spawn per §4.4; D41). P3-09
 includes the timeline trio and the header-search wiring from "Pending wiring" (give it
-`components/Layout/LayoutParts/AppHeader.tsx` as owned). Then P3-11, P3-12 (G2) in the same session if context allows.
+`components/Layout/LayoutParts/AppHeader.tsx` as owned). The session ends after both are merged and verified.
 P3-08 delivered (porter, merged): `hooks/recipes/*` (not `use-parse-ingredients-dialog`, D40), `recipe-page/shared-state`,
 `shopping-list-page/use-add-to-shopping-list-dialog`, `use-search` (global `use-item-search.ts` re-exports it),
 `use-query-filter-builder`, `use-group-mealplan`, `use-users/{index,user-form,user-ratings}`, `use-ai-providers`,
