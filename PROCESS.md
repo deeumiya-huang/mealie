@@ -729,18 +729,40 @@ logged automatically by the user-level hooks.
   engine of `vue-draggable-plus`). The first step that needs drag-and-drop (P3-10 `QueryFilterBuilder`) writes a shared
   `hooks/utils/use-sortable.ts`; later steps import it. — Same engines as Vue → same UX, no wrapper-library guesswork.
 
+- D37 — 2026-10-06 — P3-07 ports what the layouts and auth pages need first: `use-groups`, `use-households`,
+  `use-users/preferences`, `use-router` (P3-08 list) and `UserAvatar`, `AppScrollToTop` (P3-09 list). React APIs:
+  preference hooks return `[value, setValue]` (same storage keys/defaults); `useGroupSelf`/`useHouseholdSelf` →
+  `{ group|household, actions }` with `actions.updatePreferences(prefs?)` taking the edited object (Vue mutated the
+  ref in place) and `actions.set(...)`; `useRouteQuery(name, default)` → `[value, setValue]` (`null` removes the
+  parameter); `useAdminHouseholds().useHouseholdsInGroup(ref)` → `householdsInGroup(groupId)`. `hooks/api/api-client`
+  also exports the `userApi`/`adminApi`/`publicApi` singletons for plain modules (lint forbids `use…` there). —
+  First step that needs a file ports it (§3 P4 note).
+- D38 — 2026-10-06 — Routing details: every guarded loader awaits `initAuth()` itself (React Router runs matched
+  loaders in parallel, so the root loader alone can't gate them); guarded routes set `shouldRevalidate:
+  alwaysRevalidate` (Nuxt middleware runs on every navigation); pages load lazily via `page(() => import(…))`
+  (`routes/lazy.ts`); a layout route is registered only when a page uses it (a childless pathless route would match
+  `/`); unknown URLs hit a `*` route and errors the root `errorElement`, both `layouts/ErrorPage` (with Vue's legacy
+  404 rewrites). Vue's `v-scroll-x-transition` between pages is not reproduced (cosmetic).
+- D39 — 2026-10-06 — Registration: the page's `<script setup>` logic is `pages/register/use-register-page.ts` (the
+  Vue test mounted the page with an empty render; the port tests the hook with `renderHook`, same titles and
+  assertions). `UserRegistrationForm` reports validity via `onChange(valid)` = all rules pass now (Vuetify's lazy form
+  model starts `null`, so Vue's Next button stays disabled a little longer); the account form registers its
+  `validate` with `registerAccountForm()` (Vue: the shared `domAccountForm` ref). Password show/hide toggles are
+  `aria-hidden` mouse-only icon buttons like D34 (no locale string for a label). Announcement bodies and
+  reset-password's "Token Required" stay English exactly as in Vue.
+
 ---
 
 ## 9. Status
 
 ```
-current_step: P3-07
-state: in-progress
-last_completed: P3-06 (2026-10-06)
+current_step: P3-08
+state: not-started
+last_completed: P3-07 (2026-10-06)
 gate: none (next gate G2 after P3-12)
 ```
 
-Steps: [x] P1 (G1 approved 2026-10-05) · [x] P2 · [x] P3-01 · [x] P3-02 · [x] P3-03 · [x] P3-04 · [x] P3-05 · [x] P3-06 · [ ] P3-07 … P3-12 · [ ] G2 · [ ] P4-01 … P4-08 · [ ] P5-01 … P5-04
+Steps: [x] P1 (G1 approved 2026-10-05) · [x] P2 · [x] P3-01 · [x] P3-02 · [x] P3-03 · [x] P3-04 · [x] P3-05 · [x] P3-06 · [x] P3-07 · [ ] P3-08 … P3-12 · [ ] G2 · [ ] P4-01 … P4-08 · [ ] P5-01 … P5-04
 
 Active subagents: none
 
@@ -748,12 +770,18 @@ Active subagents: none
 |---|---|---|---|---|
 
 Pending wiring:
-- P3-07 / P3-08: modules with module-level caches must call `registerCacheReset(reset)` (D26):
-  `use-group-recipe-actions`, `use-groups`, `use-households`, `use-users/user-ratings`, `use-backups`,
-  `recipes/use-recipes` (P3-08), `use-users/user-registration-form` (P3-07).
+- P3-08: no longer ports `use-groups`, `use-households`, `use-users/preferences`, `use-router` (done in P3-07, D37;
+  they register their cache resets). Modules with module-level caches still to register `registerCacheReset(reset)`
+  (D26): `use-group-recipe-actions`, `use-users/user-ratings`, `use-backups`, `recipes/use-recipes`.
+- P3-09: `AppHeader` (components/Layout/LayoutParts) gets the recipe search: `RecipeDialogSearch` + read-only search
+  field (max-width 250, placeholder `search.search-hint`, search icon) on ≥ sm, an icon button on xs, and the "/" key
+  shortcut (not in INPUT/TEXTAREA) — all opening the dialog (Vue `activateSearch`). `UserAvatar` and `AppScrollToTop`
+  are already ported (D37): import them.
 - P3-10: `QueryFilterBuilder` writes the shared `hooks/utils/use-sortable.ts` on `sortablejs` (D36); P4 steps
   (shopping list, planner edit, cookbooks, recipe page) import it.
-- P3-07: `TheSnackbar` renders `toastAlert`/`toastLoading` (`hooks/use-toast.ts`); header search is wired in P3-09.
+- Routes: each P4 step adds its pages to `src/routes/<domain>.tsx` as `{ path, loader: guard(…), shouldRevalidate:
+  alwaysRevalidate, ...page(() => import(…)) }` under the layout key of the page's `definePageMeta` (see
+  `routes/auth.tsx`; D38). Paths are relative to `/` (e.g. `shopping-lists/:id`).
 
 Known gaps (`GAP-<n>`):
 - GAP-1 — Vuetify-internal strings absent from the Mealie locales (data-table footer, "No data available", number-input
@@ -774,13 +802,14 @@ SHARED-CHANGE-REQUESTs (from P3-06, for P3-08):
 - `WakelockSwitch` reads `useLocalStorage("user-experience-preferences", …)` directly; P3-08's
   `use-users/preferences` must keep that key (same state).
 
-Notes for the next session: start P3-07 (main: router, guards, layouts, auth pages, TheSnackbar). All 40
-`components/global/**` are ported (P3-06 porter, merged): import them, never redo. P3-06 deviations worth knowing:
-`CrudTable` slots → `slots`/`buttonRow`/`buttonBottom` props, events `onEditOne`/`onDeleteOne`/`onBulkAction(event,
-items)` (per-header `sort` comparator ignored — BaseDataTable has no comparator hook); `ContextMenu`/`BaseOverflowButton`
-→ `onAction(event)`; `AutoForm` `v-model:isValid` → `onIsValidChange`; `InputColor` = native colour input + hex field
-(§1.5); `HelpIcon` opens on hover+click (Popper); `Spin/SwipeTransition` need keyed children accepting `className` +
-`onAnimationEnd`, no FLIP move animation, removed children linger ≤ 400 ms in jsdom; `MarkdownEditor` emits
-`onPreviewChange` whenever `preview` is controlled (Vue only when truthy — Vue bug). Unit tests: 21 files / 169
-tests green; test-parity 16/48. `src/test/utils.tsx` has `renderWithProviders(ui, { route, dark })` and `stubI18n()`.
-`jq` is not installed. Use absolute paths in Bash edits (the path guard resolves relative paths against the session cwd).
+Notes for the next session: start P3-08 (porter: shared hooks; brief §4.2, spawn per §4.4; owned list = the P3-08 row
+minus D37's four modules). P3-07 delivered: `routes/{index,guards,lazy,auth,…}.tsx` (+ guards test), `layouts/*`,
+`components/Layout/**` (DefaultLayout, AppHeader, AppSidebar, AppFooter, TheSnackbar, AppScrollToTop),
+`AnnouncementDialog` + 6 announcements (+ test), `use-announcements`, auth pages (+ register test),
+`UserRegistrationForm`, `UserPasswordStrength`, `UserAvatar`, `use-default-activity`, `use-users/user-registration-form`.
+Unit tests: 24 files / 181 tests green; test-parity 19/48; E2E P3-07 subset 4/4 routes + 1/1 flow. The default and
+admin layouts are not yet exercised by E2E (no page uses them before P3-11). All 40 `components/global/**` are ported:
+import them, never redo (P3-06 deviations: see D33 and the component headers). `src/test/utils.tsx` has
+`renderWithProviders(ui, { route, dark })` and `stubI18n()`. `jq` is not installed. Use absolute paths in Bash edits
+(the path guard resolves relative paths against the session cwd); copying a Vue file with a shell redirect from
+`../frontend` is refused by the permission layer — write the port with the Write tool.
