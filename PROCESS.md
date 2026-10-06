@@ -751,23 +751,30 @@ logged automatically by the user-level hooks.
   `aria-hidden` mouse-only icon buttons like D34 (no locale string for a label). Announcement bodies and
   reset-password's "Token Required" stay English exactly as in Vue.
 
+- D40 — 2026-10-06 — P3-08 ports `hooks/recipes/*` except `use-parse-ingredients-dialog` (+ its test): the P4-07 row
+  owns it and only `RecipePage/**` uses it. So P3-08 test parity covers 10 files (8 `recipes/__tests__` +
+  `use-search` + `use-query-filter-builder`), not 11; `use-downloader` already exists (P3-03). The porter may edit
+  `components/global/{use-item-search.ts,auto-form-types.ts,AutoForm.tsx,InputLabelType.tsx,ContextMenu.tsx}` only to
+  apply the P3-06 SHARED-CHANGE-REQUESTs (imports/re-exports, no behaviour change).
+
 ---
 
 ## 9. Status
 
 ```
 current_step: P3-08
-state: not-started
+state: in-progress
 last_completed: P3-07 (2026-10-06)
 gate: none (next gate G2 after P3-12)
 ```
 
 Steps: [x] P1 (G1 approved 2026-10-05) · [x] P2 · [x] P3-01 · [x] P3-02 · [x] P3-03 · [x] P3-04 · [x] P3-05 · [x] P3-06 · [x] P3-07 · [ ] P3-08 … P3-12 · [ ] G2 · [ ] P4-01 … P4-08 · [ ] P5-01 … P5-04
 
-Active subagents: none
+Active subagents: 1
 
 | step | branch | worktree | started | state |
 |---|---|---|---|---|
+| P3-08 | wf2/P3-08-shared-hooks | (agent worktree) | 2026-10-06 | running |
 
 Pending wiring:
 - P3-08: no longer ports `use-groups`, `use-households`, `use-users/preferences`, `use-router` (done in P3-07, D37;
