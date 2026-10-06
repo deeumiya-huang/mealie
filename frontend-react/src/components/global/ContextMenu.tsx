@@ -7,17 +7,13 @@ import ListItemText from "@mui/material/ListItemText";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import type { Theme } from "@mui/material/styles";
+import type { ContextMenuItem } from "@/hooks/use-context-presents";
 import { icons } from "@/lib/icons";
 import { cssColor } from "./colors";
 import { MdiIcon } from "./MdiIcon";
 
-/** Same shape as `ContextMenuItem` in composables/use-context-presents. */
-export interface ContextMenuItem {
-  title: string;
-  icon: string;
-  event: string;
-  color?: string;
-}
+// The item type is declared next to the presets in hooks/use-context-presents.
+export type { ContextMenuItem };
 
 interface ContextMenuProps {
   items: ContextMenuItem[];
