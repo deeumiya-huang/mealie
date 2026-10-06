@@ -2,6 +2,7 @@
 name: porter
 description: WF2 porter. Ports one assigned slice of the Mealie Vue/Nuxt frontend (frontend/app) to the React app in frontend-react/, in its own worktree branch, following PROCESS.md. Spawn only for PROCESS.md steps whose executor is "porter", with the brief from PROCESS.md §4.2.
 model: sonnet
+effort: high
 tools: Read, Write, Edit, Glob, Grep, Bash
 isolation: worktree
 background: true

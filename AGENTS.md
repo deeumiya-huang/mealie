@@ -8,7 +8,7 @@ This branch (`rewrite/wf2-orchestrated`) runs workflow WF2: porting `frontend/` 
 
 1. Read `PROCESS.md` §9 Status, then `git status`, `git log --oneline -5`, `git worktree list`.
 2. Follow `PROCESS.md` §5.1: resume an unfinished/WIP step, or start the next step; at gate G2 a
-   "繼續" means approved. Work through steps until one marked **Ends = yes** is done or the usage cap blocks.
+   "繼續" means approved. Work through steps until one marked **Ends = yes** is done, the usage cap blocks, or the context limit (§5.1.4) is reached.
 3. Hand off per §5.3: update §9, commit with `[WF2-<step-id>] `, log usage, tell the human
    "Run /clear, then type 繼續."
 
