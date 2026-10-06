@@ -762,24 +762,20 @@ logged automatically by the user-level hooks.
 ## 9. Status
 
 ```
-current_step: P3-08
-state: in-progress
-last_completed: P3-07 (2026-10-06)
+current_step: P3-09
+state: not-started
+last_completed: P3-08 (2026-10-06)
 gate: none (next gate G2 after P3-12)
 ```
 
-Steps: [x] P1 (G1 approved 2026-10-05) · [x] P2 · [x] P3-01 · [x] P3-02 · [x] P3-03 · [x] P3-04 · [x] P3-05 · [x] P3-06 · [x] P3-07 · [ ] P3-08 … P3-12 · [ ] G2 · [ ] P4-01 … P4-08 · [ ] P5-01 … P5-04
+Steps: [x] P1 (G1 approved 2026-10-05) · [x] P2 · [x] P3-01 · [x] P3-02 · [x] P3-03 · [x] P3-04 · [x] P3-05 · [x] P3-06 · [x] P3-07 · [x] P3-08 · [ ] P3-09 … P3-12 · [ ] G2 · [ ] P4-01 … P4-08 · [ ] P5-01 … P5-04
 
-Active subagents: 1
+Active subagents: none
 
 | step | branch | worktree | started | state |
 |---|---|---|---|---|
-| P3-08 | wf2/P3-08-shared-hooks | (agent worktree) | 2026-10-06 | running |
 
 Pending wiring:
-- P3-08: no longer ports `use-groups`, `use-households`, `use-users/preferences`, `use-router` (done in P3-07, D37;
-  they register their cache resets). Modules with module-level caches still to register `registerCacheReset(reset)`
-  (D26): `use-group-recipe-actions`, `use-users/user-ratings`, `use-backups`, `recipes/use-recipes`.
 - P3-09: `AppHeader` (components/Layout/LayoutParts) gets the recipe search: `RecipeDialogSearch` + read-only search
   field (max-width 250, placeholder `search.search-hint`, search icon) on ≥ sm, an icon button on xs, and the "/" key
   shortcut (not in INPUT/TEXTAREA) — all opening the dialog (Vue `activateSearch`). `UserAvatar` and `AppScrollToTop`
@@ -798,25 +794,23 @@ Known gaps (`GAP-<n>`):
 
 Skipped tests: none
 
-SHARED-CHANGE-REQUESTs (from P3-06, for P3-08):
-- `hooks/use-search.ts`: `components/global/use-item-search.ts` is a full port of `composables/use-search.ts`
-  (used by `InputLabelType`). P3-08 ports `use-search` there and makes `use-item-search.ts` re-export it (or
-  re-points `InputLabelType`) — no second copy.
-- `types/auto-forms` + `forms/*`: `components/global/auto-form-types.ts` holds `fieldTypes`/`FormField` types; P3-08
-  moves them to `src/types/auto-forms.ts` (or re-exports) and re-points `AutoForm`.
-- `use-context-presents`: its `ContextMenuItem` = the type declared in `components/global/ContextMenu.tsx`; import
-  one from the other.
-- `WakelockSwitch` reads `useLocalStorage("user-experience-preferences", …)` directly; P3-08's
-  `use-users/preferences` must keep that key (same state).
+SHARED-CHANGE-REQUESTs: none open (P3-06's four were applied in P3-08).
 
-Notes for the next session: start P3-08 (porter: shared hooks; brief §4.2, spawn per §4.4; owned list = the P3-08 row
-minus D37's four modules). P3-07 delivered: `routes/{index,guards,lazy,auth,…}.tsx` (+ guards test), `layouts/*`,
-`components/Layout/**` (DefaultLayout, AppHeader, AppSidebar, AppFooter, TheSnackbar, AppScrollToTop),
-`AnnouncementDialog` + 6 announcements (+ test), `use-announcements`, auth pages (+ register test),
-`UserRegistrationForm`, `UserPasswordStrength`, `UserAvatar`, `use-default-activity`, `use-users/user-registration-form`.
-Unit tests: 24 files / 181 tests green; test-parity 19/48; E2E P3-07 subset 4/4 routes + 1/1 flow. The default and
-admin layouts are not yet exercised by E2E (no page uses them before P3-11). All 40 `components/global/**` are ported:
-import them, never redo (P3-06 deviations: see D33 and the component headers). `src/test/utils.tsx` has
-`renderWithProviders(ui, { route, dark })` and `stubI18n()`. `jq` is not installed. Use absolute paths in Bash edits
-(the path guard resolves relative paths against the session cwd); copying a Vue file with a shell redirect from
-`../frontend` is refused by the permission layer — write the port with the Write tool.
+Notes for the next session: start P3-09 (porter: shared components A; brief §4.2, spawn per §4.4; include the
+header-search wiring from "Pending wiring" and give the porter `components/Layout/LayoutParts/AppHeader.tsx` as owned).
+P3-08 delivered (porter, merged): `hooks/recipes/*` (not `use-parse-ingredients-dialog`, D40), `recipe-page/shared-state`,
+`shopping-list-page/use-add-to-shopping-list-dialog`, `use-search` (global `use-item-search.ts` re-exports it),
+`use-query-filter-builder`, `use-group-mealplan`, `use-users/{index,user-form,user-ratings}`, `use-ai-providers`,
+`use-context-presents` (owns `ContextMenuItem`; `ContextMenu.tsx` re-exports), `use-copy`, `use-group-recipe-actions`,
+`use-backups`, `use-navigation-warning`, `use-scroll-position`, `forms/*`, `types/auto-forms.ts` (global
+`auto-form-types.ts` re-exports). Cache resets registered (D26) in use-recipes, user-ratings, use-backups,
+use-group-recipe-actions. React API notes: writable refs → value + setter (`setUnitSystem`, `setQuery`, …); non-hook
+helpers renamed (`foodName`, `getParsedIngredientText`, `frac`/`cont`) with the Vue `use…` names kept as aliases;
+`allRecipes`/`recentRecipes` are `createStore` stores; `useRecipePermissions(recipe, household, user)` takes plain
+values; fetch-on-setup runs in mount effects. Unit tests: 34 files / 331 tests green; test-parity 29/48 equal.
+port-status still lists `types/auth.d.ts` and `types/recipe/organizers.ts` missing: the first step that needs them ports
+them (organizers most likely P3-10). Branches `worktree-agent-*` are harness leftovers (kept, unused).
+Earlier: all 40 `components/global/**` are ported: import them, never redo (P3-06 deviations: see D33 and the component
+headers). `src/test/utils.tsx` has `renderWithProviders(ui, { route, dark })` and `stubI18n()`. `jq` is not installed.
+Use absolute paths in Bash edits (the path guard resolves relative paths against the session cwd); copying a Vue file
+with a shell redirect from `../frontend` is refused by the permission layer — write the port with the Write tool.
