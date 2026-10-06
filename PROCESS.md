@@ -786,8 +786,8 @@ Active subagents:
 
 | step | branch | worktree | started | state |
 |---|---|---|---|---|
-| P3-09 | wf2/P3-09-shared-components-a | (harness worktree) | 2026-10-06 | running |
-| P3-10 | wf2/P3-10-shared-components-b | (harness worktree) | 2026-10-06 | running |
+| P3-09 | wf2/P3-09-shared-components-a | (harness worktree) | 2026-10-06 | resumed 2026-10-06 (after usage cap) |
+| P3-10 | wf2/P3-10-shared-components-b | (harness worktree) | 2026-10-06 | resumed 2026-10-06 (after usage cap) |
 
 Pending wiring:
 - P3-09: `AppHeader` (components/Layout/LayoutParts) gets the recipe search: `RecipeDialogSearch` + read-only search
