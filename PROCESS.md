@@ -796,14 +796,14 @@ last_completed: P3-12 (G2 packet, 2026-10-06)
 gate: G2 approved 2026-10-07
 ```
 
-Steps: [x] P1 (G1 approved 2026-10-05) · [x] P2 · [x] P3-01 · [x] P3-02 · [x] P3-03 · [x] P3-04 · [x] P3-05 · [x] P3-06 · [x] P3-07 · [x] P3-08 · [x] P3-09 · [x] P3-10 · [x] P3-11 · [x] P3-12 · [x] G2 (approved 2026-10-07) · [ ] P4-01 … P4-08 · [ ] P5-01 … P5-04
+Steps: [x] P1 (G1 approved 2026-10-05) · [x] P2 · [x] P3-01 · [x] P3-02 · [x] P3-03 · [x] P3-04 · [x] P3-05 · [x] P3-06 · [x] P3-07 · [x] P3-08 · [x] P3-09 · [x] P3-10 · [x] P3-11 · [x] P3-12 · [x] G2 (approved 2026-10-07) · [x] P4-02 · [ ] P4-01, P4-03 … P4-08 · [ ] P5-01 … P5-04
 
 Active subagents:
 
 | step | branch | worktree | started | state |
 |---|---|---|---|---|
 | P4-01 | `wf2/P4-01-shopping` | (agent worktree) | 2026-10-07 00:20, resumed 2026-10-07 | resumed |
-| P4-02 | `wf2/P4-02-admin` | `.claude/worktrees/agent-a81177d82f04dc486` | 2026-10-07 00:20 | finished, merging |
+| P4-02 | `wf2/P4-02-admin` | removed | 2026-10-07 00:20 | merged, verified |
 
 Pending wiring:
 - `hooks/utils/use-sortable.ts` (P3-10, D36) exists: `useSortable(containerRef, { onReorder({oldIndex,newIndex}), handle,
@@ -844,6 +844,11 @@ G2 checklist (PROCESS.md §6; ≈ 15 min):
 4. Skim §8 D1–D43 and veto any.
 Reply "繼續" = approved → P4 PG-A (P4-01 shopping ∥ P4-02 admin). Anything else = change requests, done before P4.
 
+P4-02 (admin, merged, verified 2026-10-07): CHECKS green (tsc 0, eslint 0, 55 files / 409 tests, build ok), port-status
+`admin` 18/0 missing, E2E `[route] admin` 14/14 + `create a user` 1/1. The porter ended without a final report (D44);
+main reviewed the diff: no `any`, no new SHARED-CHANGE-REQUESTs, one commented `exhaustive-deps` disable (users/[id]
+loads once on mount like Vue `onMounted`). Routes: one `admin` parent route (guard auth + admin-only, `<Outlet />`)
+per layout group (`default` = /admin itself, `admin` = 12 pages, `blank` = setup).
 Notes for the next session: if G2 is approved, start PG-A per §4.4 (two porters; keep each brief in the scratchpad until
 merged). Screenshots were taken by a scratchpad Playwright script against `start-backend.sh` on port 9093 (fresh DB,
 default admin taken over via API like `global-setup.ts`).
