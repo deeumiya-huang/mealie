@@ -245,7 +245,7 @@ function OrganizerSelectorView({
           filterOptions={(options, { inputValue }) => options.filter(option => normalizeFilter(itemTitle(option, selectorType), inputValue))}
           noOptionsText={showAdd
             ? <Box sx={{ textAlign: "center", pb: 1 }}>{t("recipe.press-enter-to-create")}</Box>
-            : t("general.no-results")}
+            : t("search.no-results")}
           slots={{ paper: OrganizerPaper }}
           onInputChange={(_event, text, reason) => {
             // the input is cleared whenever the selection changes (Vue resetSearchInput)
@@ -265,7 +265,7 @@ function OrganizerSelectorView({
                 {...itemProps}
                 color="accent"
                 variant="filled"
-                label={itemName(item)}
+                label={itemTitle(item, selectorType)}
                 sx={{ m: 0.5, borderRadius: 1 }}
               />
             );

@@ -38,7 +38,7 @@ export interface UseSortableOptions {
   delay?: number;
   /** Apply `delay` only for touch input. */
   delayOnTouchOnly?: boolean;
-  /** Class of the placeholder shown at the drop position. */
+  /** Class of the ghost element shown at the drop position. */
   ghostClass?: string;
   chosenClass?: string;
   dragClass?: string;
