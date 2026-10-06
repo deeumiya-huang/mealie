@@ -787,15 +787,18 @@ Active subagents:
 | step | branch | worktree | started | state |
 |---|---|---|---|---|
 | P3-09 | wf2/P3-09-shared-components-a | (harness worktree) | 2026-10-06 | resumed 2026-10-06 (after usage cap) |
-| P3-10 | wf2/P3-10-shared-components-b | (harness worktree) | 2026-10-06 | resumed 2026-10-06 (after usage cap) |
+| P3-10 | wf2/P3-10-shared-components-b | (removed) | 2026-10-06 | merged + verified 2026-10-06 |
 
 Pending wiring:
 - P3-09: `AppHeader` (components/Layout/LayoutParts) gets the recipe search: `RecipeDialogSearch` + read-only search
   field (max-width 250, placeholder `search.search-hint`, search icon) on ≥ sm, an icon button on xs, and the "/" key
   shortcut (not in INPUT/TEXTAREA) — all opening the dialog (Vue `activateSearch`). `UserAvatar` and `AppScrollToTop`
   are already ported (D37): import them.
-- P3-10: `QueryFilterBuilder` writes the shared `hooks/utils/use-sortable.ts` on `sortablejs` (D36); P4 steps
-  (shopping list, planner edit, cookbooks, recipe page) import it.
+- `hooks/utils/use-sortable.ts` (P3-10, D36) exists: `useSortable(containerRef, { onReorder({oldIndex,newIndex}), handle,
+  animation, disabled, … })`, `useSortableList(containerRef, list, setList, options)`, `moveItem(list, from, to)`; it
+  reverts Sortable's DOM move so React renders the order; no cross-list drags / `pull: "clone"`. Import it by path
+  (`@/hooks/utils/use-sortable`, not re-exported from `hooks/utils/index.ts`). P4 steps (shopping list, planner edit,
+  cookbooks, recipe page) use it.
 - Routes: each P4 step adds its pages to `src/routes/<domain>.tsx` as `{ path, loader: guard(…), shouldRevalidate:
   alwaysRevalidate, ...page(() => import(…)) }` under the layout key of the page's `definePageMeta` (see
   `routes/auth.tsx`; D38). Paths are relative to `/` (e.g. `shopping-lists/:id`).
