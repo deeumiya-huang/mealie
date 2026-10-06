@@ -52,7 +52,7 @@ export default function HouseholdMealplanPlannerPage() {
   const { t, d } = useI18n();
   const location = useLocation();
   const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const { xs } = useDisplay();
   const { household, actions: householdActions } = useHouseholdSelf();
   const { shoppingLists, open: shoppingListDialog, setOpen: setShoppingListDialog, addAllToList } = useAddToShoppingListDialog();
@@ -119,15 +119,17 @@ export default function HouseholdMealplanPlannerPage() {
   // Update query parameters when date range changes
   const startParam = format(weekRange.start, "yyyy-MM-dd");
   const endParam = format(weekRange.end, "yyyy-MM-dd");
+  const { pathname, search } = location;
   useEffect(() => {
     // Keep current route, just update the query
-    setSearchParams((current) => {
-      const next = new URLSearchParams(current);
-      next.set("start", startParam);
-      next.set("end", endParam);
-      return next;
-    }, { replace: true });
-  }, [startParam, endParam, setSearchParams]);
+    const params = new URLSearchParams(search);
+    if (params.get("start") === startParam && params.get("end") === endParam) {
+      return;
+    }
+    params.set("start", startParam);
+    params.set("end", endParam);
+    void navigate({ pathname, search: `?${params.toString()}` }, { replace: true });
+  }, [startParam, endParam, pathname, search, navigate]);
 
   const { mealplans, actions } = useMealplans(weekRange);
 
