@@ -126,20 +126,17 @@ export function RecipePrintView({ recipe, scale = 1, dense = false }: RecipePrin
   const { parseIngredientText } = useIngredientTextParser();
   const { shouldPluralizeFood } = useFoodPlurality();
 
-  const servingsDisplay = (() => {
-    const { scaledAmountDisplay } = useScaledAmount(recipe.recipeYieldQuantity ?? 0, scale);
-    return scaledAmountDisplay || recipe.recipeYield
-      ? t("recipe.yields-amount-with-text", {
-          amount: scaledAmountDisplay,
-          text: recipe.recipeYield,
-        })
-      : "";
-  })();
+  const { scaledAmountDisplay: scaledYieldQuantity } = useScaledAmount(recipe.recipeYieldQuantity ?? 0, scale);
+  const { scaledAmountDisplay: scaledServings } = useScaledAmount(recipe.recipeServings ?? 0, scale);
 
-  const yieldDisplay = (() => {
-    const { scaledAmountDisplay } = useScaledAmount(recipe.recipeServings ?? 0, scale);
-    return scaledAmountDisplay ? t("recipe.serves-amount", { amount: scaledAmountDisplay }) : "";
-  })();
+  const servingsDisplay = scaledYieldQuantity || recipe.recipeYield
+    ? t("recipe.yields-amount-with-text", {
+        amount: scaledYieldQuantity,
+        text: recipe.recipeYield,
+      })
+    : "";
+
+  const yieldDisplay = scaledServings ? t("recipe.serves-amount", { amount: scaledServings }) : "";
 
   const recipeYield = servingsDisplay && yieldDisplay
     ? sanitizeHTML(`${yieldDisplay}; ${servingsDisplay}`)
