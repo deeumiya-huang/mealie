@@ -792,19 +792,30 @@ logged automatically by the user-level hooks.
   (it kept the elements of the last key-set change, so a row refreshed since then left with stale props) + 2 tests. The
   previous session was cut off by an API error mid-fix; this session completed it. — Behaviour parity with Vue; the
   shared fix is invisible to SpinTransition/SwipeTransition users (auth/user/admin E2E re-run green).
+- D46 — 2026-10-07 — PG-B porter deviations accepted. P4-04: bulk delete/export/assign selection lists are plain
+  scrollable lists (height 400) instead of `v-virtual-scroll` (no virtualization dependency; the lists hold only the
+  user's selection); foods sorts label/substitution columns via a non-enumerable `toString` sort key (GAP-2
+  workaround); report `[id]` table is a custom MUI table with an expand column; migrations tree = nested `List` +
+  `Collapse` with tree roles; `group/data` index is `<Navigate replace>`; `scrollToTop` page meta not carried (as in
+  P3-11). P4-03: cross-day meal drag-and-drop uses sortablejs directly in `MealPlanDropList` (same options as Vue,
+  DOM reverted, React renders the order) because `useSortable` has no cross-list support; planner children get data
+  via `<Outlet context>`; bare planner URL redirects to `/view` in the loader (query kept); a cleared webhook time
+  keeps the stored schedule instead of crashing like Vue (`null.split`); notifier panels are single-open MUI
+  accordions. — All behaviour-neutral for users or strict improvements over a Vue crash; none changes an accessible
+  name or URL, and the E2E subsets pass.
 
 ---
 
 ## 9. Status
 
 ```
-current_step: P4-03 ∥ P4-04 (PG-B)
-state: in-progress
-last_completed: PG-A (P4-01 + P4-02, 2026-10-07)
+current_step: P4-05 ∥ P4-06 (PG-C)
+state: not started
+last_completed: PG-B (P4-03 + P4-04, 2026-10-07)
 gate: G2 approved 2026-10-07
 ```
 
-Steps: [x] P1 (G1 approved 2026-10-05) · [x] P2 · [x] P3-01 · [x] P3-02 · [x] P3-03 · [x] P3-04 · [x] P3-05 · [x] P3-06 · [x] P3-07 · [x] P3-08 · [x] P3-09 · [x] P3-10 · [x] P3-11 · [x] P3-12 · [x] G2 (approved 2026-10-07) · [x] P4-01 · [x] P4-02 · [ ] P4-03 … P4-08 · [ ] P5-01 … P5-04
+Steps: [x] P1 (G1 approved 2026-10-05) · [x] P2 · [x] P3-01 · [x] P3-02 · [x] P3-03 · [x] P3-04 · [x] P3-05 · [x] P3-06 · [x] P3-07 · [x] P3-08 · [x] P3-09 · [x] P3-10 · [x] P3-11 · [x] P3-12 · [x] G2 (approved 2026-10-07) · [x] P4-01 · [x] P4-02 · [x] P4-03 · [x] P4-04 · [ ] P4-05 … P4-08 · [ ] P5-01 … P5-04
 
 Active subagents:
 
@@ -812,8 +823,8 @@ Active subagents:
 |---|---|---|---|---|
 | P4-01 | `wf2/P4-01-shopping` | removed | 2026-10-07 00:20, resumed 2026-10-07 | merged, verified |
 | P4-02 | `wf2/P4-02-admin` | removed | 2026-10-07 00:20 | merged, verified |
-| P4-03 | `wf2/P4-03-household` | (agent worktree) | 2026-10-07 | running |
-| P4-04 | `wf2/P4-04-group` | (agent worktree) | 2026-10-07 | running |
+| P4-03 | `wf2/P4-03-household` | removed | 2026-10-07 | merged, verified |
+| P4-04 | `wf2/P4-04-group` | removed | 2026-10-07 | merged, verified |
 
 Pending wiring:
 - `hooks/utils/use-sortable.ts` (P3-10, D36) exists: `useSortable(containerRef, { onReorder({oldIndex,newIndex}), handle,
@@ -829,7 +840,9 @@ Known gaps (`GAP-<n>`):
 - GAP-1 — Vuetify-internal strings absent from the Mealie locales (data-table footer, "No data available", number-input
   stepper labels) are MUI's English built-ins / omitted (D34). Fix option for P5: MUI locale packs keyed by `i18n.language`.
 - GAP-2 — `CrudTable` accepts the Vue per-header `sort` comparator but `BaseDataTable` sorts with its default compare
-  (no comparator hook). Fix option for P5: add an optional `sort` to `BaseDataTable` headers and pass it through.
+  (no comparator hook). Fix option for P5: add an optional `sort` to `BaseDataTable` headers and pass it through; then
+  drop the non-enumerable `toString` sort-key workaround in `pages/group/data/foods.tsx` (label/substitutions columns)
+  and consider a `show-expand` option to replace the custom table in `pages/group/reports/[id].tsx` (D46).
 - GAP-3 — Organizer hydration in `QueryFilterBuilder`: the readonly store's `refresh()` returns nothing, so it reads
   `actions.getAll()` and the store's `initialized` flag stays unset (P3-10). Fix option for P5: have `refresh()` return
   the list.
@@ -865,8 +878,17 @@ P4-02 (admin, merged, verified 2026-10-07): CHECKS green (tsc 0, eslint 0, 55 fi
 main reviewed the diff: no `any`, no new SHARED-CHANGE-REQUESTs, one commented `exhaustive-deps` disable (users/[id]
 loads once on mount like Vue `onMounted`). Routes: one `admin` parent route (guard auth + admin-only, `<Outlet />`)
 per layout group (`default` = /admin itself, `admin` = 12 pages, `blank` = setup).
-Notes for the next session: start PG-B (P4-03 household ∥ P4-04 group) per §4.4 (two porters; keep each brief in the
-scratchpad until merged). Default usage cap 70 % applies again (D44). Screenshots were taken by a scratchpad Playwright script against `start-backend.sh` on port 9093 (fresh DB,
+PG-B (2026-10-07): both porters delivered complete reports; merged P4-04 then P4-03, no conflicts, diffs only in
+owned paths. CHECKS green (tsc 0, eslint 0, 80 files / 593 tests, build ok), port-status `household` 18/0 and `group`
+19/0 missing, test-parity 44/48 files (React 394 tests / 650 expects, 0 skipped; the 4 missing belong to P4-07), E2E
+`[route] group/` 13/13 + `create a tag` 1/1, `[route] household/` 8/8 + `meal plan` 1/1. Scan: no `any`, no TODO-likes,
+no eslint-disable. Deviations accepted in D46. Optional request for P5-01: `RecipeCardLineItem` `onClick` prop (P4-03
+wraps it in a `display: contents` Box with the handler in `RecipeSelector.tsx` and `planner/edit.tsx`).
+New domain files: `Domain/Group/GroupDataSeedDialog.tsx` (seed dialog shared by foods/units), `Domain/Mealplan/
+MealPlanDropList.tsx` (cross-day sortablejs list for planner/edit). planner.tsx passes `{ mealplans, actions }` to its
+children via `<Outlet context>` (`PlannerOutletContext`).
+Notes for the next session: start PG-C (P4-05 explore ∥ P4-06 recipe-create) per §4.4 (two porters; keep each brief in
+the scratchpad until merged; merge P4-05 before P4-06). Default usage cap 70 % applies. Screenshots were taken by a scratchpad Playwright script against `start-backend.sh` on port 9093 (fresh DB,
 default admin taken over via API like `global-setup.ts`).
 P3-11 (pilot, 1 porter, merged, verified): CHECKS green (tsc 0, eslint 0, 55 files / 409 tests, build ok), port-status
 `user` 5/0 missing, test-parity 31/48 files (all misses belong to P4 domains), E2E `[route] user/` 4/4 + `full name` 1/1.
