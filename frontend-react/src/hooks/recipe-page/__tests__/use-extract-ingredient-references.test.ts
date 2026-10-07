@@ -1,0 +1,87 @@
+import { renderHook } from "@testing-library/react";
+import { describe, expect, test, vi, beforeEach } from "vitest";
+import { useExtractIngredientReferences } from "../use-extract-ingredient-references";
+import { useLocales } from "@/hooks/use-locales";
+
+vi.mock("@/hooks/use-locales");
+
+const punctuationMarks = ["*", "?", "/", "!", "**", "&", "."];
+
+// hooks need a React render context (the Vue test called the composable directly)
+const useHook = () => renderHook(useExtractIngredientReferences).result.current;
+
+describe("test use extract ingredient references", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    vi.mocked(useLocales).mockReturnValue({
+      locales: [{ value: "en-US", pluralFoodHandling: "without-unit" }],
+      locale: "en-US",
+    } as unknown as ReturnType<typeof useLocales>);
+  });
+
+  test("when text empty return empty", () => {
+    const { extractIngredientReferences } = useHook();
+    const result = extractIngredientReferences([{ note: "Onions", referenceId: "123" }], [], "");
+    expect(result).toStrictEqual(new Set());
+  });
+
+  test("when and ingredient matches exactly and has a reference id, return the referenceId", () => {
+    const { extractIngredientReferences } = useHook();
+    const result = extractIngredientReferences([{ note: "Onions", referenceId: "123" }], [], "A sentence containing Onion");
+
+    expect(result).toEqual(new Set(["123"]));
+  });
+
+  test.each(punctuationMarks)("when ingredient is suffixed by punctuation, return the referenceId", (suffix) => {
+    const { extractIngredientReferences } = useHook();
+    const result = extractIngredientReferences([{ note: "Onions", referenceId: "123" }], [], "A sentence containing Onion" + suffix);
+
+    expect(result).toEqual(new Set(["123"]));
+  });
+
+  test.each(punctuationMarks)("when ingredient is prefixed by punctuation, return the referenceId", (prefix) => {
+    const { extractIngredientReferences } = useHook();
+    const result = extractIngredientReferences([{ note: "Onions", referenceId: "123" }], [], "A sentence containing " + prefix + "Onion");
+    expect(result).toEqual(new Set(["123"]));
+  });
+
+  test("when ingredient is first on a multiline, return the referenceId", () => {
+    const multilineSting = "lksjdlk\nOnion";
+
+    const { extractIngredientReferences } = useHook();
+    const result = extractIngredientReferences([{ note: "Onions", referenceId: "123" }], [], multilineSting);
+    expect(result).toEqual(new Set(["123"]));
+  });
+
+  test("when the ingredient matches partially exactly and has a reference id, return the referenceId", () => {
+    const { extractIngredientReferences } = useHook();
+    const result = extractIngredientReferences([{ note: "Onions", referenceId: "123" }], [], "A sentence containing Onions");
+    expect(result).toEqual(new Set(["123"]));
+  });
+
+  test("when the ingredient matches with different casing and has a reference id, return the referenceId", () => {
+    const { extractIngredientReferences } = useHook();
+    const result = extractIngredientReferences([{ note: "Onions", referenceId: "123" }], [], "A sentence containing oNions");
+    expect(result).toEqual(new Set(["123"]));
+  });
+
+  test("when no ingredients, return empty", () => {
+    const { extractIngredientReferences } = useHook();
+    const result = extractIngredientReferences([], [], "A sentence containing oNions");
+    expect(result).toEqual(new Set());
+  });
+
+  test("when and ingredient matches but in the existing referenceIds, do not return the referenceId", () => {
+    const { extractIngredientReferences } = useHook();
+    const result = extractIngredientReferences([{ note: "Onion", referenceId: "123" }], ["123"], "A sentence containing Onion");
+
+    expect(result).toEqual(new Set());
+  });
+
+  test("when an word is 2 letter of shorter, it is ignored", () => {
+    const { extractIngredientReferences } = useHook();
+    const result = extractIngredientReferences([{ note: "Onion", referenceId: "123" }], [], "A sentence containing On");
+
+    expect(result).toEqual(new Set());
+  });
+});
