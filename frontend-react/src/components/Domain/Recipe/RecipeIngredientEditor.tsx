@@ -531,4 +531,3 @@ export function RecipeIngredientEditor({
     </div>
   );
 }
-
