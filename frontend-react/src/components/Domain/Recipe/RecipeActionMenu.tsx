@@ -9,6 +9,7 @@ import CardContent from "@mui/material/CardContent";
 import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
+import type { SxProps, Theme } from "@mui/material/styles";
 import { BaseDialog } from "@/components/global/BaseDialog";
 import { isPaletteColor } from "@/components/global/colors";
 import { MdiIcon } from "@/components/global/MdiIcon";
@@ -35,6 +36,7 @@ interface RecipeActionMenuProps {
   recipeId: string;
   canEdit?: boolean;
   className?: string;
+  sx?: SxProps<Theme>;
   onPrint?: () => void;
   onSave?: () => void;
   onDelete?: () => void;
@@ -50,6 +52,7 @@ export function RecipeActionMenu({
   loggedIn = false,
   canEdit = false,
   className,
+  sx,
   onPrint,
   onSave,
   onDelete,
@@ -112,17 +115,20 @@ export function RecipeActionMenu({
   return (
     <Toolbar
       variant="dense"
-      className={`fixed-bar ${className ?? ""}`}
-      sx={{
-        position: "sticky",
-        top: "4.5em",
-        zIndex: 2,
-        background: "transparent",
-        boxShadow: "none",
-        minHeight: "0 !important",
-        height: 48,
-        px: 1,
-      }}
+      className={["fixed-bar", className].filter(Boolean).join(" ")}
+      sx={[
+        {
+          position: "sticky",
+          top: "4.5em",
+          zIndex: 2,
+          background: "transparent",
+          boxShadow: "none",
+          minHeight: "0 !important",
+          height: 48,
+          px: 1,
+        },
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]}
     >
       <BaseDialog
         open={deleteDialog}
