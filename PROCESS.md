@@ -447,9 +447,9 @@ A flow is assigned to the first step after which all pages it touches exist.
 | P4-02 | `\[route\] admin` | `create a user` |
 | P4-03 | `\[route\] household/` | `meal plan` |
 | P4-04 | `\[route\] group/` | `create a tag` |
-| P4-05 | `\[route\] (index\.vue\|g/\[groupSlug\]/(index\.vue\|cookbooks/\|recipes/))` | `log in with valid\|log out\|offered admin\|search narrows` |
+| P4-05 | `\[route\] (index\.vue\|g/\[groupSlug\]/(index\.vue\|cookbooks/\|recipes/))` | `log in with valid\|offered admin\|search narrows` (`log out` → P4-07, D48) |
 | P4-06 | `\[route\] g/\[groupSlug\]/r/create` | `create a recipe` |
-| P4-07 | `\[route\] g/\[groupSlug\]/(r/\[slug\]\|shared/)` | `open a recipe\|comment on a recipe` |
+| P4-07 | `\[route\] g/\[groupSlug\]/(r/\[slug\]\|shared/)` | `open a recipe\|comment on a recipe\|log out` (D48) |
 
 (In this table `\|` is markdown escaping: type a plain `|` in the shell.) 15 flows in total; the
 P4-05 regex covers 5 flows (`offered admin` matches both admin-navigation flows). In PG-C merge
@@ -809,18 +809,33 @@ logged automatically by the user-level hooks.
   Estimate given to the human before the change: the remaining steps (PG-C … P5-04) need ≈ 30–60 % of the weekly
   limit on top of 28 % used. — Human's explicit instruction; a 70 % weekly cap would likely stop WF2 in P5.
 
+- D48 — 2026-10-07 — PG-C porter deviations accepted. P4-05: `useCookbook().getOne` is a plain fetch plus a
+  `useCookbookData` hook; `CookbookPage` fetches the cookbook store only while its edit dialog is open (Vue hit the user
+  API for logged-out visitors too) and reloads with `window.location.reload()` after a save; cookbooks are sorted by
+  `position` (Vue's boolean comparator did not sort); the explorer search state is a module-level store per group slug,
+  with its watchers in `useRecipeExplorerSearchEffects` (installed by the search box only) and a deferred clear on
+  unmount (StrictMode replay); the finder's food/tool lists are reactive and stale suggestion responses are dropped;
+  `RecipeSuggestion` checkboxes are controlled. The user-vs-public store choice by `isOwnGroup` is a conditional hook
+  call with identical hook sequences (`eslint-disable rules-of-hooks` with reason, 2 places; GAP-5). P4-06: url/debug keep
+  the URL in local state synced to the query with `setSearchParams(replace)`; the clear button now clears (a no-op in
+  Vue); leaving url.tsx drops the import query via `useBlocker` (Vue `onBeforeRouteLeave`); new/url do not block on
+  validation (Vue's un-awaited `validate()`), html/ai do; zip shows a loading button while uploading; extra
+  `aria-label`s on bulk delete-row and clear buttons. The `log out ends the session` flow is moved from the P4-05 subset
+  to P4-07: its last step opens `/g/<slug>/r/<recipe>` (a P4-07 page; §3.1 assigns a flow to the first step after which
+  all its pages exist). — All behaviour-neutral or fixes of Vue no-ops/crashes; no accessible name or URL changes;
+  PG-C E2E routes 19/19 and the other 5 flows pass.
 ---
 
 ## 9. Status
 
 ```
-current_step: P4-05 ∥ P4-06 (PG-C)
-state: in-progress (2 porters running)
-last_completed: PG-B (P4-03 + P4-04, 2026-10-07)
+current_step: P4-07 (recipe-page, porter on Opus)
+state: not started
+last_completed: PG-C (P4-05 + P4-06, 2026-10-07)
 gate: G2 approved 2026-10-07
 ```
 
-Steps: [x] P1 (G1 approved 2026-10-05) · [x] P2 · [x] P3-01 · [x] P3-02 · [x] P3-03 · [x] P3-04 · [x] P3-05 · [x] P3-06 · [x] P3-07 · [x] P3-08 · [x] P3-09 · [x] P3-10 · [x] P3-11 · [x] P3-12 · [x] G2 (approved 2026-10-07) · [x] P4-01 · [x] P4-02 · [x] P4-03 · [x] P4-04 · [ ] P4-05 … P4-08 · [ ] P5-01 … P5-04
+Steps: [x] P1 (G1 approved 2026-10-05) · [x] P2 · [x] P3-01 · [x] P3-02 · [x] P3-03 · [x] P3-04 · [x] P3-05 · [x] P3-06 · [x] P3-07 · [x] P3-08 · [x] P3-09 · [x] P3-10 · [x] P3-11 · [x] P3-12 · [x] G2 (approved 2026-10-07) · [x] P4-01 · [x] P4-02 · [x] P4-03 · [x] P4-04 · [x] P4-05 · [x] P4-06 · [ ] P4-07 · [ ] P4-08 · [ ] P5-01 … P5-04
 
 Active subagents:
 
@@ -830,8 +845,8 @@ Active subagents:
 | P4-02 | `wf2/P4-02-admin` | removed | 2026-10-07 00:20 | merged, verified |
 | P4-03 | `wf2/P4-03-household` | removed | 2026-10-07 | merged, verified |
 | P4-04 | `wf2/P4-04-group` | removed | 2026-10-07 | merged, verified |
-| P4-05 | `wf2/P4-05-explore` | (agent worktree) | 2026-10-07 | running |
-| P4-06 | `wf2/P4-06-recipe-create` | (agent worktree) | 2026-10-07 | running |
+| P4-05 | `wf2/P4-05-explore` | removed | 2026-10-07 | merged, verified |
+| P4-06 | `wf2/P4-06-recipe-create` | removed | 2026-10-07 | merged, verified |
 
 Pending wiring:
 - `hooks/utils/use-sortable.ts` (P3-10, D36) exists: `useSortable(containerRef, { onReorder({oldIndex,newIndex}), handle,
@@ -856,6 +871,11 @@ Known gaps (`GAP-<n>`):
 - GAP-4 — MUI `Container` has no vertical padding (Vuetify `v-container` has 16 px), so pages sit tight under the app
   bar (D43). Fix for P5-01: theme `components.MuiContainer.styleOverrides.root` `paddingTop/Bottom: 16px`, then drop
   any per-page compensation.
+- GAP-5 — `useRecipeExplorerStores` (`hooks/use-recipe-explorer-search.ts`) and the finder page pick the user or the
+  public store hooks with `isOwnGroup ? useXStore() : usePublicXStore(slug)` (same hook sequence, eslint-disable with
+  reason). If `isOwnGroup` flips while the page is mounted (login/logout in place), the hooks' state slots are reused
+  across stores. Fix option for P5-01/P5-03: remount the explorer/finder with `key={String(isOwnGroup)}` or split into
+  two components.
 
 Skipped tests: none
 
@@ -894,8 +914,20 @@ wraps it in a `display: contents` Box with the handler in `RecipeSelector.tsx` a
 New domain files: `Domain/Group/GroupDataSeedDialog.tsx` (seed dialog shared by foods/units), `Domain/Mealplan/
 MealPlanDropList.tsx` (cross-day sortablejs list for planner/edit). planner.tsx passes `{ mealplans, actions }` to its
 children via `<Outlet context>` (`PlannerOutletContext`).
-Notes for the next session: start PG-C (P4-05 explore ∥ P4-06 recipe-create) per §4.4 (two porters; keep each brief in
-the scratchpad until merged; merge P4-05 before P4-06). Usage cap is 90 % (D47, `.claude/settings.local.json`). Screenshots were taken by a scratchpad Playwright script against `start-backend.sh` on port 9093 (fresh DB,
+PG-C (2026-10-07): both porters delivered complete reports; merged P4-05 then P4-06, no conflicts, diffs only in
+owned paths under `frontend-react/src`. CHECKS green (tsc 0, eslint 0, vitest 684 passed / 0 failed, build ok),
+port-status `explore` 17/0 and `recipe-create` 12/0 missing, test-parity 44/48 files (394 tests / 650 expects, 0
+skipped; the 4 missing belong to P4-07), E2E routes 19/19 (root index, `g/[groupSlug]/{index,cookbooks/*,recipes/**}`,
+`r/create*`), flows `log in with valid`, both `offered admin`, `search narrows`, `create a recipe` 5/5;
+`log out ends the session` needs the P4-07 recipe page (moved to P4-07's subset, D48). New tests: P4-05 8 files / 35,
+P4-06 12 files / 56. Scan: no `any`, no TODO-likes, no SHARED-CHANGE-REQUESTs; eslint-disables: rules-of-hooks ×2
+(GAP-5), exhaustive-deps ×2 with reasons (finder debounce, url mount-only). New domain files:
+`Domain/Recipe/RecipeCreate/{RecipeCreateParts.tsx, recipe-create-content.ts, test-utils.tsx}`; explore exports
+`useRecipeExplorerSearch(groupSlug)`, `useRecipeExplorerSearchEffects`, `useRecipeExplorerStores`, `useCookbookData`.
+Notes for the next session: start P4-07 (recipe-page) alone per §4.4 with the Agent `model: "opus"` override (D41);
+brief: §4.2 template, owned files from the P4 table, the 4 tests to port, routes `g/:groupSlug/r/:slug` (layout per
+`r/[slug]/index.vue`) and `g/:groupSlug/shared/r/:id` (layout `basic`), E2E subset §3.1 P4-07 + `log out` (D48).
+Keep the brief in the scratchpad until merged. Usage cap is 90 % (D47). Screenshots were taken by a scratchpad Playwright script against `start-backend.sh` on port 9093 (fresh DB,
 default admin taken over via API like `global-setup.ts`).
 P3-11 (pilot, 1 porter, merged, verified): CHECKS green (tsc 0, eslint 0, 55 files / 409 tests, build ok), port-status
 `user` 5/0 missing, test-parity 31/48 files (all misses belong to P4 domains), E2E `[route] user/` 4/4 + `full name` 1/1.
