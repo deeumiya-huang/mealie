@@ -872,13 +872,13 @@ logged automatically by the user-level hooks.
 ## 9. Status
 
 ```
-current_step: P5-04 (final measure + MIGRATION_REPORT.md)
-state: not started
-last_completed: P5-03 (review fixes, 2026-10-07)
+current_step: none — WF2 done
+state: done
+last_completed: P5-04 (final measure + MIGRATION_REPORT.md, 2026-10-07)
 gate: G2 approved 2026-10-07
 ```
 
-Steps: [x] P1 (G1 approved 2026-10-05) · [x] P2 · [x] P3-01 · [x] P3-02 · [x] P3-03 · [x] P3-04 · [x] P3-05 · [x] P3-06 · [x] P3-07 · [x] P3-08 · [x] P3-09 · [x] P3-10 · [x] P3-11 · [x] P3-12 · [x] G2 (approved 2026-10-07) · [x] P4-01 · [x] P4-02 · [x] P4-03 · [x] P4-04 · [x] P4-05 · [x] P4-06 · [x] P4-07 · [x] P4-08 · [x] P5-01 · [x] P5-02 · [x] P5-03 · [ ] P5-04
+Steps: [x] P1 (G1 approved 2026-10-05) · [x] P2 · [x] P3-01 · [x] P3-02 · [x] P3-03 · [x] P3-04 · [x] P3-05 · [x] P3-06 · [x] P3-07 · [x] P3-08 · [x] P3-09 · [x] P3-10 · [x] P3-11 · [x] P3-12 · [x] G2 (approved 2026-10-07) · [x] P4-01 · [x] P4-02 · [x] P4-03 · [x] P4-04 · [x] P4-05 · [x] P4-06 · [x] P4-07 · [x] P4-08 · [x] P5-01 · [x] P5-02 · [x] P5-03 · [x] P5-04
 
 Active subagents:
 
@@ -908,6 +908,10 @@ P5-03 (done 2026-10-07; D52): all REVIEW.md findings fixed except R1-15, R2-7 (d
 eslint 0, vitest 108 files / 769 passed / 0 skipped, test-parity 48/48 (453 tests, 820/817 expects), port-status 0
 missing, build ok, full E2E 82/82. Next: P5-04 — `./rewrite-evidence/measure.sh --app frontend-react --label WF2-final`
 on a clean tree, then `frontend-react/MIGRATION_REPORT.md` per the P5-04 row.
+P5-04 (done 2026-10-07): `metrics.csv` row `WF2-final` (commit ff8b2d289, dirty 0, run
+`20261007T100036Z-frontend-react-WF2-final`): routes 66/66, flows 15/15, build_ok 1, tsc 0, lint 0 (0 warnings), unit 769
+passed / 0 failed / 0 skipped, any_count 1, todo_count 0, expect_count 1551, test_files 108. `frontend-react/MIGRATION_REPORT.md`
+written (converted, not converted, gaps, skipped tests, deviations, command output, measure row). WF2 is complete.
 Was: P5-02 — spawn reviewer R1 (foundation: `lib` excluding `lib/api`, `i18n`, `providers`, `routes`, `hooks`,
 `components/global`, `layouts`, `components/Layout`) and R2 (domains: `pages`, `components/Domain`) together with the §4.3
 brief; write `frontend-react/REVIEW.md`; P5-02 Ends = no, so continue into P5-03 in the same session if context allows.
