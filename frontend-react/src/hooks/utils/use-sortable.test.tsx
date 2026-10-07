@@ -158,4 +158,26 @@ describe("useSortable", () => {
     expect(onReorder).not.toHaveBeenCalled();
     expect(names()).toEqual(["a", "b"]);
   });
+
+  test("attaches to a container that mounts later and re-attaches when it is replaced", () => {
+    function Conditional({ items }: { items: string[] }) {
+      const ref = useRef<HTMLUListElement>(null);
+      useSortable(ref, { handle: ".handle" });
+      return items.length ? <ul ref={ref}>{items.map(item => <li key={item}>{item}</li>)}</ul> : <p>empty</p>;
+    }
+    const { rerender } = render(<Conditional items={[]} />);
+    expect(sortables).toHaveLength(0);
+
+    rerender(<Conditional items={["a"]} />);
+    expect(sortables).toHaveLength(1);
+    const first = sortables[0]!;
+    expect(first.el).toBe(screen.getByRole("list"));
+
+    rerender(<Conditional items={[]} />);
+    expect(first.destroy).toHaveBeenCalled();
+
+    rerender(<Conditional items={["b"]} />);
+    expect(sortables).toHaveLength(2);
+    expect(sortables[1]!.el).toBe(screen.getByRole("list"));
+  });
 });

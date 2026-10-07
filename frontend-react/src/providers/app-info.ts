@@ -15,6 +15,8 @@ export function loadAppInfo(): Promise<AppInfo> {
   if (known && !loading) {
     loading = Promise.resolve(known);
   }
+  // A failed request stays cached: React re-renders the suspended gate when it settles, and a fresh request
+  // there would retry in a loop. AppInfoProvider shows the error; a page reload retries.
   loading ??= axios.get<AppInfo>("/api/app/about").then(({ data }) => {
     appInfoStore.set(data);
     return data;

@@ -62,8 +62,9 @@ export function moveItem<T>(list: readonly T[], oldIndex: number, newIndex: numb
 }
 
 /**
- * Makes the children of `containerRef` sortable. Sortable is created when the container is mounted, re-created when
- * a (non-callback) option changes and destroyed on unmount. Callbacks always see their latest closure.
+ * Makes the children of `containerRef` sortable. Sortable is created when the container element is mounted,
+ * re-created when the element is replaced (e.g. a list rendered only while it has items) or a (non-callback) option
+ * changes, and destroyed on unmount. Callbacks always see their latest closure.
  */
 export function useSortable<E extends HTMLElement>(containerRef: RefObject<E | null>, options: UseSortableOptions) {
   const callbacks = useRef(options);
@@ -73,9 +74,19 @@ export function useSortable<E extends HTMLElement>(containerRef: RefObject<E | n
 
   const { handle, draggable, animation, delay, delayOnTouchOnly, ghostClass, chosenClass, dragClass, filter, disabled } = options;
   const groupKey = typeof options.group === "string" ? options.group : JSON.stringify(options.group ?? null);
+  const optionsKey = JSON.stringify([handle, draggable, animation, delay, delayOnTouchOnly, ghostClass, chosenClass, dragClass, filter, disabled, groupKey]);
 
+  const instance = useRef<{ element: E; optionsKey: string; sortable: Sortable } | null>(null);
+
+  // Runs after every render: the ref object is stable, the element it points to is not, so compare the element.
   useEffect(() => {
     const container = containerRef.current;
+    const current = instance.current;
+    if (current?.element === container && current?.optionsKey === optionsKey) {
+      return;
+    }
+    current?.sortable.destroy();
+    instance.current = null;
     if (!container) {
       return;
     }
@@ -114,10 +125,13 @@ export function useSortable<E extends HTMLElement>(containerRef: RefObject<E | n
         callbacks.current.onEnd?.(event);
       },
     });
+    instance.current = { element: container, optionsKey, sortable };
+  });
 
-    return () => sortable.destroy();
-    // the group is covered by groupKey; the callbacks are read through a ref
-  }, [containerRef, handle, draggable, animation, delay, delayOnTouchOnly, ghostClass, chosenClass, dragClass, filter, disabled, groupKey]);
+  useEffect(() => () => {
+    instance.current?.sortable.destroy();
+    instance.current = null;
+  }, []);
 }
 
 /** `useSortable` for the common case of reordering one array held in state. */

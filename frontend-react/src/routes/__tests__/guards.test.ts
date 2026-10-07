@@ -4,6 +4,16 @@ const navigateTo = vi.hoisted(() => vi.fn((to: unknown) => to));
 
 vi.mock("@/lib/navigation", () => ({ navigateTo, setNavigate: vi.fn() }));
 
+// Guards redirect by throwing React Router's `redirect` (Nuxt middleware returned `navigateTo`): spy on both.
+const redirectSpy = vi.hoisted(() => vi.fn());
+vi.mock("react-router", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("react-router")>();
+  return { ...actual, redirect: (...args: Parameters<typeof actual.redirect>) => {
+    redirectSpy(...args);
+    return actual.redirect(...args);
+  } };
+});
+
 // The Vue test stubbed `useMealieAuth` with a `loggedIn` ref; here the auth store gets the status.
 let loggedIn = false;
 function setLoggedIn(value: boolean) {
@@ -14,6 +24,7 @@ describe("auth middleware", () => {
   beforeEach(() => {
     vi.resetModules();
     navigateTo.mockClear();
+    redirectSpy.mockClear();
   });
 
   afterEach(() => vi.unstubAllGlobals());
@@ -48,5 +59,6 @@ describe("auth middleware", () => {
 
     expect(result).toBeUndefined();
     expect(navigateTo).not.toHaveBeenCalled();
+    expect(redirectSpy).not.toHaveBeenCalled();
   });
 });

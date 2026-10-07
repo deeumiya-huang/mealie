@@ -123,6 +123,9 @@ export function BaseDialog({
 
   function onKeyDown(event: KeyboardEvent) {
     if (event.key !== "Enter" || disableSubmitOnEnter) return;
+    // React events bubble through portals: ignore Enter from menus/popovers opened inside the dialog
+    // (Vuetify teleports those outside the v-dialog, so its @keydown.enter never sees them).
+    if (!(event.target instanceof Node) || !event.currentTarget.contains(event.target)) return;
     if (canConfirm) {
       if (!submitDisabled) confirmEvent();
       return;

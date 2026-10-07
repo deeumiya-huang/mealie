@@ -33,10 +33,31 @@ export function resetInitAuth() {
   authReady = null;
 }
 
-function fullPath(request: Request) {
-  const url = new URL(request.url);
-  return `${url.pathname}${url.search}${url.hash}`;
+// Vite `base` (from SUB_PATH, see vite.config.ts) without its trailing slash, like Nuxt's router base.
+export const routerBasename = import.meta.env.BASE_URL.replace(/\/+$/, "") || "/";
+
+/**
+ * The app path of a URL pathname: a data router's `request.url` (and `shouldRevalidate` URLs) include the
+ * basename, Nuxt's `to.path` does not. Redirects built from it get the basename added back by the router.
+ */
+export function appPathname(pathname: string, basename = routerBasename) {
+  if (basename === "/") {
+    return pathname;
+  }
+  if (pathname === basename) {
+    return "/";
+  }
+  return pathname.startsWith(`${basename}/`) ? pathname.slice(basename.length) : pathname;
 }
+
+/** Nuxt `to.fullPath`: path (without the basename), query and hash. */
+export function fullPath(request: Request, basename = routerBasename) {
+  const url = new URL(request.url);
+  return `${appPathname(url.pathname, basename)}${url.search}${url.hash}`;
+}
+
+/** The PWA share target path (`manifest.webmanifest` `share_target.action`, without the base). */
+export const SHARE_TARGET_PATH = "/r/create/url";
 
 const user = () => authBackend.getState().user;
 
@@ -99,8 +120,7 @@ export const groupOnly: Guard = ({ params }) => {
 
 /** middleware/pwa-share-target-redirect.global.ts (runs in the root loader, i.e. on every route). */
 export const pwaShareTargetRedirect: Guard = ({ request }) => {
-  const url = new URL(request.url);
-  if (url.pathname === "/r/create/url") {
+  if (appPathname(new URL(request.url).pathname) === SHARE_TARGET_PATH) {
     const groupSlug = user()?.groupSlug;
     if (!groupSlug) {
       // Preserve the full path (including recipe_import_url query param) so the

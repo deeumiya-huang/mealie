@@ -4,7 +4,7 @@ import { adminRoutes } from "./admin";
 import { authRoutes } from "./auth";
 import { exploreRoutes } from "./explore";
 import { groupRoutes } from "./group";
-import { guard, initAuth, pwaShareTargetRedirect } from "./guards";
+import { appPathname, guard, initAuth, pwaShareTargetRedirect, routerBasename, SHARE_TARGET_PATH } from "./guards";
 import { householdRoutes } from "./household";
 import type { DomainRoutes } from "./lazy";
 import { recipeCreateRoutes } from "./recipe-create";
@@ -18,7 +18,7 @@ import DefaultLayout from "@/layouts/DefaultLayout";
 import ErrorPage from "@/layouts/ErrorPage";
 
 // plugins/init-auth.client.ts lives in guards.ts (every guarded loader awaits it); re-exported here.
-export { initAuth };
+export { initAuth, routerBasename };
 
 const domains: DomainRoutes[] = [
   authRoutes,
@@ -49,7 +49,7 @@ export const routes: RouteObject[] = [
     id: "root",
     path: "/",
     loader: guard(pwaShareTargetRedirect),
-    shouldRevalidate: ({ nextUrl }) => nextUrl.pathname === "/r/create/url",
+    shouldRevalidate: ({ nextUrl }) => appPathname(nextUrl.pathname) === SHARE_TARGET_PATH,
     HydrateFallback: () => null,
     element: <Outlet />,
     errorElement: <ErrorPage />,
@@ -62,9 +62,6 @@ export const routes: RouteObject[] = [
     ],
   },
 ];
-
-// Vite `base` (from SUB_PATH, see vite.config.ts) without its trailing slash, like Nuxt's router base.
-export const routerBasename = import.meta.env.BASE_URL.replace(/\/+$/, "") || "/";
 
 export function createRouter() {
   return createBrowserRouter(routes, { basename: routerBasename });
