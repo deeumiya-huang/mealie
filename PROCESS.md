@@ -803,6 +803,11 @@ logged automatically by the user-level hooks.
   keeps the stored schedule instead of crashing like Vue (`null.split`); notifier panels are single-open MUI
   accordions. — All behaviour-neutral for users or strict improvements over a Vue crash; none changes an accessible
   name or URL, and the E2E subsets pass.
+- D47 — 2026-10-07 — The human raised the usage cap from 70 % to 90 % for both the 5-hour and the 7-day limit, to finish
+  WF2 within the current weekly window (resets 2026-10-13 ~11:00 +13). Set as `env.USAGE_CAP_PCT = "90"` in the
+  git-ignored `.claude/settings.local.json`; read by `~/.claude/hooks/usage_guard.py` and `.claude/hooks/wf2_stop_gate.py`.
+  Estimate given to the human before the change: the remaining steps (PG-C … P5-04) need ≈ 30–60 % of the weekly
+  limit on top of 28 % used. — Human's explicit instruction; a 70 % weekly cap would likely stop WF2 in P5.
 
 ---
 
@@ -888,7 +893,7 @@ New domain files: `Domain/Group/GroupDataSeedDialog.tsx` (seed dialog shared by 
 MealPlanDropList.tsx` (cross-day sortablejs list for planner/edit). planner.tsx passes `{ mealplans, actions }` to its
 children via `<Outlet context>` (`PlannerOutletContext`).
 Notes for the next session: start PG-C (P4-05 explore ∥ P4-06 recipe-create) per §4.4 (two porters; keep each brief in
-the scratchpad until merged; merge P4-05 before P4-06). Default usage cap 70 % applies. Screenshots were taken by a scratchpad Playwright script against `start-backend.sh` on port 9093 (fresh DB,
+the scratchpad until merged; merge P4-05 before P4-06). Usage cap is 90 % (D47, `.claude/settings.local.json`). Screenshots were taken by a scratchpad Playwright script against `start-backend.sh` on port 9093 (fresh DB,
 default admin taken over via API like `global-setup.ts`).
 P3-11 (pilot, 1 porter, merged, verified): CHECKS green (tsc 0, eslint 0, 55 files / 409 tests, build ok), port-status
 `user` 5/0 missing, test-parity 31/48 files (all misses belong to P4 domains), E2E `[route] user/` 4/4 + `full name` 1/1.
