@@ -865,7 +865,7 @@ logged automatically by the user-level hooks.
 
 ```
 current_step: P5-02 (independent review, reviewer ×2)
-state: not started
+state: in-progress (reviewers R1, R2 running)
 last_completed: P5-01 (integration, 2026-10-07)
 gate: G2 approved 2026-10-07
 ```
