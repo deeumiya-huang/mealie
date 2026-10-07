@@ -864,13 +864,13 @@ logged automatically by the user-level hooks.
 ## 9. Status
 
 ```
-current_step: P5-02 (independent review, reviewer ×2)
-state: in-progress (reviewers R1, R2 running)
-last_completed: P5-01 (integration, 2026-10-07)
+current_step: P5-03 (fix review findings)
+state: in-progress
+last_completed: P5-02 (independent review, 2026-10-07)
 gate: G2 approved 2026-10-07
 ```
 
-Steps: [x] P1 (G1 approved 2026-10-05) · [x] P2 · [x] P3-01 · [x] P3-02 · [x] P3-03 · [x] P3-04 · [x] P3-05 · [x] P3-06 · [x] P3-07 · [x] P3-08 · [x] P3-09 · [x] P3-10 · [x] P3-11 · [x] P3-12 · [x] G2 (approved 2026-10-07) · [x] P4-01 · [x] P4-02 · [x] P4-03 · [x] P4-04 · [x] P4-05 · [x] P4-06 · [x] P4-07 · [x] P4-08 · [x] P5-01 · [ ] P5-02 … P5-04
+Steps: [x] P1 (G1 approved 2026-10-05) · [x] P2 · [x] P3-01 · [x] P3-02 · [x] P3-03 · [x] P3-04 · [x] P3-05 · [x] P3-06 · [x] P3-07 · [x] P3-08 · [x] P3-09 · [x] P3-10 · [x] P3-11 · [x] P3-12 · [x] G2 (approved 2026-10-07) · [x] P4-01 · [x] P4-02 · [x] P4-03 · [x] P4-04 · [x] P4-05 · [x] P4-06 · [x] P4-07 · [x] P4-08 · [x] P5-01 · [x] P5-02 · [ ] P5-03 · [ ] P5-04
 
 Active subagents:
 
@@ -894,7 +894,9 @@ P5-01 (integration, done 2026-10-07; D51): `types/auth.d.ts` ported (port-status
 (`types/auto-forms.ts` `FormValidationRule`, commented; CrudTable's comparator uses method syntax instead of `any`).
 CHECKS: tsc 0, eslint 0, vitest 105 files / 760 passed / 0 skipped, build ok, test-parity 48/48 (453 tests, 819/817
 expects). Full E2E twice: 82/82 both runs (66 routes + table guard + 15 flows, 2.9 min each). FORBIDDEN clean.
-Next: P5-02 — spawn reviewer R1 (foundation: `lib` excluding `lib/api`, `i18n`, `providers`, `routes`, `hooks`,
+P5-02 (done 2026-10-07): `frontend-react/REVIEW.md` — R1 17 findings (1 high, 5 medium), R2 12 (1 medium, overlaps
+R1-3/R1-4); decisions: all fix except R1-15 (declined, behaviour-equal). Next: P5-03 fixes per REVIEW.md, then CHECKS + full E2E.
+Was: P5-02 — spawn reviewer R1 (foundation: `lib` excluding `lib/api`, `i18n`, `providers`, `routes`, `hooks`,
 `components/global`, `layouts`, `components/Layout`) and R2 (domains: `pages`, `components/Domain`) together with the §4.3
 brief; write `frontend-react/REVIEW.md`; P5-02 Ends = no, so continue into P5-03 in the same session if context allows.
 
