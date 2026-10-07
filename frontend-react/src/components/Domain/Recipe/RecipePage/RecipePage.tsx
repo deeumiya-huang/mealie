@@ -411,7 +411,6 @@ export function RecipePage({ recipe, onRecipeChange }: RecipePageProps) {
       />
       <Container
         key="recipe-page"
-        maxWidth={false}
         sx={{ display: isCookMode ? "none" : undefined, px: 0, ...(display.smAndDown ? { p: 0 } : {}) }}
       >
         <Card elevation={0} sx={{ displayPrint: "none" }}>
