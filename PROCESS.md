@@ -859,8 +859,6 @@ logged automatically by the user-level hooks.
   forwards the click); `SafeMarkdown` `className`/`inline` and a `use-sortable` re-export not added — every caller
   already works without them (wrapping Box / path import). — Parity with the Vue build (same options, same generated SW).
 
----
-
 - D52 — 2026-10-07 — P5-03 review fixes (REVIEW.md): (a) providers now nest ThemeMode → I18n → AppInfo → Router (was
   AppInfo outermost; theme and i18n never read the app info), so a failed `/api/app/about` shows a themed, translated
   error view instead of a blank page; `main.tsx` starts the three boot requests in parallel. (b) `page()` keys each lazy
@@ -868,6 +866,8 @@ logged automatically by the user-level hooks.
   `{ cache: false }` for Vue's per-visit `useAsyncKey()` loads. (d) `useDownloader` uses `fetch` like Nuxt `useFetch`
   (outside the axios interceptors). (e) `apiRequests` reads `http` per request, so the http ↔ auth import cycle no
   longer depends on import order. (f) Declined: R1-15 (behaviour-equal), R2-7 (no-op in Vue). — Reason: review findings.
+
+---
 
 ## 9. Status
 
