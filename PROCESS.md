@@ -843,13 +843,13 @@ logged automatically by the user-level hooks.
 ## 9. Status
 
 ```
-current_step: P4-08 (checkpoint measure.sh, main)
+current_step: P5-01 (integration, main)
 state: not started
-last_completed: P4-07 (recipe-page, 2026-10-07)
+last_completed: P4-08 (checkpoint, 2026-10-07)
 gate: G2 approved 2026-10-07
 ```
 
-Steps: [x] P1 (G1 approved 2026-10-05) · [x] P2 · [x] P3-01 · [x] P3-02 · [x] P3-03 · [x] P3-04 · [x] P3-05 · [x] P3-06 · [x] P3-07 · [x] P3-08 · [x] P3-09 · [x] P3-10 · [x] P3-11 · [x] P3-12 · [x] G2 (approved 2026-10-07) · [x] P4-01 · [x] P4-02 · [x] P4-03 · [x] P4-04 · [x] P4-05 · [x] P4-06 · [x] P4-07 · [ ] P4-08 · [ ] P5-01 … P5-04
+Steps: [x] P1 (G1 approved 2026-10-05) · [x] P2 · [x] P3-01 · [x] P3-02 · [x] P3-03 · [x] P3-04 · [x] P3-05 · [x] P3-06 · [x] P3-07 · [x] P3-08 · [x] P3-09 · [x] P3-10 · [x] P3-11 · [x] P3-12 · [x] G2 (approved 2026-10-07) · [x] P4-01 · [x] P4-02 · [x] P4-03 · [x] P4-04 · [x] P4-05 · [x] P4-06 · [x] P4-07 · [x] P4-08 · [ ] P5-01 … P5-04
 
 Active subagents:
 
@@ -862,6 +862,15 @@ Active subagents:
 | P4-05 | `wf2/P4-05-explore` | removed | 2026-10-07 | merged, verified |
 | P4-06 | `wf2/P4-06-recipe-create` | removed | 2026-10-07 | merged, verified |
 | P4-07 | `wf2/P4-07-recipe-page` | removed | 2026-10-07, resumed 2026-10-07 | merged, verified |
+
+P4-08 (checkpoint, 2026-10-07): `metrics.csv` row `WF2-P4-done` (commit 3cd86ebd4, dirty 0, run
+`20261007T055627Z-frontend-react-WF2-P4-done`): routes 66/66, flows 15/15, build_ok 1, tsc 0, lint 0 (0 warnings),
+unit 759 passed / 0 failed / 0 skipped, any_count 3, todo_count 0, expect_count 1521, test_files 105.
+P5-01 work list (no failing routes/flows): (1) port `types/auth.d.ts` (port-status' last missing file); (2) PWA
+(`vite-plugin-pwa`, workbox options from `nuxt.config.ts`, `manifest: false`); (3) `SUB_PATH` → Vite `base` + router
+`basename`; (4) error/404 page parity; (5) check the 3 `any` hits carry `// any: <reason>`; (6) GAP-1…GAP-5 fix options;
+(7) optional requests: `RecipeCardLineItem` `onClick` (P4-03), `SafeMarkdown` `className`/`inline`, re-export
+`use-sortable` (P3-10); (8) full E2E twice (66/15).
 
 Pending wiring:
 - `hooks/utils/use-sortable.ts` (P3-10, D36) exists: `useSortable(containerRef, { onReorder({oldIndex,newIndex}), handle,
