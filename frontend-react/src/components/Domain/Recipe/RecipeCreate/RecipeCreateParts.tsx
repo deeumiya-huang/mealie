@@ -54,6 +54,8 @@ interface RecipeCreateTextFieldProps {
   disabled?: boolean;
   autoFocus?: boolean;
   multiline?: boolean;
+  /** `density="compact"` */
+  dense?: boolean;
   onEnter?: () => void;
   sx?: SxProps<Theme>;
 }
@@ -72,6 +74,7 @@ export function RecipeCreateTextField({
   disabled = false,
   autoFocus = false,
   multiline = false,
+  dense = false,
   onEnter,
   sx,
 }: RecipeCreateTextFieldProps) {
@@ -83,6 +86,7 @@ export function RecipeCreateTextField({
       id={id}
       fullWidth
       variant="filled"
+      size={dense ? "small" : "medium"}
       label={label}
       value={value}
       autoFocus={autoFocus}
