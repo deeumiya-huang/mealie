@@ -35,7 +35,8 @@ export default function RecipeTimelinePage() {
         </Box>
       )}
       <Box sx={{ backgroundColor: "transparent", ...(smAndDown ? { p: 0 } : { px: 1.5, py: 0 }) }}>
-        {queryFilter && (
+        {/* mounted once the household request finished: with cached data it would otherwise load page 1 twice */}
+        {queryFilter && ready && (
           <RecipeTimeline
             open={ready}
             showRecipeCards

@@ -257,6 +257,7 @@ export default function ShoppingListPage() {
         key={item.id}
         item={item}
         onChange={updated => replaceAt(list, index, updated)}
+        className="shopping-list-item-row"
         sx={{ my: 1, width: "auto" }}
         edit={editingItem === item.id}
         labels={allLabels}
@@ -596,6 +597,7 @@ export default function ShoppingListPage() {
                     <div key={item.id} style={matchesSearch(item) ? undefined : { display: "none" }}>
                       <ShoppingListItem
                         item={item}
+                        className="strike-through-note shopping-list-item-row"
                         onChange={updated => replaceAt(listItems.checked, idx, updated)}
                         labels={allLabels}
                         units={allUnits}

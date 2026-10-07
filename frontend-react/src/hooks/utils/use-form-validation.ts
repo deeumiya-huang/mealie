@@ -14,6 +14,9 @@ import { useState } from "react";
  * Rules return `true` or an error message (same as Vuetify). A field shows its first error after the
  * user typed in it or after `validate()`; `isValid` is always computed from the current values.
  * `resetValidation()` hides the messages again (Vue `form.resetValidation()`); values belong to the caller.
+ * `validate()` returns `isValid` of the current render: a handler that changes a value and validates in the
+ * same tick sees the previous values (`v-form.validate()` would see the new ones) — validate in a later
+ * handler or effect instead.
  */
 export type ValidationRule<V> = (value: V) => boolean | string;
 

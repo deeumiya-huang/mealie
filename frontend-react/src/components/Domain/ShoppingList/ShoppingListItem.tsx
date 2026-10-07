@@ -34,6 +34,8 @@ interface ShoppingListItemProps {
   recipes?: Map<string, RecipeSummary>;
   edit?: boolean;
   sx?: SxProps<Theme>;
+  /** Class of the root element (Vue `class` on the component, e.g. the page's `shopping-list-item-row`). */
+  className?: string;
   onChecked?: (item: ShoppingListItemOut) => void;
   onSave?: (item: ShoppingListItemOut) => void;
   onDelete?: () => void;
@@ -72,6 +74,7 @@ export function ShoppingListItem({
   recipes,
   edit = false,
   sx,
+  className,
   onChecked,
   onSave,
   onDelete,
@@ -189,7 +192,7 @@ export function ShoppingListItem({
   });
 
   return (
-    <Box sx={[{ overflowX: "hidden" }, ...(Array.isArray(sx) ? sx : [sx])]}>
+    <Box className={className} sx={[{ overflowX: "hidden" }, ...(Array.isArray(sx) ? sx : [sx])]}>
       {!edit && (
         <Box
           sx={{

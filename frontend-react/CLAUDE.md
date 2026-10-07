@@ -48,8 +48,8 @@ Locales are imported from `../frontend/app/lang` via the `@locales` alias (never
   without the main session.
 - Tests: same titles and counts as Vue, never weaken or delete an assertion; unportable → `test.skip`
   with `// skip: <reason>`.
-- Tests that import `@/lib/http` or `@/hooks/use-auth-backend` must import `@/hooks/api` first (import cycle
-  http → use-auth-backend → store → api-client → http leaves `http` undefined in api-client otherwise).
+- Import cycle http → use-auth-backend → store → api-client → http: api-client reads `http` per request
+  (`apiRequests`), so import order no longer matters; never read `http` at module evaluation elsewhere.
 - Hooks in `.claude/settings.json` run eslint + tsc after each edit and gate session stops on them.
 
 ## Building blocks (read the file header before using)

@@ -2,7 +2,7 @@
 // The navigation drawer: user card, `children`, primary and secondary links (groups expand), and at the
 // bottom announcements + the settings menu (language, dark mode, user/data/admin settings).
 // Temporary overlay below lg, persistent (pushes the content) from lg up — like Vuetify's drawer.
-import { Fragment, useState, type ReactNode } from "react";
+import { Fragment, useState, type MouseEvent, type ReactNode } from "react";
 import Badge from "@mui/material/Badge";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -15,7 +15,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import { Link, useLocation } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { AnnouncementDialog } from "@/components/Domain/Announcement/AnnouncementDialog";
 import { UserAvatar } from "@/components/Domain/User/UserAvatar";
 import { LanguageDialog } from "@/components/global/LanguageDialog";
@@ -56,6 +56,16 @@ export function AppSidebar({ open, onOpenChange, topLink, secondaryLinks = null,
 
   const userFavoritesLink = auth.user ? `/user/${auth.user.id}/favorites` : undefined;
   const userProfileLink = auth.user ? "/user/profile" : undefined;
+  const navigate = useNavigate();
+
+  // The profile row is a link in Vuetify (`<v-list-item :to>`) with the favorites link inside it; here the row
+  // navigates on click (like UserProfileLinkCard) so one anchor is not nested in another.
+  function onProfileClick(event: MouseEvent<HTMLElement>) {
+    if (!userProfileLink || event.defaultPrevented || (event.target as HTMLElement).closest("a")) {
+      return;
+    }
+    void navigate(userProfileLink);
+  }
 
   const toggleDark = useToggleDarkMode();
 
@@ -157,7 +167,8 @@ export function AppSidebar({ open, onOpenChange, topLink, secondaryLinks = null,
       {loggedIn && sessionUser && (
         <>
           <ListItemButton
-            {...linkProps(userProfileLink)}
+            className={userProfileLink && isActive(userProfileLink) ? "active" : undefined}
+            onClick={onProfileClick}
             sx={{ "py": 1, "&.active": { bgcolor: "action.selected" } }}
           >
             <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>

@@ -6,6 +6,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
  * it refreshes. `clearAsyncDataCache()` is the port of `clearNuxtData()` (called on logout).
  *
  *   const { data, pending, refresh } = useAsyncData(`recipe-${slug}`, () => api.recipes.getOne(slug), [slug]);
+ *
+ * `{ cache: false }` is the port of Vue's per-visit `useAsyncKey()` keys: always load fresh, keep nothing.
  */
 const cache = new Map<string, unknown>();
 
@@ -26,8 +28,18 @@ export interface AsyncData<T> {
   refresh: () => Promise<void>;
 }
 
-export function useAsyncData<T>(key: string, fn: () => Promise<T>, deps: readonly unknown[] = []): AsyncData<T> {
-  const [data, setData] = useState<T | null>(() => (cache.has(key) ? (cache.get(key) as T) : null));
+export interface AsyncDataOptions {
+  /** Read and write the module-level cache (default true). */
+  cache?: boolean;
+}
+
+export function useAsyncData<T>(
+  key: string,
+  fn: () => Promise<T>,
+  deps: readonly unknown[] = [],
+  { cache: useCache = true }: AsyncDataOptions = {},
+): AsyncData<T> {
+  const [data, setData] = useState<T | null>(() => (useCache && cache.has(key) ? (cache.get(key) as T) : null));
   const [pending, setPending] = useState(true);
   const [error, setError] = useState<unknown>(null);
   const fnRef = useRef(fn);
@@ -43,7 +55,9 @@ export function useAsyncData<T>(key: string, fn: () => Promise<T>, deps: readonl
     try {
       const result = await fnRef.current();
       if (id === requestId.current) {
-        cache.set(key, result);
+        if (useCache) {
+          cache.set(key, result);
+        }
         setData(result);
         setError(null);
       }
@@ -58,7 +72,7 @@ export function useAsyncData<T>(key: string, fn: () => Promise<T>, deps: readonl
         setPending(false);
       }
     }
-  }, [key]);
+  }, [key, useCache]);
 
   const refresh = useCallback(async () => {
     setPending(true);

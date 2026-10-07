@@ -97,6 +97,19 @@ export function BaseDataTable<T>({
   const [page, setPage] = useState(0);
   const [perPage, setPerPage] = useState(itemsPerPage);
 
+  // Like v-data-table: a new search goes back to the first page, a new `itemsPerPage` prop is applied.
+  const [prevSearch, setPrevSearch] = useState(search);
+  if (search !== prevSearch) {
+    setPrevSearch(search);
+    setPage(0);
+  }
+  const [prevItemsPerPage, setPrevItemsPerPage] = useState(itemsPerPage);
+  if (itemsPerPage !== prevItemsPerPage) {
+    setPrevItemsPerPage(itemsPerPage);
+    setPerPage(itemsPerPage);
+    setPage(0);
+  }
+
   const keyOf = (item: T) => String((item as Record<string, unknown>)[itemKey]);
 
   const query = search.trim().toLocaleLowerCase();
@@ -107,9 +120,11 @@ export function BaseDataTable<T>({
       }))
     : items;
 
+  // Like v-data-table, a sort key without a header (e.g. CrudTable's default "id") sorts by the raw item value.
   const sortHeader = sort ? headers.find(header => header.key === sort.key) : undefined;
-  const sorted = sortHeader && sort
-    ? [...filtered].sort((a, b) => (sortHeader.sort ?? compare)(cellValue(sortHeader, a), cellValue(sortHeader, b)) * (sort.order === "asc" ? 1 : -1))
+  const sortValue = (item: T) => sortHeader ? cellValue(sortHeader, item) : (item as Record<string, unknown>)[sort?.key ?? ""];
+  const sorted = sort
+    ? [...filtered].sort((a, b) => (sortHeader?.sort ?? compare)(sortValue(a), sortValue(b)) * (sort.order === "asc" ? 1 : -1))
     : filtered;
 
   const pageSizes = [...new Set([...itemsPerPageOptions, itemsPerPage].filter(n => n > 0))].sort((a, b) => a - b);

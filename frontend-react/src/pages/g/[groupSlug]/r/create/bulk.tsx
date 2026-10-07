@@ -12,6 +12,7 @@ import { RecipeOrganizerSelector } from "@/components/Domain/Recipe/RecipeOrgani
 import { RecipeCreateOption, RecipeCreateText, RecipeCreateTextField, RecipeCreateTitle } from "@/components/Domain/Recipe/RecipeCreate/RecipeCreateParts";
 import { useUserApi } from "@/hooks/api";
 import { alert } from "@/hooks/use-toast";
+import { uuid4 } from "@/hooks/use-utils";
 import { useI18n } from "@/i18n";
 import type { CreateRecipeBulk, RecipeCategory, RecipeTag } from "@/lib/api/types/recipe";
 import { Organizer } from "@/lib/api/types/non-generated";
@@ -28,8 +29,12 @@ const organizerInputAttrs = {
   clearable: true,
 } as const;
 
-function emptyImport(): CreateRecipeBulk {
-  return { url: "", categories: [], tags: [] };
+// Each row carries a stable React key (not sent to the API), so deleting a row does not shift the child
+// components' state (e.g. organizer search text) onto the next row.
+type BulkRow = CreateRecipeBulk & { rowKey: string };
+
+function emptyImport(): BulkRow {
+  return { url: "", categories: [], tags: [], rowKey: uuid4() };
 }
 
 // Port of pages/g/[groupSlug]/r/create/bulk.vue: import many recipes from a list of URLs, then follow the reports.
@@ -38,7 +43,7 @@ export default function RecipeCreateBulkPage() {
   const api = useUserApi();
 
   const [showCatTags, setShowCatTags] = useState(false);
-  const [bulkUrls, setBulkUrls] = useState<CreateRecipeBulk[]>(() => [emptyImport()]);
+  const [bulkUrls, setBulkUrls] = useState<BulkRow[]>(() => [emptyImport()]);
   const [lockBulkImport, setLockBulkImport] = useState(false);
   const [reports, setReports] = useState<ReportSummary[]>([]);
 
@@ -56,7 +61,7 @@ export default function RecipeCreateBulkPage() {
       return;
     }
 
-    const { response } = await api.recipes.createManyByUrl({ imports: bulkUrls });
+    const { response } = await api.recipes.createManyByUrl({ imports: bulkUrls.map(({ rowKey: _rowKey, ...item }) => item) });
 
     if (response?.status === 202) {
       alert.success(t("recipe.bulk-import-process-has-started"));
@@ -98,7 +103,7 @@ export default function RecipeCreateBulkPage() {
       return;
     }
 
-    setBulkUrls(urls.map(url => ({ url, categories: [], tags: [] })));
+    setBulkUrls(urls.map(url => ({ url, categories: [], tags: [], rowKey: uuid4() })));
   }
 
   return (
@@ -109,7 +114,7 @@ export default function RecipeCreateBulkPage() {
         <Box sx={{ px: 2 }}>
           <Box component="section" sx={{ mt: 1 }}>
             {bulkUrls.map((item, idx) => (
-              <Grid key={`bulk-url${idx}`} container spacing={1} sx={{ my: 0.5 }}>
+              <Grid key={item.rowKey} container spacing={1} sx={{ my: 0.5 }}>
                 <Grid size={12}>
                   <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                     <Box sx={{ flexGrow: 1 }}>

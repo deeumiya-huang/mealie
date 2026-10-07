@@ -44,7 +44,9 @@ export default function AdminManageHouseholdsHouseholdPage() {
 
   // The form edits a copy of the loaded household (Vue mutated the async data in place).
   const [edited, setEdited] = useState<{ source: HouseholdInDB | null; household: HouseholdInDB } | null>(null);
-  const household = edited && edited.source === loadedHousehold ? edited.household : loadedHousehold;
+  // Keyed by id, not identity: the cached record is shown at once and re-fetched, and the re-fetch must not drop
+  // what the admin typed meanwhile.
+  const household = edited && loadedHousehold && edited.source?.id === loadedHousehold.id ? edited.household : loadedHousehold;
 
   function updateHousehold(change: Partial<HouseholdInDB>) {
     if (!household) return;
@@ -88,8 +90,12 @@ export default function AdminManageHouseholdsHouseholdPage() {
       <CardContent>{t("household.household-id-value", [household.id])}</CardContent>
       {!userError && (
         <Box
+          component="form"
+          noValidate
           onSubmit={(event: FormEvent) => {
             event.preventDefault();
+            // React submit events bubble through portals: ignore forms inside dialogs opened from this page
+            if (event.target !== event.currentTarget) return;
             void handleSubmit();
           }}
         >
@@ -130,7 +136,7 @@ export default function AdminManageHouseholdsHouseholdPage() {
             </CardContent>
           </Card>
           <Box sx={{ display: "flex", p: 1 }}>
-            <BaseButton type="button" edit sx={{ ml: "auto" }} onClick={() => void handleSubmit()}>
+            <BaseButton type="submit" edit sx={{ ml: "auto" }}>
               {t("general.update")}
             </BaseButton>
           </Box>

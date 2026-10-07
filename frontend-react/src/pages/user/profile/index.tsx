@@ -17,7 +17,6 @@ import { UserInviteDialog } from "@/components/Domain/User/UserInviteDialog";
 import { UserProfileLinkCard } from "@/components/Domain/User/UserProfileLinkCard";
 import { useUserApi } from "@/hooks/api";
 import { useMealieAuth } from "@/hooks/use-mealie-auth";
-import { useAsyncKey } from "@/hooks/use-utils";
 import { useAsyncData, useDisplay, usePageTitle } from "@/hooks/utils";
 import { useI18n } from "@/i18n";
 import type { HouseholdStatistics } from "@/lib/api/types/household";
@@ -50,16 +49,15 @@ export default function UserProfilePage() {
   const [inviteDialog, setInviteDialog] = useState(false);
   const api = useUserApi();
 
-  // a fresh key per visit: the statistics are always loaded again
-  const [statsKey] = useState(useAsyncKey);
-  const { data: stats } = useAsyncData(statsKey, async () => {
+  // Vue used a fresh key per visit: the statistics are always loaded again, nothing cached
+  const { data: stats } = useAsyncData("user-profile-stats", async () => {
     const { data } = await api.households.statistics();
 
     if (data) {
       return data;
     }
     return undefined;
-  });
+  }, [], { cache: false });
 
   const filteredStats = useMemo<Partial<HouseholdStatistics>>(() => {
     if (!stats) return {};

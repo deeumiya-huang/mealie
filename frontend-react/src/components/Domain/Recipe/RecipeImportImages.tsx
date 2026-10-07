@@ -97,7 +97,8 @@ export function RecipeImportImages({ value = NO_IMAGES, onChange, disabled = fal
           </Box>
           <Grid container spacing={1}>
             {previewUrls.map((imageUrl, index) => (
-              <Grid key={index} size={{ xs: 12, sm: 6, lg: 4, xl: 3 }}>
+              // object URLs are unique per image: the key follows the image when another one is deleted or made the cover
+              <Grid key={imageUrl} size={{ xs: 12, sm: 6, lg: 4, xl: 3 }}>
                 <Box sx={{ p: 1 }}>
                   <Box sx={{ mt: 2, mb: 1 }}>
                     <ImageCropper

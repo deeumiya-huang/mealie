@@ -29,6 +29,11 @@ export interface BaseNumberInputProps extends Omit<TextFieldProps, "value" | "on
   prefix?: ReactNode;
 }
 
+/** A caller's slot props to merge with ours (callback slot props are not supported here). */
+function objectSlot(props: unknown): Record<string, unknown> {
+  return props && typeof props === "object" ? props as Record<string, unknown> : {};
+}
+
 function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
 }
@@ -70,7 +75,10 @@ export function BaseNumberInput({
           return;
         }
         const parsed = Number(text);
-        if (!Number.isNaN(parsed)) commit(parsed);
+        if (Number.isNaN(parsed)) return;
+        commit(parsed);
+        // more decimals than `precision` (Vuetify blocks those keys): show the rounded value right away
+        if (round(parsed) !== parsed) setDraft(null);
       }}
       onBlur={(event) => {
         setDraft(null);
@@ -78,8 +86,9 @@ export function BaseNumberInput({
       }}
       slotProps={{
         ...slotProps,
-        htmlInput: { min, max, step, inputMode: "decimal" },
+        htmlInput: { ...objectSlot(slotProps?.htmlInput), min, max, step, inputMode: "decimal" },
         input: {
+          ...objectSlot(slotProps?.input),
           startAdornment: prefix ? <InputAdornment position="start">{prefix}</InputAdornment> : undefined,
           endAdornment: (suffix || controls)
             ? (

@@ -5,6 +5,9 @@ import { createStore, useStore, type Store } from "@/lib/store";
  * Port of VueUse `useLocalStorage` / `useSessionStorage` / `useStorage`: same keys, same
  * serialisation (raw strings, numbers, booleans, JSON for objects), `mergeDefaults` for objects,
  * shared between every component using the same key and synced across tabs via `storage` events.
+ * The shared store of a key keeps the defaults of its first caller (later callers' defaults are ignored), and
+ * defaults are not written to storage (VueUse `writeDefaults`); every caller in the app passes the same defaults
+ * per key and reads them back the same way, so this matches the Vue behaviour.
  */
 export interface StorageOptions {
   mergeDefaults?: boolean;

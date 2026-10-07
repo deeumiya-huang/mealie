@@ -41,8 +41,6 @@ const allAnnouncements: Announcement[] = Object.entries(_announcementsUnsorted)
   });
 
 const newAnnouncements = createStore<Announcement[]>([]);
-// The user the unread list was computed for (Vue: compared in a watcher per caller).
-let initializedForUserId: string | undefined | null = null;
 
 function isWelcomeAnnouncement(key: string) {
   return key === allAnnouncements.at(0)!.key;
@@ -90,7 +88,6 @@ async function markAllAsRead() {
 
 function initUnreadAnnouncements() {
   const user = authStore.get().user;
-  initializedForUserId = user?.id;
 
   // Only logged-in users can see announcements
   if (!user || !allAnnouncements.length) {
@@ -121,12 +118,10 @@ export function useAnnouncements() {
     && group?.preferences?.showAnnouncements
   );
 
-  // Init once, and again when the user changes
+  // Like Vue (init in every setup, re-init when the user changes): on mount and when the user changes
   const userId = auth.user?.id;
   useEffect(() => {
-    if (initializedForUserId === null || initializedForUserId !== userId) {
-      initUnreadAnnouncements();
-    }
+    initUnreadAnnouncements();
   }, [userId]);
 
   return {

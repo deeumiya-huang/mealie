@@ -169,8 +169,8 @@ export default function HouseholdMealplanPlannerEditPage() {
                   >
                     {mealplan.recipe
                       ? (
-                          <Box sx={{ py: 1, cursor: "pointer" }} onClick={() => editMeal(mealplan)}>
-                            <RecipeCardLineItem recipe={mealplan.recipe} disableLink />
+                          <Box sx={{ py: 1 }}>
+                            <RecipeCardLineItem recipe={mealplan.recipe} disableLink onClick={() => editMeal(mealplan)} />
                           </Box>
                         )
                       : (

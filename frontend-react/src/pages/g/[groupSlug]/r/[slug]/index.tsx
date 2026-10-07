@@ -26,6 +26,8 @@ function RecipeSlugPageContent({ slug }: RecipeSlugPageContentProps) {
   const navigate = useNavigate();
 
   const [recipe, setRecipe] = useState<Recipe | null>(null);
+  // Vue set the title when the recipe was (re)loaded, to a non-empty name; edits in the page do not change it
+  const [title, setTitle] = useState("");
 
   // the group's own members: useRecipe(slug), copied into the editable page state whenever it loads
   const { recipe: data } = useRecipe(slug, ownGroup);
@@ -33,6 +35,9 @@ function RecipeSlugPageContent({ slug }: RecipeSlugPageContentProps) {
   if (ownGroup && data !== loadedRecipe) {
     setLoadedRecipe(data);
     setRecipe(data);
+    if (data?.name) {
+      setTitle(data.name);
+    }
   }
 
   // everyone else: the public explore API (Vue: onMounted(loadPublicRecipe))
@@ -55,6 +60,9 @@ function RecipeSlugPageContent({ slug }: RecipeSlugPageContentProps) {
       }
 
       setRecipe(publicRecipe);
+      if (publicRecipe?.name) {
+        setTitle(publicRecipe.name);
+      }
     })();
     return () => {
       active = false;
@@ -63,7 +71,7 @@ function RecipeSlugPageContent({ slug }: RecipeSlugPageContentProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  usePageTitle(recipe?.name || "");
+  usePageTitle(title);
 
   function updateRecipe(update: SetStateAction<RecipeModel>) {
     setRecipe(prev => (prev ? applyUpdate(update, prev as RecipeModel) : prev));

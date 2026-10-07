@@ -40,10 +40,12 @@ export default function AdminManageGroupsGroupPage() {
     return data;
   }, [groupId]);
 
-  // The form edits a copy of the loaded group (Vue mutated the async data in place); reloading or a
-  // successful save replaces the edits with the server's version.
+  // The form edits a copy of the loaded group (Vue mutated the async data in place); a successful save or a
+  // reload after an AI provider change replaces the edits with the server's version.
   const [edited, setEdited] = useState<{ source: GroupInDB | null; group: GroupInDB } | null>(null);
-  const group = edited && edited.source === loadedGroup ? edited.group : loadedGroup;
+  // Keyed by id, not identity: the cached record is shown at once and re-fetched, and the re-fetch must not drop
+  // what the admin typed meanwhile.
+  const group = edited && loadedGroup && edited.source?.id === loadedGroup.id ? edited.group : loadedGroup;
 
   function updateGroup(change: Partial<GroupInDB>) {
     if (!group) return;
@@ -74,6 +76,7 @@ export default function AdminManageGroupsGroupPage() {
     const result = await adminApi.aiProviders.createProvider(group.id, data);
     if (result.data) {
       await refresh();
+      setEdited(null);
       alert.success(t("group.ai-provider-settings.provider-created"));
     }
     else {
@@ -86,6 +89,7 @@ export default function AdminManageGroupsGroupPage() {
     const result = await adminApi.aiProviders.updateProvider(group.id, id, data);
     if (result.data) {
       await refresh();
+      setEdited(null);
       alert.success(t("group.ai-provider-settings.provider-updated"));
     }
     else {
@@ -98,6 +102,7 @@ export default function AdminManageGroupsGroupPage() {
     const result = await adminApi.aiProviders.deleteProvider(group.id, id);
     if (result.data) {
       await refresh();
+      setEdited(null);
       alert.success(t("group.ai-provider-settings.provider-deleted"));
     }
     else {
@@ -119,8 +124,12 @@ export default function AdminManageGroupsGroupPage() {
       <CardContent>{t("group.group-id-value", [group.id])}</CardContent>
       {!userError && (
         <Box
+          component="form"
+          noValidate
           onSubmit={(event: FormEvent) => {
             event.preventDefault();
+            // React submit events bubble through portals: ignore forms inside dialogs opened from this page
+            if (event.target !== event.currentTarget) return;
             void handleSubmit();
           }}
         >
@@ -151,7 +160,7 @@ export default function AdminManageGroupsGroupPage() {
             </CardContent>
           </Card>
           <Box sx={{ display: "flex", p: 1 }}>
-            <BaseButton type="button" edit sx={{ ml: "auto" }} onClick={() => void handleSubmit()}>
+            <BaseButton type="submit" edit sx={{ ml: "auto" }}>
               {t("general.update")}
             </BaseButton>
           </Box>

@@ -18,6 +18,12 @@ export default function AdminLayout() {
 
   // Open by default on large screens (Vue: set in onMounted)
   const [sidebar, setSidebar] = useState<boolean>(display.lgAndUp);
+  // Vuetify's drawer resize watcher: closes when it becomes temporary, opens when it becomes permanent
+  const [prevLgAndUp, setPrevLgAndUp] = useState(display.lgAndUp);
+  if (display.lgAndUp !== prevLgAndUp) {
+    setPrevLgAndUp(display.lgAndUp);
+    setSidebar(display.lgAndUp);
+  }
 
   const topLinks: SidebarLinks = [
     {

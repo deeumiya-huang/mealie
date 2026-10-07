@@ -168,9 +168,18 @@ export function RecipeContextMenuContent({
       : fetchedHousehold?.id === recipeHouseholdId ? fetchedHousehold : undefined;
 
   useEffect(() => {
-    if (recipeHouseholdId && isOwnGroup && recipeHouseholdId !== household?.id && recipeHouseholdId !== fetchedHousehold?.id) {
-      void api.households.getOne(recipeHouseholdId).then(({ data }) => setFetchedHousehold(data || undefined));
+    if (!recipeHouseholdId || !isOwnGroup || recipeHouseholdId === household?.id || recipeHouseholdId === fetchedHousehold?.id) {
+      return;
     }
+    let active = true;
+    void api.households.getOne(recipeHouseholdId).then(({ data }) => {
+      if (active) {
+        setFetchedHousehold(data || undefined);
+      }
+    });
+    return () => {
+      active = false;
+    };
   }, [api, recipeHouseholdId, isOwnGroup, household?.id, fetchedHousehold?.id]);
 
   const isAdminAndNotOwner = !!auth.user?.admin && auth.user.id !== recipeRef?.userId;

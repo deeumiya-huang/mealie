@@ -26,10 +26,15 @@ const request = {
 };
 
 export function getRequests(axiosInstance: AxiosInstance): ApiRequestInstance {
+  return requestsFor(() => axiosInstance);
+}
+
+/** The request wrapper around an instance read at call time (see `apiRequests`). */
+function requestsFor(instance: () => AxiosInstance): ApiRequestInstance {
   return {
     async get<T>(url: string, params = {}, config?: AxiosRequestConfig): Promise<RequestResponse<T>> {
       let error = null;
-      const response = await axiosInstance.get<T>(url, { ...config, params }).catch((e) => {
+      const response = await instance().get<T>(url, { ...config, params }).catch((e) => {
         error = e;
       });
       if (response != null) {
@@ -39,25 +44,29 @@ export function getRequests(axiosInstance: AxiosInstance): ApiRequestInstance {
     },
 
     async post<T, U>(url: string, data: U, config?: AxiosRequestConfig) {
-      return await request.safe<T, U>(axiosInstance.post, url, data, config);
+      return await request.safe<T, U>(instance().post, url, data, config);
     },
 
     async put<T, U = T>(url: string, data: U, config?: AxiosRequestConfig) {
-      return await request.safe<T, U>(axiosInstance.put, url, data, config);
+      return await request.safe<T, U>(instance().put, url, data, config);
     },
 
     async patch<T, U = Partial<T>>(url: string, data: U, config?: AxiosRequestConfig) {
-      return await request.safe<T, U>(axiosInstance.patch, url, data, config);
+      return await request.safe<T, U>(instance().patch, url, data, config);
     },
 
     async delete<T>(url: string, config?: AxiosRequestConfig) {
-      return await request.safe<T, undefined>(axiosInstance.delete, url, undefined, config);
+      return await request.safe<T, undefined>(instance().delete, url, undefined, config);
     },
   };
 }
 
-/** The shared request wrapper, for module-level API clients (stores). */
-export const apiRequests = getRequests(http);
+/**
+ * The shared request wrapper, for module-level API clients (stores). `http` is read per request, not here:
+ * lib/http imports use-auth-backend, which imports the stores that import this module, so `http` may not be
+ * initialised yet while this module evaluates.
+ */
+export const apiRequests = requestsFor(() => http);
 const requests = apiRequests;
 // Also exported for plain modules (module-level stores, loaders) that must not call `use…` hooks.
 export const adminApi = new AdminAPI(requests);

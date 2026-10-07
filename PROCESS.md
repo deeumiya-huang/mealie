@@ -861,16 +861,24 @@ logged automatically by the user-level hooks.
 
 ---
 
+- D52 — 2026-10-07 — P5-03 review fixes (REVIEW.md): (a) providers now nest ThemeMode → I18n → AppInfo → Router (was
+  AppInfo outermost; theme and i18n never read the app info), so a failed `/api/app/about` shows a themed, translated
+  error view instead of a blank page; `main.tsx` starts the three boot requests in parallel. (b) `page()` keys each lazy
+  page by its params (Nuxt's default page key), so param-only navigations remount. (c) `useAsyncData` gained
+  `{ cache: false }` for Vue's per-visit `useAsyncKey()` loads. (d) `useDownloader` uses `fetch` like Nuxt `useFetch`
+  (outside the axios interceptors). (e) `apiRequests` reads `http` per request, so the http ↔ auth import cycle no
+  longer depends on import order. (f) Declined: R1-15 (behaviour-equal), R2-7 (no-op in Vue). — Reason: review findings.
+
 ## 9. Status
 
 ```
-current_step: P5-03 (fix review findings)
-state: in-progress
-last_completed: P5-02 (independent review, 2026-10-07)
+current_step: P5-04 (final measure + MIGRATION_REPORT.md)
+state: not started
+last_completed: P5-03 (review fixes, 2026-10-07)
 gate: G2 approved 2026-10-07
 ```
 
-Steps: [x] P1 (G1 approved 2026-10-05) · [x] P2 · [x] P3-01 · [x] P3-02 · [x] P3-03 · [x] P3-04 · [x] P3-05 · [x] P3-06 · [x] P3-07 · [x] P3-08 · [x] P3-09 · [x] P3-10 · [x] P3-11 · [x] P3-12 · [x] G2 (approved 2026-10-07) · [x] P4-01 · [x] P4-02 · [x] P4-03 · [x] P4-04 · [x] P4-05 · [x] P4-06 · [x] P4-07 · [x] P4-08 · [x] P5-01 · [x] P5-02 · [ ] P5-03 · [ ] P5-04
+Steps: [x] P1 (G1 approved 2026-10-05) · [x] P2 · [x] P3-01 · [x] P3-02 · [x] P3-03 · [x] P3-04 · [x] P3-05 · [x] P3-06 · [x] P3-07 · [x] P3-08 · [x] P3-09 · [x] P3-10 · [x] P3-11 · [x] P3-12 · [x] G2 (approved 2026-10-07) · [x] P4-01 · [x] P4-02 · [x] P4-03 · [x] P4-04 · [x] P4-05 · [x] P4-06 · [x] P4-07 · [x] P4-08 · [x] P5-01 · [x] P5-02 · [x] P5-03 · [ ] P5-04
 
 Active subagents:
 
@@ -895,7 +903,11 @@ P5-01 (integration, done 2026-10-07; D51): `types/auth.d.ts` ported (port-status
 CHECKS: tsc 0, eslint 0, vitest 105 files / 760 passed / 0 skipped, build ok, test-parity 48/48 (453 tests, 819/817
 expects). Full E2E twice: 82/82 both runs (66 routes + table guard + 15 flows, 2.9 min each). FORBIDDEN clean.
 P5-02 (done 2026-10-07): `frontend-react/REVIEW.md` — R1 17 findings (1 high, 5 medium), R2 12 (1 medium, overlaps
-R1-3/R1-4); decisions: all fix except R1-15 (declined, behaviour-equal). Next: P5-03 fixes per REVIEW.md, then CHECKS + full E2E.
+R1-3/R1-4); decisions: all fix except R1-15 (declined, behaviour-equal).
+P5-03 (done 2026-10-07; D52): all REVIEW.md findings fixed except R1-15, R2-7 (declined with reasons). CHECKS: tsc 0,
+eslint 0, vitest 108 files / 769 passed / 0 skipped, test-parity 48/48 (453 tests, 820/817 expects), port-status 0
+missing, build ok, full E2E 82/82. Next: P5-04 — `./rewrite-evidence/measure.sh --app frontend-react --label WF2-final`
+on a clean tree, then `frontend-react/MIGRATION_REPORT.md` per the P5-04 row.
 Was: P5-02 — spawn reviewer R1 (foundation: `lib` excluding `lib/api`, `i18n`, `providers`, `routes`, `hooks`,
 `components/global`, `layouts`, `components/Layout`) and R2 (domains: `pages`, `components/Domain`) together with the §4.3
 brief; write `frontend-react/REVIEW.md`; P5-02 Ends = no, so continue into P5-03 in the same session if context allows.

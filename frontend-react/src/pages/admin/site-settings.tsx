@@ -1,4 +1,4 @@
-import { useEffect, useId, useState } from "react";
+import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
@@ -152,12 +152,11 @@ export default function AdminSiteSettingsPage() {
 
   // ============================================================
   // General About Info
-  // Vue used a unique `useAsyncKey()` per visit; an instance id is the equivalent.
-  const asyncKey = useId();
-  const { data: about } = useAsyncData(asyncKey, async () => {
+  // Vue used a unique `useAsyncKey()` per visit: always loaded fresh, nothing cached.
+  const { data: about } = useAsyncData("admin-about", async () => {
     const { data } = await adminApi.about.about();
     return data;
-  });
+  }, [], { cache: false });
   const rawAppInfo = {
     version: about?.version ?? "null",
     versionLatest: about?.versionLatest ?? "null",

@@ -18,7 +18,6 @@ import { MdiIcon } from "@/components/global/MdiIcon";
 import { useUserApi } from "@/hooks/api";
 import { useMealieAuth } from "@/hooks/use-mealie-auth";
 import { useShoppingListPreferences } from "@/hooks/use-users/preferences";
-import { useAsyncKey } from "@/hooks/use-utils";
 import { useAsyncData, usePageTitle } from "@/hooks/utils";
 import { useI18n } from "@/i18n";
 import type { ShoppingListOut } from "@/lib/api/types/household";
@@ -56,9 +55,8 @@ export default function ShoppingListsPage() {
     return data.items as ShoppingListOut[];
   }
 
-  // a fresh key per visit, like `useAsyncKey()` in Vue: the lists are always loaded again
-  const [asyncKey] = useState(useAsyncKey);
-  const { data: shoppingLists, refresh } = useAsyncData(asyncKey, fetchShoppingLists);
+  // Vue used a fresh `useAsyncKey()` per visit: the lists are always loaded again, nothing is cached
+  const { data: shoppingLists, refresh } = useAsyncData("shopping-lists", fetchShoppingLists, [], { cache: false });
 
   const userId = auth.user?.id;
   const shoppingListChoices = useMemo(() => {
