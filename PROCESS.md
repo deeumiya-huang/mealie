@@ -824,18 +824,32 @@ logged automatically by the user-level hooks.
   to P4-07: its last step opens `/g/<slug>/r/<recipe>` (a P4-07 page; §3.1 assigns a flow to the first step after which
   all its pages exist). — All behaviour-neutral or fixes of Vue no-ops/crashes; no accessible name or URL changes;
   PG-C E2E routes 19/19 and the other 5 flows pass.
+- D49 — 2026-10-07 — `vitest.config.ts` `testTimeout: 15000`: `pages/household/notifiers.test.tsx` (userEvent typing)
+  timed out at the 5 s default in about 1 of 3 parallel full runs; reproduced as "Test timed out in 5000ms", never an
+  assertion failure. Raising the timeout changes no assertion.
+- D50 — 2026-10-07 — P4-07 porter deviations accepted: the page owns `recipe` in state and parts get `recipe` +
+  `onChange(update)` (`RecipePage/recipe-model.ts`) instead of Vue's in-place mutation; `[slug]` page keyed by slug
+  (a rename remounts it); `onBeforeRouteLeave` → `useBlocker` on pathname changes only; cook-mode watchers merged into
+  one effect; `clearPageState` deferred one tick (StrictMode); cook-mode sheets mounted only in cook mode; the parse
+  dialog hook uses a per-instance store, reads the latest ingredients at parse time, parses once on parser pick (Vue
+  emitted twice, the second ignored) and keys review rows by `referenceId`; the header fetches the household only when
+  logged in, InfoCardImage drops an unused fetch; visitor tools list is a separate component (no conditional hook);
+  extra `aria-label`s from existing locale keys (comment field = its placeholder text, icon-only buttons, MUI Rating
+  labels, `aria-labelledby` on ingredient/tool checkboxes), recipe name is an `h1`; rating hover workaround on touch
+  approximated; `.v-main` print rules applied to `main`; TransitionGroup/v-lazy animations in the parse review list not
+  reproduced (cosmetic). Behaviour-neutral or fixes of Vue double calls/failing calls; E2E subset passes.
 ---
 
 ## 9. Status
 
 ```
-current_step: P4-07 (recipe-page, porter on Opus)
-state: in-progress (porter running)
-last_completed: PG-C (P4-05 + P4-06, 2026-10-07)
+current_step: P4-08 (checkpoint measure.sh, main)
+state: not started
+last_completed: P4-07 (recipe-page, 2026-10-07)
 gate: G2 approved 2026-10-07
 ```
 
-Steps: [x] P1 (G1 approved 2026-10-05) · [x] P2 · [x] P3-01 · [x] P3-02 · [x] P3-03 · [x] P3-04 · [x] P3-05 · [x] P3-06 · [x] P3-07 · [x] P3-08 · [x] P3-09 · [x] P3-10 · [x] P3-11 · [x] P3-12 · [x] G2 (approved 2026-10-07) · [x] P4-01 · [x] P4-02 · [x] P4-03 · [x] P4-04 · [x] P4-05 · [x] P4-06 · [ ] P4-07 · [ ] P4-08 · [ ] P5-01 … P5-04
+Steps: [x] P1 (G1 approved 2026-10-05) · [x] P2 · [x] P3-01 · [x] P3-02 · [x] P3-03 · [x] P3-04 · [x] P3-05 · [x] P3-06 · [x] P3-07 · [x] P3-08 · [x] P3-09 · [x] P3-10 · [x] P3-11 · [x] P3-12 · [x] G2 (approved 2026-10-07) · [x] P4-01 · [x] P4-02 · [x] P4-03 · [x] P4-04 · [x] P4-05 · [x] P4-06 · [x] P4-07 · [ ] P4-08 · [ ] P5-01 … P5-04
 
 Active subagents:
 
@@ -847,7 +861,7 @@ Active subagents:
 | P4-04 | `wf2/P4-04-group` | removed | 2026-10-07 | merged, verified |
 | P4-05 | `wf2/P4-05-explore` | removed | 2026-10-07 | merged, verified |
 | P4-06 | `wf2/P4-06-recipe-create` | removed | 2026-10-07 | merged, verified |
-| P4-07 | `wf2/P4-07-recipe-page` | agent worktree | 2026-10-07, resumed 2026-10-07 | resumed (Opus; first run hit the usage cap before writing files; brief rebuilt from §4.2 + §3 P4-07 row) |
+| P4-07 | `wf2/P4-07-recipe-page` | removed | 2026-10-07, resumed 2026-10-07 | merged, verified |
 
 Pending wiring:
 - `hooks/utils/use-sortable.ts` (P3-10, D36) exists: `useSortable(containerRef, { onReorder({oldIndex,newIndex}), handle,
@@ -925,10 +939,16 @@ P4-06 12 files / 56. Scan: no `any`, no TODO-likes, no SHARED-CHANGE-REQUESTs; e
 (GAP-5), exhaustive-deps ×2 with reasons (finder debounce, url mount-only). New domain files:
 `Domain/Recipe/RecipeCreate/{RecipeCreateParts.tsx, recipe-create-content.ts, test-utils.tsx}`; explore exports
 `useRecipeExplorerSearch(groupSlug)`, `useRecipeExplorerSearchEffects`, `useRecipeExplorerStores`, `useCookbookData`.
-Notes for the next session: start P4-07 (recipe-page) alone per §4.4 with the Agent `model: "opus"` override (D41);
-brief: §4.2 template, owned files from the P4 table, the 4 tests to port, routes `g/:groupSlug/r/:slug` (layout per
-`r/[slug]/index.vue`) and `g/:groupSlug/shared/r/:id` (layout `basic`), E2E subset §3.1 P4-07 + `log out` (D48).
-Keep the brief in the scratchpad until merged. Usage cap is 90 % (D47). Screenshots were taken by a scratchpad Playwright script against `start-backend.sh` on port 9093 (fresh DB,
+P4-07 (recipe-page, merged, verified 2026-10-07): first porter run hit the usage cap before writing files; the resumed
+Opus porter delivered a complete report. Merge clean, diff only in `frontend-react/src`. CHECKS green (tsc 0, eslint 0,
+vitest 105 files / 759 passed, build ok), port-status `recipe-page` 41/0 missing (overall 1 missing: `types/auth.d.ts`),
+test-parity 48/48 files (453/453 tests, 819/817 expects, 0 skipped), E2E `[route] g/[groupSlug]/(r/[slug]|shared/)`
+2/2, `r/create` routes 10/10 (no shadowing by `r/:slug`; `routes/__tests__/recipe-page.test.ts` checks ranking), flows
+`open a recipe`, `comment on a recipe`, `log out` 3/3. Scan: no `any`, no TODO-likes, no SHARED-CHANGE-REQUESTs; 3
+`exhaustive-deps` disables with reasons. Deviations: D50. Fixed flaky unit timeout (D49); added the porter's
+import-cycle test note to `frontend-react/CLAUDE.md`. New file: `Domain/Recipe/RecipePage/recipe-model.ts`
+(`RecipeModel`, `RecipeChange`, `applyUpdate`, `asModel`). Next: P4-08 checkpoint (main, `measure.sh --label
+WF2-P4-done`); P5-01 must port `types/auth.d.ts` (port-status' last missing file). Usage cap is 90 % (D47). Screenshots were taken by a scratchpad Playwright script against `start-backend.sh` on port 9093 (fresh DB,
 default admin taken over via API like `global-setup.ts`).
 P3-11 (pilot, 1 porter, merged, verified): CHECKS green (tsc 0, eslint 0, 55 files / 409 tests, build ok), port-status
 `user` 5/0 missing, test-parity 31/48 files (all misses belong to P4 domains), E2E `[route] user/` 4/4 + `full name` 1/1.
