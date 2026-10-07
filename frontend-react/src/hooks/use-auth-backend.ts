@@ -1,4 +1,4 @@
-import type { UserOut } from "@/lib/api/types/user";
+import type { User } from "@/types/auth";
 import { AUTH_TOKEN } from "@/config";
 import { clearAllStores } from "@/hooks/store";
 import { clearComposableCaches } from "@/hooks/use-clear-composable-caches";
@@ -11,7 +11,7 @@ import { createStore, useStore } from "@/lib/store";
 export type AuthStatus = "loading" | "authenticated" | "unauthenticated";
 
 export interface AuthSnapshot {
-  user: UserOut | null;
+  user: User | null;
   status: AuthStatus;
   token: string | null;
 }
@@ -118,7 +118,7 @@ async function getSession(): Promise<void> {
 
   patch({ status: "loading" });
   try {
-    const { data } = await http.get<UserOut>("/api/users/self");
+    const { data } = await http.get<User>("/api/users/self");
     patch({ user: data, status: "authenticated" });
   }
   catch (error) {

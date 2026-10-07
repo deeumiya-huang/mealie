@@ -63,6 +63,9 @@ export const routes: RouteObject[] = [
   },
 ];
 
+// Vite `base` (from SUB_PATH, see vite.config.ts) without its trailing slash, like Nuxt's router base.
+export const routerBasename = import.meta.env.BASE_URL.replace(/\/+$/, "") || "/";
+
 export function createRouter() {
-  return createBrowserRouter(routes);
+  return createBrowserRouter(routes, { basename: routerBasename });
 }

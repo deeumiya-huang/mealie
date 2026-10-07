@@ -36,6 +36,7 @@ import type {
   IngredientFoodAlias,
   IngredientFoodSubstitution,
 } from "@/lib/api/types/recipe";
+import type { MultiPurposeLabelOut } from "@/lib/api/types/labels";
 import { icons } from "@/lib/icons";
 import type { AutoFormItems } from "@/types/auto-forms";
 
@@ -54,25 +55,6 @@ const tableConfig: TableConfig = {
   canExport: true,
 };
 
-/**
- * `BaseDataTable` sorts and searches a column by `String(item[key])`, and Vuetify's per-header `sort` comparators
- * (label name, substitution count) have no counterpart there (GAP-2). The label and substitutions values therefore
- * carry a non-enumerable `toString` that yields the sort key (label name / zero-padded count), so the table orders
- * them like the Vue comparators; JSON (the table export, API payloads) is unaffected.
- */
-function withSortKeys(food: IngredientFoodWithOnHand): IngredientFoodWithOnHand {
-  const result = { ...food };
-  if (food.label) {
-    const labelName = food.label.name || "";
-    result.label = Object.defineProperty({ ...food.label }, "toString", { value: () => labelName, enumerable: false });
-  }
-  if (food.substitutions) {
-    const count = String(food.substitutions.length).padStart(8, "0");
-    result.substitutions = Object.defineProperty([...food.substitutions], "toString", { value: () => count, enumerable: false });
-  }
-  return result;
-}
-
 interface AffectedRecipe {
   name: string;
   slug: string;
@@ -89,9 +71,27 @@ export default function GroupDataFoodsPage() {
     { text: t("general.name"), value: "name", show: true, sortable: true },
     { text: t("general.plural-name"), value: "pluralName", show: true, sortable: true },
     { text: t("recipe.description"), value: "description", show: true },
-    { text: t("shopping-list.label"), value: "label", show: true, sortable: true },
+    {
+      text: t("shopping-list.label"),
+      value: "label",
+      show: true,
+      sortable: true,
+      sort: (label1: MultiPurposeLabelOut | null, label2: MultiPurposeLabelOut | null) => {
+        const label1Name = label1?.name || "";
+        const label2Name = label2?.name || "";
+        return label1Name.localeCompare(label2Name);
+      },
+    },
     { text: t("tool.on-hand"), value: "onHand", show: true, sortable: true },
-    { text: t("data-pages.foods.substitutions"), value: "substitutions", show: true, sortable: true },
+    {
+      text: t("data-pages.foods.substitutions"),
+      value: "substitutions",
+      show: true,
+      sortable: true,
+      sort: (subs1: IngredientFoodSubstitution[] | null, subs2: IngredientFoodSubstitution[] | null) => {
+        return (subs1?.length || 0) - (subs2?.length || 0);
+      },
+    },
     { text: t("general.date-added"), value: "createdAt", show: false, sortable: true },
   ];
 
@@ -100,7 +100,7 @@ export default function GroupDataFoodsPage() {
   const foodStore = useFoodStore();
   const foods = foodStore.store.map((food) => {
     const onHand = food.householdsWithIngredientFood?.includes(userHousehold) || false;
-    return withSortKeys({ ...food, onHand } as IngredientFoodWithOnHand);
+    return { ...food, onHand } as IngredientFoodWithOnHand;
   });
 
   const refreshFoods = foodStore.actions.refresh;

@@ -1,4 +1,5 @@
 /// <reference types="vite/client" />
+/// <reference types="vite-plugin-pwa/client" />
 
 // Build-time settings, same environment variables as frontend/nuxt.config.ts runtimeConfig
 // (exposed through `envPrefix` in vite.config.ts).

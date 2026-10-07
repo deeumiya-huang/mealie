@@ -33,6 +33,8 @@ export interface DataTableHeader<T> {
   width?: number | string;
   /** Value used for display, sorting and search; default `item[key]`. */
   value?: (item: T) => unknown;
+  /** Comparator for this column's values (Vuetify header `sort`); default: numbers, dates, then text. */
+  sort?(a: unknown, b: unknown): number;
 }
 
 export interface DataTableSort {
@@ -107,7 +109,7 @@ export function BaseDataTable<T>({
 
   const sortHeader = sort ? headers.find(header => header.key === sort.key) : undefined;
   const sorted = sortHeader && sort
-    ? [...filtered].sort((a, b) => compare(cellValue(sortHeader, a), cellValue(sortHeader, b)) * (sort.order === "asc" ? 1 : -1))
+    ? [...filtered].sort((a, b) => (sortHeader.sort ?? compare)(cellValue(sortHeader, a), cellValue(sortHeader, b)) * (sort.order === "asc" ? 1 : -1))
     : filtered;
 
   const pageSizes = [...new Set([...itemsPerPageOptions, itemsPerPage].filter(n => n > 0))].sort((a, b) => a - b);

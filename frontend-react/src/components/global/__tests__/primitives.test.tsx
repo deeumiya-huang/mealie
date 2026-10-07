@@ -133,6 +133,19 @@ describe("BaseDataTable", () => {
     await userEvent.click(screen.getAllByRole("checkbox")[1]);
     expect(onSelectedChange).toHaveBeenCalledWith([rows[0]]);
   });
+
+  test("a header comparator orders the column's values", async () => {
+    // a reversing comparator: ascending order is the opposite of the default alphabetical one
+    const reversed: DataTableHeader<Row>[] = [
+      { title: "Name", key: "name", sort: (a, b) => String(b).localeCompare(String(a)) },
+      { title: "Count", key: "count" },
+    ];
+    renderWithProviders(<BaseDataTable headers={reversed} items={rows} />);
+    await userEvent.click(screen.getByRole("button", { name: "Name" }));
+    expect(names()).toEqual(["Cherry", "Banana", "apple"]);
+    await userEvent.click(screen.getByRole("button", { name: "Name" }));
+    expect(names()).toEqual(["apple", "Banana", "Cherry"]);
+  });
 });
 
 describe("BaseNumberInput", () => {

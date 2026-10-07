@@ -62,7 +62,7 @@ type FieldWithId = Field & { id: number };
 /** The shared stores only need to be read as lists of organizers here. */
 interface OrganizerStore {
   store: OrganizerBase[];
-  getAll: () => Promise<OrganizerBase[]>;
+  refresh: () => Promise<OrganizerBase[]>;
 }
 
 type GridSpan = number | "auto" | true;
@@ -190,13 +190,13 @@ export function QueryFilterBuilder({ fieldDefs, initialQueryFilter = null, onInp
   const userStore = useUserStore();
 
   const storeMap: Record<Organizer, OrganizerStore> = {
-    [Organizer.Category]: { store: categoryStore.store, getAll: () => categoryStore.actions.getAll() },
-    [Organizer.Tag]: { store: tagStore.store, getAll: () => tagStore.actions.getAll() },
-    [Organizer.Tool]: { store: toolStore.store, getAll: () => toolStore.actions.getAll() },
-    [Organizer.Food]: { store: foodStore.store, getAll: () => foodStore.actions.getAll() },
-    [Organizer.Label]: { store: labelStore.store, getAll: () => labelStore.actions.getAll() },
-    [Organizer.Household]: { store: householdStore.store, getAll: () => householdStore.actions.getAll() },
-    [Organizer.User]: { store: userStore.store, getAll: () => userStore.actions.getAll() },
+    [Organizer.Category]: { store: categoryStore.store, refresh: () => categoryStore.actions.refresh() },
+    [Organizer.Tag]: { store: tagStore.store, refresh: () => tagStore.actions.refresh() },
+    [Organizer.Tool]: { store: toolStore.store, refresh: () => toolStore.actions.refresh() },
+    [Organizer.Food]: { store: foodStore.store, refresh: () => foodStore.actions.refresh() },
+    [Organizer.Label]: { store: labelStore.store, refresh: () => labelStore.actions.refresh() },
+    [Organizer.Household]: { store: householdStore.store, refresh: () => householdStore.actions.refresh() },
+    [Organizer.User]: { store: userStore.store, refresh: () => userStore.actions.refresh() },
   } as unknown as Record<Organizer, OrganizerStore>;
 
   // ===========================================================================
@@ -381,7 +381,7 @@ export function QueryFilterBuilder({ fieldDefs, initialQueryFilter = null, onInp
       const entry = storeMap[field.type];
       let list = entry.store;
       if (!list.length) {
-        list = await entry.getAll();
+        list = await entry.refresh();
       }
 
       const organizers = field.values.map((value) => {

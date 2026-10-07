@@ -109,5 +109,13 @@ export function buildTheme(dark: boolean, config?: ThemeConfig): Theme {
     typography: {
       fontFamily: "Roboto, sans-serif",
     },
+    components: {
+      // Vuetify's v-container pads 16px on every side; MUI's Container only has side gutters.
+      MuiContainer: {
+        styleOverrides: {
+          root: { paddingTop: 16, paddingBottom: 16 },
+        },
+      },
+    },
   });
 }

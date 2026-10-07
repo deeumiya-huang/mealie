@@ -241,13 +241,13 @@ export function RecipeSelector({ queryFilter = null, height = "100%", value = nu
           ? (
               <List sx={{ py: 0 }}>
                 {recipes.map(recipe => (
-                  <Box key={recipe.id} sx={{ display: "contents" }} onClick={() => onChange?.(recipe)}>
-                    <RecipeCardLineItem
-                      recipe={recipe}
-                      active={recipe.id === value?.id}
-                      disableLink
-                    />
-                  </Box>
+                  <RecipeCardLineItem
+                    key={recipe.id}
+                    recipe={recipe}
+                    active={recipe.id === value?.id}
+                    disableLink
+                    onClick={() => onChange?.(recipe)}
+                  />
                 ))}
               </List>
             )

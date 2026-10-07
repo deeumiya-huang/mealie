@@ -15,7 +15,16 @@ import { useI18n } from "@/i18n";
 import { icons } from "@/lib/icons";
 import { RecipeExplorerPageSearch } from "./RecipeExplorerPageParts/RecipeExplorerPageSearch";
 
+/**
+ * The page picks the user's or the public stores by `isOwnGroup` (`useRecipeExplorerStores`): remount it when that
+ * changes (log in / log out while it is shown) so no component switches store hooks in place.
+ */
 export function RecipeExplorerPage() {
+  const { isOwnGroup } = useLoggedInState();
+  return <RecipeExplorerPageContent key={String(isOwnGroup)} />;
+}
+
+function RecipeExplorerPageContent() {
   const { t } = useI18n();
   const auth = useMealieAuth();
   const params = useParams();

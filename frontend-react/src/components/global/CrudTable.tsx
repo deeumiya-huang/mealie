@@ -33,9 +33,8 @@ export interface TableHeaders {
   show: boolean;
   align?: "start" | "center" | "end";
   sortable?: boolean;
-  // any: sort comparators receive whatever value type the column holds.
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  sort?: (a: any, b: any) => number;
+  /** Comparator for the column's values; method syntax so a typed `(a: Label, b: Label) => number` fits. */
+  sort?(a: unknown, b: unknown): number;
 }
 
 export interface BulkAction {
@@ -92,6 +91,7 @@ export function CrudTable<T extends object>({
       key: header.value,
       align: header.align,
       sortable: header.sortable,
+      sort: header.sort,
     })),
     { title: "", key: "actions", sortable: false, align: "end" as const },
   ];

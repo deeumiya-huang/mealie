@@ -18,9 +18,11 @@ interface RecipeCardLineItemProps {
   disableLink?: boolean;
   subtitle?: ReactNode;
   append?: ReactNode;
+  /** Vue `@click` on the item (falls through to the list item). */
+  onClick?: () => void;
 }
 
-export function RecipeCardLineItem({ recipe, active = false, disableLink = false, subtitle, append }: RecipeCardLineItemProps) {
+export function RecipeCardLineItem({ recipe, active = false, disableLink = false, subtitle, append, onClick }: RecipeCardLineItemProps) {
   const auth = useMealieAuth();
   const params = useParams();
 
@@ -58,8 +60,8 @@ export function RecipeCardLineItem({ recipe, active = false, disableLink = false
   return (
     <ListItem disablePadding secondaryAction={append}>
       {recipeRoute
-        ? <ListItemButton component={Link} to={recipeRoute} selected={active}>{body}</ListItemButton>
-        : <ListItemButton selected={active} sx={{ cursor: "pointer" }}>{body}</ListItemButton>}
+        ? <ListItemButton component={Link} to={recipeRoute} selected={active} onClick={onClick}>{body}</ListItemButton>
+        : <ListItemButton selected={active} sx={{ cursor: "pointer" }} onClick={onClick}>{body}</ListItemButton>}
     </ListItem>
   );
 }

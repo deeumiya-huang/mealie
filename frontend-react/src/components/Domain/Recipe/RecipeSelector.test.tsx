@@ -18,7 +18,9 @@ vi.mock("@/hooks/store", () => ({
 }));
 
 vi.mock("./RecipeCardLineItem", () => ({
-  RecipeCardLineItem: (props: { recipe: { name: string } }) => <button type="button">{props.recipe.name}</button>,
+  RecipeCardLineItem: (props: { recipe: { name: string }; onClick?: () => void }) => (
+    <button type="button" onClick={props.onClick}>{props.recipe.name}</button>
+  ),
 }));
 
 const { t } = stubI18n();

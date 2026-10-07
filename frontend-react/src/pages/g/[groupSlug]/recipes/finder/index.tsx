@@ -59,7 +59,14 @@ interface FinderQueryState {
 
 const hideOverflow = { display: "inline-block", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", maxWidth: "100%" } as const;
 
+// The page picks the user's or the public food/tool stores by `isOwnGroup`: remount it when that changes (log in /
+// log out while it is shown) so the store hooks never switch in place.
 export default function RecipeFinderPage() {
+  const { isOwnGroup } = useLoggedInState();
+  return <RecipeFinderPageContent key={String(isOwnGroup)} />;
+}
+
+function RecipeFinderPageContent() {
   const { t } = useI18n();
   const { smAndDown } = useDisplay();
   const auth = useMealieAuth();
@@ -122,7 +129,7 @@ export default function RecipeFinderPage() {
   }
 
   // the stores of the user's own group, or the public ones; the same hook sequence runs in both cases
-  /* eslint-disable react-hooks/rules-of-hooks -- isOwnGroup is fixed while a group page is shown */
+  /* eslint-disable react-hooks/rules-of-hooks -- identical hook sequence; the page remounts when isOwnGroup changes */
   const foodStore = isOwnGroup ? useFoodStore() : usePublicFoodStore(groupSlug);
   const toolStore = isOwnGroup ? useToolStore() : usePublicToolStore(groupSlug);
   /* eslint-enable react-hooks/rules-of-hooks */

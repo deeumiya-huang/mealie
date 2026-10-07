@@ -838,13 +838,33 @@ logged automatically by the user-level hooks.
   labels, `aria-labelledby` on ingredient/tool checkboxes), recipe name is an `h1`; rating hover workaround on touch
   approximated; `.v-main` print rules applied to `main`; TransitionGroup/v-lazy animations in the parse review list not
   reproduced (cosmetic). Behaviour-neutral or fixes of Vue double calls/failing calls; E2E subset passes.
+- D51 — 2026-10-07 — P5-01 integration choices. (a) PWA: `vite-plugin-pwa` 2.0.0 + `workbox-window` 7.4.1 (dev deps)
+  with the exact workbox options of `nuxt.config.ts` (`registerType: autoUpdate`, `manifest: false`, same
+  `globIgnores` incl. `index.html`); `main.tsx` registers the SW immediately, checks for updates every 120 s
+  (`periodicSyncForUpdates: 120`) and suppresses the browser install prompt (`installPrompt: true` kept the event and
+  nothing in Vue shows it). Disabled under vitest. Finding: neither app precaches `/` (`@vite-pwa/nuxt` only maps
+  `index.html` → base, and Vue ignores `index.html`), so `createHandlerBoundToURL("/")` throws when the SW starts and
+  the SW never installs in either app — kept as-is for parity, recorded as GAP-6. (b) `SUB_PATH` → Vite `base`
+  (`/<sub>/`, read with `loadEnv`) and router `basename` (`import.meta.env.BASE_URL` without trailing slash); hard-coded
+  absolute URLs (`/login`, `/api/...`, `window.location.origin/...`, `/manifest.webmanifest`) stay as in Vue.
+  `vite.config.ts` is now a function config; `vitest.config.ts` wraps it. (c) Error page: Nuxt 4 never renders
+  `layouts/error.vue` (there is no `app/error.vue`, so unknown URLs get Nuxt's built-in English error page); React keeps
+  the existing port of `layouts/error.vue` (localized 404, legacy-URL redirects) for the catch-all route and route
+  errors — the closest Mealie-specific spec. (d) `types/auth.d.ts` → `src/types/auth.d.ts` (`User = UserOut`, session
+  types), used by `use-auth-backend`. (e) GAP-1 closed as parity: Vuetify's locale is pinned to `en-US` in
+  `nuxt.config.ts`, so Vue shows the same English built-ins MUI shows. GAP-2…GAP-5 fixed (see §9). (f) Optional
+  requests: `RecipeCardLineItem` `onClick` added (RecipeSelector drops its `display: contents` wrapper; its test mock
+  forwards the click); `SafeMarkdown` `className`/`inline` and a `use-sortable` re-export not added — every caller
+  already works without them (wrapping Box / path import). — Parity with the Vue build; a working SW would change
+  caching behaviour (12 MB precache per fresh browser) beyond what Vue does.
+
 ---
 
 ## 9. Status
 
 ```
 current_step: P5-01 (integration, main)
-state: not started
+state: in-progress
 last_completed: P4-08 (checkpoint, 2026-10-07)
 gate: G2 approved 2026-10-07
 ```

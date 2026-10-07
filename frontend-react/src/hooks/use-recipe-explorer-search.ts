@@ -209,13 +209,13 @@ export function cancelRecipeExplorerSearchStateClear(groupSlug: string) {
 
 /**
  * The organizer / food / household stores of the explorer: the user's own for a group the user belongs to, the public
- * explore ones otherwise. `isOwnGroup` is fixed while a group page is shown and both branches run the same hooks in the
- * same order, so choosing between them is safe.
+ * explore ones otherwise. Both branches run the same hooks in the same order, and `RecipeExplorerPage` remounts its
+ * content when `isOwnGroup` changes, so a mounted component never switches between them.
  */
 export function useRecipeExplorerStores(groupSlug: string) {
   const { isOwnGroup } = useLoggedInState();
 
-  /* eslint-disable react-hooks/rules-of-hooks -- see above: identical hook sequence in both branches */
+  /* eslint-disable react-hooks/rules-of-hooks -- see above: identical hook sequence, remounted on an isOwnGroup change */
   const categories = isOwnGroup ? useCategoryStore() : usePublicCategoryStore(groupSlug);
   const foods = isOwnGroup ? useFoodStore() : usePublicFoodStore(groupSlug);
   const households = isOwnGroup ? useHouseholdStore() : usePublicHouseholdStore(groupSlug);

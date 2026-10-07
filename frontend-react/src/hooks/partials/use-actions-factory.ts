@@ -8,7 +8,7 @@ import type { Store } from "@/lib/store";
 
 export interface ReadOnlyStoreActions<T extends BoundT> {
   getAll(page?: number, perPage?: number, params?: Record<string, QueryValue>): Promise<T[]>;
-  refresh(page?: number, perPage?: number, params?: Record<string, QueryValue>): Promise<void>;
+  refresh(page?: number, perPage?: number, params?: Record<string, QueryValue>): Promise<T[]>;
 }
 
 export interface StoreActions<T extends BoundT> extends ReadOnlyStoreActions<T> {
@@ -64,6 +64,8 @@ export function createReadOnlyActions<T extends BoundT>(
 
     initialized.set(true);
     loading.set(false);
+    // Vue callers read the store ref after awaiting; React callers get the list (store state is not re-read)
+    return data?.items ?? [];
   }
 
   return {
