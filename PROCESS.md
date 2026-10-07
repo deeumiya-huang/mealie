@@ -843,8 +843,10 @@ logged automatically by the user-level hooks.
   `globIgnores` incl. `index.html`); `main.tsx` registers the SW immediately, checks for updates every 120 s
   (`periodicSyncForUpdates: 120`) and suppresses the browser install prompt (`installPrompt: true` kept the event and
   nothing in Vue shows it). Disabled under vitest. Finding: neither app precaches `/` (`@vite-pwa/nuxt` only maps
-  `index.html` → base, and Vue ignores `index.html`), so `createHandlerBoundToURL("/")` throws when the SW starts and
-  the SW never installs in either app — kept as-is for parity, recorded as GAP-6. (b) `SUB_PATH` → Vite `base`
+  `index.html` → base, and Vue ignores `index.html`), so `createHandlerBoundToURL("/")` throws inside workbox's async
+  `define()` callback after `precacheAndRoute`: the SW installs, activates and precaches the assets (checked with a
+  Playwright script: registration `activated`, no page console errors), but the offline navigation fallback route is
+  never registered — same generated code path in both apps; kept for parity, recorded as GAP-6. (b) `SUB_PATH` → Vite `base`
   (`/<sub>/`, read with `loadEnv`) and router `basename` (`import.meta.env.BASE_URL` without trailing slash); hard-coded
   absolute URLs (`/login`, `/api/...`, `window.location.origin/...`, `/manifest.webmanifest`) stay as in Vue.
   `vite.config.ts` is now a function config; `vitest.config.ts` wraps it. (c) Error page: Nuxt 4 never renders
@@ -855,21 +857,20 @@ logged automatically by the user-level hooks.
   `nuxt.config.ts`, so Vue shows the same English built-ins MUI shows. GAP-2…GAP-5 fixed (see §9). (f) Optional
   requests: `RecipeCardLineItem` `onClick` added (RecipeSelector drops its `display: contents` wrapper; its test mock
   forwards the click); `SafeMarkdown` `className`/`inline` and a `use-sortable` re-export not added — every caller
-  already works without them (wrapping Box / path import). — Parity with the Vue build; a working SW would change
-  caching behaviour (12 MB precache per fresh browser) beyond what Vue does.
+  already works without them (wrapping Box / path import). — Parity with the Vue build (same options, same generated SW).
 
 ---
 
 ## 9. Status
 
 ```
-current_step: P5-01 (integration, main)
-state: in-progress
-last_completed: P4-08 (checkpoint, 2026-10-07)
+current_step: P5-02 (independent review, reviewer ×2)
+state: not started
+last_completed: P5-01 (integration, 2026-10-07)
 gate: G2 approved 2026-10-07
 ```
 
-Steps: [x] P1 (G1 approved 2026-10-05) · [x] P2 · [x] P3-01 · [x] P3-02 · [x] P3-03 · [x] P3-04 · [x] P3-05 · [x] P3-06 · [x] P3-07 · [x] P3-08 · [x] P3-09 · [x] P3-10 · [x] P3-11 · [x] P3-12 · [x] G2 (approved 2026-10-07) · [x] P4-01 · [x] P4-02 · [x] P4-03 · [x] P4-04 · [x] P4-05 · [x] P4-06 · [x] P4-07 · [x] P4-08 · [ ] P5-01 … P5-04
+Steps: [x] P1 (G1 approved 2026-10-05) · [x] P2 · [x] P3-01 · [x] P3-02 · [x] P3-03 · [x] P3-04 · [x] P3-05 · [x] P3-06 · [x] P3-07 · [x] P3-08 · [x] P3-09 · [x] P3-10 · [x] P3-11 · [x] P3-12 · [x] G2 (approved 2026-10-07) · [x] P4-01 · [x] P4-02 · [x] P4-03 · [x] P4-04 · [x] P4-05 · [x] P4-06 · [x] P4-07 · [x] P4-08 · [x] P5-01 · [ ] P5-02 … P5-04
 
 Active subagents:
 
@@ -886,11 +887,16 @@ Active subagents:
 P4-08 (checkpoint, 2026-10-07): `metrics.csv` row `WF2-P4-done` (commit 3cd86ebd4, dirty 0, run
 `20261007T055627Z-frontend-react-WF2-P4-done`): routes 66/66, flows 15/15, build_ok 1, tsc 0, lint 0 (0 warnings),
 unit 759 passed / 0 failed / 0 skipped, any_count 3, todo_count 0, expect_count 1521, test_files 105.
-P5-01 work list (no failing routes/flows): (1) port `types/auth.d.ts` (port-status' last missing file); (2) PWA
-(`vite-plugin-pwa`, workbox options from `nuxt.config.ts`, `manifest: false`); (3) `SUB_PATH` → Vite `base` + router
-`basename`; (4) error/404 page parity; (5) check the 3 `any` hits carry `// any: <reason>`; (6) GAP-1…GAP-5 fix options;
-(7) optional requests: `RecipeCardLineItem` `onClick` (P4-03), `SafeMarkdown` `className`/`inline`, re-export
-`use-sortable` (P3-10); (8) full E2E twice (66/15).
+P5-01 (integration, done 2026-10-07; D51): `types/auth.d.ts` ported (port-status 429 Vue files, 0 missing); PWA via
+`vite-plugin-pwa` 2.0.0 (SW registered in `main.tsx`, `dist/sw.js` + `workbox-*.js`); `SUB_PATH` → Vite `base` + router
+`basename` (checked: `SUB_PATH=/mealie pnpm build` prefixes `/mealie/_nuxt/…` and public icons); error page = port of
+`layouts/error.vue` kept; GAP-1 closed, GAP-2…5 fixed, GAP-6 recorded; `RecipeCardLineItem` `onClick`. any_count now 1
+(`types/auto-forms.ts` `FormValidationRule`, commented; CrudTable's comparator uses method syntax instead of `any`).
+CHECKS: tsc 0, eslint 0, vitest 105 files / 760 passed / 0 skipped, build ok, test-parity 48/48 (453 tests, 819/817
+expects). Full E2E twice: 82/82 both runs (66 routes + table guard + 15 flows, 2.9 min each). FORBIDDEN clean.
+Next: P5-02 — spawn reviewer R1 (foundation: `lib` excluding `lib/api`, `i18n`, `providers`, `routes`, `hooks`,
+`components/global`, `layouts`, `components/Layout`) and R2 (domains: `pages`, `components/Domain`) together with the §4.3
+brief; write `frontend-react/REVIEW.md`; P5-02 Ends = no, so continue into P5-03 in the same session if context allows.
 
 Pending wiring:
 - `hooks/utils/use-sortable.ts` (P3-10, D36) exists: `useSortable(containerRef, { onReorder({oldIndex,newIndex}), handle,
@@ -903,23 +909,21 @@ Pending wiring:
   `routes/auth.tsx`; D38). Paths are relative to `/` (e.g. `shopping-lists/:id`).
 
 Known gaps (`GAP-<n>`):
-- GAP-1 — Vuetify-internal strings absent from the Mealie locales (data-table footer, "No data available", number-input
-  stepper labels) are MUI's English built-ins / omitted (D34). Fix option for P5: MUI locale packs keyed by `i18n.language`.
-- GAP-2 — `CrudTable` accepts the Vue per-header `sort` comparator but `BaseDataTable` sorts with its default compare
-  (no comparator hook). Fix option for P5: add an optional `sort` to `BaseDataTable` headers and pass it through; then
-  drop the non-enumerable `toString` sort-key workaround in `pages/group/data/foods.tsx` (label/substitutions columns)
-  and consider a `show-expand` option to replace the custom table in `pages/group/reports/[id].tsx` (D46).
-- GAP-3 — Organizer hydration in `QueryFilterBuilder`: the readonly store's `refresh()` returns nothing, so it reads
-  `actions.getAll()` and the store's `initialized` flag stays unset (P3-10). Fix option for P5: have `refresh()` return
-  the list.
-- GAP-4 — MUI `Container` has no vertical padding (Vuetify `v-container` has 16 px), so pages sit tight under the app
-  bar (D43). Fix for P5-01: theme `components.MuiContainer.styleOverrides.root` `paddingTop/Bottom: 16px`, then drop
-  any per-page compensation.
-- GAP-5 — `useRecipeExplorerStores` (`hooks/use-recipe-explorer-search.ts`) and the finder page pick the user or the
-  public store hooks with `isOwnGroup ? useXStore() : usePublicXStore(slug)` (same hook sequence, eslint-disable with
-  reason). If `isOwnGroup` flips while the page is mounted (login/logout in place), the hooks' state slots are reused
-  across stores. Fix option for P5-01/P5-03: remount the explorer/finder with `key={String(isOwnGroup)}` or split into
-  two components.
+- GAP-1 — closed in P5-01 as parity: Vuetify's locale is pinned to `en-US`, so Vue shows the same English built-in
+  table/stepper strings MUI shows (D51e).
+- GAP-2 — fixed in P5-01: `DataTableHeader.sort?(a, b)` (column values), passed through `CrudTable`; foods uses Vue's
+  label/substitution comparators (the `toString` sort-key workaround is gone). The custom expandable table in
+  `pages/group/reports/[id].tsx` stays (D46).
+- GAP-3 — fixed in P5-01: store `refresh()` returns the list; `QueryFilterBuilder` hydrates with `refresh()` (sets
+  `initialized`).
+- GAP-4 — fixed in P5-01: theme `MuiContainer` root `paddingTop/Bottom: 16` (no per-page compensation existed; explicit
+  `sx` padding such as `p: 0` still wins).
+- GAP-5 — fixed in P5-01: `RecipeExplorerPage` and the finder page render their content with `key={String(isOwnGroup)}`,
+  so the store-hook choice never flips in a mounted component (the two `rules-of-hooks` disables remain, with reasons).
+- GAP-6 — PWA offline navigation fallback: the Nuxt workbox options (ported unchanged) ignore `index.html`, so `/` is not
+  precached and `createHandlerBoundToURL("/")` throws after `precacheAndRoute`; the SW installs and precaches assets but
+  serves no navigation fallback — identical in the Vue build (D51a). Fix option (both apps): precache `index.html` as
+  `/` (drop it from `globIgnores`).
 
 Skipped tests: none
 
