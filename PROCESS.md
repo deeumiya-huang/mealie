@@ -847,7 +847,7 @@ Active subagents:
 | P4-04 | `wf2/P4-04-group` | removed | 2026-10-07 | merged, verified |
 | P4-05 | `wf2/P4-05-explore` | removed | 2026-10-07 | merged, verified |
 | P4-06 | `wf2/P4-06-recipe-create` | removed | 2026-10-07 | merged, verified |
-| P4-07 | `wf2/P4-07-recipe-page` | agent worktree | 2026-10-07 | running (Opus; brief in session scratchpad, rebuildable from §4.2 + §3 P4-07 row) |
+| P4-07 | `wf2/P4-07-recipe-page` | agent worktree | 2026-10-07, resumed 2026-10-07 | resumed (Opus; first run hit the usage cap before writing files; brief rebuilt from §4.2 + §3 P4-07 row) |
 
 Pending wiring:
 - `hooks/utils/use-sortable.ts` (P3-10, D36) exists: `useSortable(containerRef, { onReorder({oldIndex,newIndex}), handle,
