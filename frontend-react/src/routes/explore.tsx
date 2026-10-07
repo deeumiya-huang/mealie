@@ -40,6 +40,10 @@ export const exploreRoutes: DomainRoutes = {
       ...page(() => import("@/pages/g/[groupSlug]/recipes/tools/index")),
     },
     {
+      path: "g/:groupSlug/recipes/finder",
+      ...page(() => import("@/pages/g/[groupSlug]/recipes/finder/index")),
+    },
+    {
       path: "g/:groupSlug/recipes/timeline",
       loader: guard(requireAuth, groupOnly),
       shouldRevalidate: alwaysRevalidate,
