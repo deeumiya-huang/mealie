@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components -- a test helper, never hot-reloaded */
 // Test helper for the recipe-create pages: renders routes in a data router (the pages use useBlocker / navigate()
 // promises, which need one) inside the MUI theme and shows where the router ended up.
 import { render } from "@testing-library/react";
