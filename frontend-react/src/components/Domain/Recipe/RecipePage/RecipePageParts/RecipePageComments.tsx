@@ -79,6 +79,8 @@ export function RecipePageComments({ recipe, onChange, sx }: RecipePageCommentsP
               fullWidth
               hiddenLabel
               placeholder={t("recipe.join-the-conversation")}
+              // the hint text is the field's only label (its accessible name in Vue as well)
+              slotProps={{ htmlInput: { "aria-label": t("recipe.join-the-conversation") } }}
             />
           </Box>
           <Box sx={{ ml: "auto", mt: 0.5 }}>
