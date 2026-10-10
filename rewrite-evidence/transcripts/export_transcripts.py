@@ -1,0 +1,139 @@
+#!/usr/bin/env python3
+"""Render Claude Code session logs (.jsonl) of a workflow as readable Markdown, one file per session.
+
+    python3 rewrite-evidence/transcripts/export_transcripts.py <project-log-dir> <out-dir> <label>
+
+<project-log-dir> is e.g. ~/.claude/projects/-home-deeumiya-mealie-wf1. Main sessions go to <out-dir>/,
+subagent sessions to <out-dir>/subagents/. Human messages and assistant text are kept in full; tool calls keep
+their name and the first part of their input; tool results keep only their first lines. E-mail addresses,
+JWTs and API keys are redacted. Thinking blocks and injected system reminders are dropped.
+"""
+
+import glob
+import json
+import os
+import re
+import sys
+
+TOOL_INPUT_MAX = 600
+TOOL_RESULT_MAX = 400
+
+REDACTIONS = [
+    (re.compile(r"[A-Za-z0-9._%+-]+@(?!example\.com)[A-Za-z0-9.-]+\.[A-Za-z]{2,}"), "[email]"),
+    (re.compile(r"eyJ[\w-]{10,}\.[\w-]{10,}\.[\w-]{10,}"), "[jwt]"),
+    (re.compile(r"\b(sk-[A-Za-z0-9_-]{16,}|ghp_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,})"), "[secret]"),
+]
+SYSTEM_REMINDER = re.compile(r"<system-reminder>.*?</system-reminder>", re.S)
+
+
+def clean(text: str) -> str:
+    text = SYSTEM_REMINDER.sub("", text)
+    for rx, repl in REDACTIONS:
+        text = rx.sub(repl, text)
+    return text.strip()
+
+
+def short(text: str, limit: int) -> str:
+    text = clean(text)
+    return text if len(text) <= limit else text[:limit] + f" … [{len(text) - limit} more chars]"
+
+
+def fence(text: str) -> str:
+    return "```text\n" + text.replace("```", "ˋˋˋ") + "\n```"
+
+
+def render(path: str, label: str) -> tuple[str, str]:
+    events = []
+    for line in open(path, encoding="utf-8", errors="ignore"):
+        try:
+            events.append(json.loads(line))
+        except json.JSONDecodeError:
+            continue
+    stamps = [e["timestamp"] for e in events if e.get("timestamp")]
+    sid = os.path.basename(path).removesuffix(".jsonl")
+    out = [f"# {label} — session `{sid}`", ""]
+    if stamps:
+        out += [f"{stamps[0][:16].replace('T', ' ')} → {stamps[-1][:16].replace('T', ' ')} UTC", ""]
+    for e in events:
+        kind, msg = e.get("type"), e.get("message")
+        if kind not in ("user", "assistant") or not isinstance(msg, dict) or e.get("isMeta"):
+            continue
+        ts = (e.get("timestamp") or "")[:16].replace("T", " ")
+        content = msg.get("content")
+        items = [{"type": "text", "text": content}] if isinstance(content, str) else (content or [])
+        for it in items:
+            if not isinstance(it, dict):
+                continue
+            t = it.get("type")
+            if kind == "user" and t == "text":
+                text = clean(it.get("text", ""))
+                if not text:
+                    continue
+                if e.get("isCompactSummary") or text.startswith("This session is being continued"):
+                    out += ["---", f"*[{ts}] Context was compacted; the agent continued from a summary.*", ""]
+                    continue
+                if text.startswith("<task-notification>"):
+                    out += [f"*[{ts}] Background task notification.*", ""]
+                    continue
+                m = re.search(r"<command-name>(.*?)</command-name>", text)
+                if m:
+                    out += [f"**Human [{ts}]:** `{m.group(1)}`", ""]
+                    continue
+                if "<local-command-stdout>" in text:
+                    continue
+                out += [f"### Human [{ts}]", "", fence(text), ""]
+            elif kind == "user" and t == "tool_result":
+                c = it.get("content")
+                c = c if isinstance(c, str) else " ".join(x.get("text", "") for x in (c or []) if isinstance(x, dict))
+                if c.strip():
+                    out += [f"> result: {short(c, TOOL_RESULT_MAX).replace(chr(10), ' ⏎ ')}", ""]
+            elif kind == "assistant" and t == "text":
+                text = clean(it.get("text", ""))
+                if text:
+                    out += [f"**Claude [{ts}]:**", "", text, ""]
+            elif kind == "assistant" and t == "tool_use":
+                inp = it.get("input") or {}
+                desc = inp.get("description") or ""
+                body = (
+                    inp.get("command")
+                    or inp.get("file_path")
+                    or inp.get("prompt")
+                    or json.dumps(inp, ensure_ascii=False)
+                )
+                out += [
+                    f"`{it.get('name')}`" + (f" — {clean(desc)}" if desc else ""),
+                    "",
+                    fence(short(str(body), TOOL_INPUT_MAX)),
+                    "",
+                ]
+    return sid, "\n".join(out) + "\n"
+
+
+def main() -> None:
+    src, dst, label = os.path.expanduser(sys.argv[1]), sys.argv[2], sys.argv[3]
+    os.makedirs(os.path.join(dst, "subagents"), exist_ok=True)
+    index = [
+        f"# {label} transcripts",
+        "",
+        "Generated by `export_transcripts.py` from the Claude Code session logs.",
+        "",
+        "| Session | Start (UTC) | Human messages | File |",
+        "|---|---|---|---|",
+    ]
+    for path in sorted(glob.glob(os.path.join(src, "*.jsonl")), key=os.path.getmtime):
+        sid, md = render(path, label)
+        start = re.search(r"\n(\d{4}-\d\d-\d\d \d\d:\d\d) →", md)
+        humans = md.count("### Human [")
+        name = f"{(start.group(1)[:10] if start else 'unknown')}_{sid[:8]}.md"
+        open(os.path.join(dst, name), "w", encoding="utf-8").write(md)
+        index.append(f"| `{sid[:8]}` | {start.group(1) if start else '—'} | {humans} | [{name}]({name}) |")
+    subs = sorted(glob.glob(os.path.join(src, "*", "subagents", "*.jsonl")))
+    for path in subs:
+        sid, md = render(path, label + " subagent")
+        open(os.path.join(dst, "subagents", f"{sid}.md"), "w", encoding="utf-8").write(md)
+    index += ["", f"Subagent sessions: {len(subs)} files in [subagents/](subagents/)."]
+    open(os.path.join(dst, "README.md"), "w", encoding="utf-8").write("\n".join(index) + "\n")
+
+
+if __name__ == "__main__":
+    main()
