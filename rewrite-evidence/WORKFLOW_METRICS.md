@@ -74,7 +74,7 @@ The run was not fully hands-off (13 messages). Details, the isolation check and 
 | Checkpoint | `end` (`rewrite/wf2-orchestrated` @ `d10633fce`, 120 commits, 5 of them usage-cap WIP) |
 | Agent Tool | Claude Code (CLI; P1 in plan mode, then auto mode) |
 | Model | `claude-opus-5-5` 1,374 requests (orchestrator, reviewers, one porter for the recipe page); `claude-sonnet-5-5` 968 requests (porters) |
-| Prompt Count | 34 (P1 prompt, "approve" at G1, 19 × "繼續", 13 other messages) |
+| Prompt Count | 34 (P1 prompt, "approve" at G1, 19 × "繼續", 13 other messages). G2 was approved by "繼續" after the human reviewed the five foundation screenshots and found nothing to change |
 | Session Log | `~/.claude/projects/-home-deeumiya-mealie-wf2/` (23 main sessions + subagent transcripts) |
 | Agent Run Time | ≈684 minutes active |
 | Human Review/Fix Time | TBD (includes the G1 plan review: P1 prompt 10-05 20:05 → approval 22:13, UTC+13) |
@@ -119,4 +119,4 @@ but the cap raise and the model/effort change are deviations to report.
   Total tokens are therefore a lower bound for WF2.
 - One run per workflow, one project, one tool. WF1 could see the Vue baseline record; WF2 could see the yardstick by design.
 - The fake `CAP-REACHED 5h=80% 7d=80%` row of 2026-10-07 13:11 in the private `usage-log.csv` came from the WF2 agent testing
-  its hook. It is not real usage.
+  its hook. It is not real usage, and was removed from the log on 2026-10-10.
