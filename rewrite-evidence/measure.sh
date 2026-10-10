@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
-# Measure one frontend at the current checkout and append one row to rewrite-evidence/metrics.csv.
+# Measure one frontend at the current checkout and append results to rewrite-evidence/metrics.csv.
 #
-#   rewrite-evidence/measure.sh [--app DIR] [--label TEXT] [--skip-e2e]
+#   rewrite-evidence/measure.sh [--app DIR] [--label TEXT]
+#     [--route-scope all|core|extended] [--route-check strict|smoke] [--skip-e2e]
 #
 # --app is a directory name inside this repo (frontend, frontend-react) or a path to an app in another
 # worktree (e.g. ../mealie-wf1/frontend-react). The latter lets a workflow's branch stay free of the
@@ -16,7 +17,7 @@
 #   lint     eslint . (JSON formatter)                         -> lint_errors/warnings
 #   types    Vue: vue-tsc --noEmit / React: tsc                -> tsc_errors
 #   static   grep over the app's source                        -> any_count, todo_count, expect_count
-#   e2e      frontend-e2e/ against the fresh build             -> routes_passed/66, flows_passed/N
+#   e2e      frontend-e2e/ against the fresh build             -> routes_passed/N, flows_passed/N
 #
 # Logs and raw reports for each run go to rewrite-evidence/runs/<run-id>/.
 set -uo pipefail
@@ -25,16 +26,29 @@ REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 APP="frontend"
 LABEL=""
 SKIP_E2E=0
+ROUTE_SCOPE="all"
+ROUTE_CHECK="strict"
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --app) APP="$2"; shift 2 ;;
     --label) LABEL="$2"; shift 2 ;;
+    --route-scope) ROUTE_SCOPE="$2"; shift 2 ;;
+    --route-check) ROUTE_CHECK="$2"; shift 2 ;;
     --skip-e2e) SKIP_E2E=1; shift ;;
     -h|--help) sed -n '2,24p' "$0"; exit 0 ;;
     *) echo "unknown argument: $1" >&2; exit 2 ;;
   esac
 done
+
+case "$ROUTE_SCOPE" in
+  all|core|extended) ;;
+  *) echo "unknown route scope: $ROUTE_SCOPE (use all, core, or extended)" >&2; exit 2 ;;
+esac
+case "$ROUTE_CHECK" in
+  strict|smoke) ;;
+  *) echo "unknown route check: $ROUTE_CHECK (use strict or smoke)" >&2; exit 2 ;;
+esac
 
 if [[ -d "$REPO/$APP" && "$APP" != /* && "$APP" != .* ]]; then
   APP_DIR="$REPO/$APP"
@@ -164,7 +178,7 @@ EXPECT_COUNT=$(grep -rEo 'expect(\.[a-zA-Z]+)?\(' --include='*.test.*' --include
 TEST_FILES=$(find "$APP_DIR" -path "$APP_DIR/node_modules" -prune -o -type f \( -name '*.test.*' -o -name '*.spec.*' \) -print | wc -l)
 
 # ------------------------------------------------------------------------------------------------ e2e
-ROUTES_PASSED=NA; ROUTES_TOTAL=66; FLOWS_PASSED=NA; FLOWS_TOTAL=NA
+ROUTES_PASSED=NA; ROUTES_TOTAL=NA; FLOWS_PASSED=NA; FLOWS_TOTAL=NA
 if [[ $SKIP_E2E -eq 1 ]]; then
   NOTES+=("e2e skipped")
 elif [[ $BUILD_OK -ne 1 ]]; then
@@ -176,7 +190,7 @@ else
   (cd "$E2E_DIR" && pnpm install --frozen-lockfile) > "$OUT/e2e-install.log" 2>&1
   start=$(date +%s)
   log "e2e: playwright against $STATIC_DIR"
-  (cd "$E2E_DIR" && E2E_STATIC_DIR="$STATIC_DIR" timeout 3600 pnpm exec playwright test) \
+  (cd "$E2E_DIR" && E2E_STATIC_DIR="$STATIC_DIR" E2E_ROUTE_SCOPE="$ROUTE_SCOPE" E2E_ROUTE_CHECK="$ROUTE_CHECK" timeout 3600 pnpm exec playwright test) \
     > "$OUT/e2e.log" 2>&1
   log "e2e: exit=$? ($(( $(date +%s) - start ))s)"
   if [[ -s "$E2E_DIR/test-results/results.json" ]]; then
@@ -200,13 +214,14 @@ else
 fi
 
 # ------------------------------------------------------------------------------------------------ row
-HEADER="timestamp_utc,label,app,branch,commit,dirty,routes_passed,routes_total,flows_passed,flows_total,tsc_errors,lint_errors,lint_warnings,unit_passed,unit_failed,unit_skipped,build_ok,build_seconds,any_count,todo_count,expect_count,test_files,duration_seconds,run_id,notes"
+TIMESTAMP_UTC="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+HEADER="timestamp_utc,label,app,branch,commit,dirty,route_scope,route_check,routes_passed,routes_total,flows_passed,flows_total,tsc_errors,lint_errors,lint_warnings,unit_passed,unit_failed,unit_skipped,build_ok,build_seconds,any_count,todo_count,expect_count,test_files,duration_seconds,run_id,notes"
 [[ -s "$CSV" ]] || echo "$HEADER" > "$CSV"
 
 csv_field() { local v="${1//\"/\"\"}"; [[ "$v" == *[,\"]* ]] && v="\"$v\""; printf '%s' "$v"; }
 NOTE_TEXT="$(IFS=';'; echo "${NOTES[*]:-}")"
 ROW=(
-  "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$(csv_field "$LABEL")" "$APP_NAME" "$BRANCH" "$COMMIT" "$DIRTY"
+  "$TIMESTAMP_UTC" "$(csv_field "$LABEL")" "$APP_NAME" "$BRANCH" "$COMMIT" "$DIRTY" "$ROUTE_SCOPE" "$ROUTE_CHECK"
   "$ROUTES_PASSED" "$ROUTES_TOTAL" "$FLOWS_PASSED" "$FLOWS_TOTAL"
   "$TSC_ERRORS" "$LINT_ERRORS" "$LINT_WARNINGS"
   "$UNIT_PASSED" "$UNIT_FAILED" "$UNIT_SKIPPED"

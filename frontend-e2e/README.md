@@ -8,7 +8,7 @@ in `frontend-react/`) is graded by pointing the same suite at its build output.
 
 | Tier | Project | Tests | Pass means |
 |---|---|---|---|
-| 1 | `routes` | 66 `[route]` tests, one per page file in `frontend/app/pages/` (+1 guard that the table has 66 entries) | Expected URL, expected en-US text and seeded data visible, edit forms prefilled, no uncaught error / `console.error` / 5xx, no stub text. See `lib/routes.ts`. |
+| 1 | `routes` | `[route]` tests split into `core` migration-scope routes and `extended` out-of-scope routes, with `smoke` and `strict` modes | Smoke mode checks expected URL, visible page content, no uncaught error / `console.error` / 5xx, and no stub text. Strict mode also checks expected en-US text, seeded data, and form prefill values. See `lib/routes.ts`. |
 | 2 | `flows` | 15 `[flow]` tests in `tests/flows/` | Key user journeys: log in / wrong password / log out, admin vs member navigation, open / search / create / comment on recipes, create a shopping list, add + check an item, add a meal-plan note, create a tag, create a user, edit profile. |
 
 Selectors use only roles, accessible names, visible text and tooltips: never CSS classes or
@@ -35,6 +35,9 @@ pnpm exec playwright install chromium      # once per machine
 # Vue reference: build first (cd ../frontend && pnpm generate), then
 pnpm exec playwright test                  # everything (2 workers)
 pnpm exec playwright test --project=routes
+E2E_ROUTE_SCOPE=core pnpm exec playwright test --project=routes
+E2E_ROUTE_SCOPE=extended pnpm exec playwright test --project=routes
+E2E_ROUTE_SCOPE=core E2E_ROUTE_CHECK=smoke pnpm exec playwright test --project=routes
 pnpm exec playwright test --project=flows
 
 # Another build, same tests
@@ -42,6 +45,8 @@ E2E_STATIC_DIR=../frontend-react/dist pnpm exec playwright test
 ```
 
 Environment: `E2E_PORT` (9091), `E2E_WORKERS` (2 — the dev box has 3.8 GB RAM),
+`E2E_ROUTE_SCOPE` (`all`, `core`, or `extended`; default `all`),
+`E2E_ROUTE_CHECK` (`strict` or `smoke`; default `strict`),
 `E2E_REUSE_SERVER=1` (reuse a backend you started yourself; only for writing tests).
 
 Reports: `test-results/results.json` (read by `rewrite-evidence/measure.sh`) and

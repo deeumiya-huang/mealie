@@ -8,9 +8,11 @@ Everything here comes from branch `rewrite/phase0-baseline`; every workflow bran
 | `baseline/BASELINE.md` | Numbers for the Vue app before any rewrite |
 | `measure.sh` | Measures one frontend and appends a row to `metrics.csv` |
 | `metrics.csv` | One row per measurement (row 0 = Vue baseline) |
+| `METRICS_TEMPLATE.md` | Human-readable workflow summary table for report analysis |
+| `TESTING_STRATEGY.md` | What the E2E yardstick checks, route scopes (core/extended) and check modes (strict/smoke) |
 | `runs/<run-id>/` | Logs and raw reports of each measurement (`e2e-failures/` added by hand when a run is analysed) |
 | `WF1-EVALUATION.md` | Analysis of the WF1 (single prompt) result, its isolation check and its limitations |
-| `../frontend-e2e/` | The E2E yardstick (66 routes + 15 flows), see its README |
+| `../frontend-e2e/` | The E2E yardstick (66 routes = 34 core + 32 extended, and 15 flows), see its README |
 
 ## One-time setup (per machine)
 
@@ -34,6 +36,12 @@ and run one after another on purpose. Port 9091 must be free. A run takes about 
 # The Vue reference
 ./rewrite-evidence/measure.sh --app frontend --label my-label
 
+# Only the migration-scope routes
+./rewrite-evidence/measure.sh --app frontend --label core-routes --route-scope core
+
+# Only migration-scope route smoke checks
+./rewrite-evidence/measure.sh --app frontend --label core-smoke --route-scope core --route-check smoke
+
 # A rewrite in this checkout
 ./rewrite-evidence/measure.sh --app frontend-react --label WF2-P3-foundation-done
 
@@ -55,7 +63,9 @@ A trial run you don't want to keep: `git checkout rewrite-evidence/metrics.csv` 
 
 | Column | Meaning |
 |---|---|
-| `routes_passed/routes_total` | E2E tier 1: pages that render real content without errors (out of 66) |
+| `routes_passed/routes_total` | E2E tier 1: selected pages that render real content without errors |
+| `route_scope` | Which route set was measured: `all`, `core`, or `extended` |
+| `route_check` | Route check depth: `strict` also checks expected text and form values; `smoke` checks page availability and runtime health |
 | `flows_passed/flows_total` | E2E tier 2: key user journeys that work end to end |
 | `tsc_errors` | Type errors (Vue: `vue-tsc` 2.2.0 pinned in `.tools/`; React: `tsc`) |
 | `lint_errors`, `lint_warnings` | `eslint .` in the app dir |
