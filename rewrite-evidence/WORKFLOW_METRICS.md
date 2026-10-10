@@ -74,12 +74,12 @@ The run was not fully hands-off (13 messages). Details, the isolation check and 
 | Checkpoint | `end` (`rewrite/wf2-orchestrated` @ `d10633fce`, 120 commits, 5 of them usage-cap WIP) |
 | Agent Tool | Claude Code (CLI; P1 in plan mode, then auto mode) |
 | Model | `claude-opus-5-5` 1,374 requests (orchestrator, reviewers, one porter for the recipe page); `claude-sonnet-5-5` 968 requests (porters) |
-| Prompt Count | 34 (P1 prompt, "approve" at G1, 19 × "繼續", 13 other messages). G2 was approved by "繼續" after the human reviewed the five foundation screenshots and found nothing to change |
+| Prompt Count | 34 (P1 prompt, "approve" at G1, 19 × "continue", 13 other messages). G2 was approved by "continue" after the human reviewed the five foundation screenshots and found nothing to change |
 | Session Log | `~/.claude/projects/-home-deeumiya-mealie-wf2/` (23 main sessions + subagent transcripts) |
 | Agent Run Time | ≈684 minutes active |
 | Human Review/Fix Time | TBD (includes the G1 plan review: P1 prompt 10-05 20:05 → approval 22:13, UTC+13) |
 | Total Tokens | 380,987,831 (input 4,752 · output 862,269 · cache write 7,633,285 · cache read 372,487,525); subagents: 1,428 of 2,342 requests |
-| Manual Interventions | 13 messages plus 1 shell command (planned: "繼續" and gate approvals only). They changed the process 3 times: porter `effort: high`, Opus for the recipe-page porter, and session-boundary rules (decision D41); the usage cap raised to 90 % (D47); and a recovery instruction after an API error. The rest were questions about quota, billing and logging |
+| Manual Interventions | 13 messages plus 1 shell command (planned: "continue" and gate approvals only). They changed the process 3 times: porter `effort: high`, Opus for the recipe-page porter, and session-boundary rules (decision D41); the usage cap raised to 90 % (D47); and a recovery instruction after an API error. The rest were questions about quota, billing and logging |
 | Review Result | TBD |
 
 ### Test Results
@@ -100,7 +100,7 @@ The run was not fully hands-off (13 messages). Details, the isolation check and 
 WF2 passed every check of the yardstick. Its own report states that all 48 Vue test files were ported with the same titles and assertions
 (`scripts/test-parity.mjs`), and that it added tests on top. Using the yardstick as an acceptance gate, plus an independent
 reviewer, closed the kind of gap WF1 left (WF1 was 4 flows short). That cost about 45 % more tokens and about 2.3× the active time.
-The human messages were mostly about the Pro quota, not about the code. The pre-registered "繼續" protocol held,
+The human messages were mostly about the Pro quota, not about the code. The pre-registered "continue" protocol held,
 but the cap raise and the model/effort change are deviations to report.
 
 ### Isolation check

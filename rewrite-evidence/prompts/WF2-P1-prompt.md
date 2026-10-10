@@ -5,7 +5,8 @@
 Pasted verbatim into the first WF2 session (Claude Code CLI, **plan mode**) in an isolated clone of branch
 `rewrite/wf2-orchestrated`, which starts at `cb8bb5dcf` (yardstick included, no WF1 results). The goal, constraints
 and done criteria repeat the WF1 prompt (`WF1-prompt.md`) so both workflows aim at the same result.
-The agent's answer became `PROCESS.md` on that branch.
+The agent's answer became `PROCESS.md` on that branch. The prompt used the Chinese word for "continue" as the
+session keyword; it is written as "continue" below, and nothing else is changed.
 
 ```text
 You are the orchestrator for workflow WF2: migrate the Mealie frontend from Nuxt 4 / Vue 3 /
@@ -44,7 +45,7 @@ Environment limits
 
 How this workflow runs
 After this session the human will, apart from review gates, only start sessions and type
-"繼續". So decide everything now and write it down in PROCESS.md (repo root), precise enough
+"continue". So decide everything now and write it down in PROCESS.md (repo root), precise enough
 that a fresh session with no memory of this conversation can execute the next step correctly.
 
 Your P1 task: analyze the codebase (dependency order lib/api -> composables -> global
@@ -69,10 +70,10 @@ how the yardstick checks pages and flows) and propose the full PROCESS.md, conta
    full builds and E2E; the brief template each subagent receives; how results are merged and
    verified; and how an interrupted subagent task is resumed in a later session (record the
    task and its worktree branch in PROCESS.md before spawning).
-5. Session protocol: what to do on "繼續" (read the status section, continue with the next
+5. Session protocol: what to do on "continue" (read the status section, continue with the next
    unfinished step); when to end a session (marked step boundaries, usage cap); how to hand
    off (update the status section, commit, log usage, tell the human to run /clear and type
-   繼續). Prefer this over relying on automatic context compaction.
+   continue). Prefer this over relying on automatic context compaction.
 6. Review gates: G1 is this plan. Add at most one more gate and state exactly what the human
    checks there. Outside gates, never wait for the human.
 7. A decision log section: when unsure, decide, record the decision and the reason, and go on.
@@ -85,7 +86,7 @@ Present the plan for approval. After approval: log "WF2-P1-plan-approved", do P2
 
 | Message | When |
 |---|---|
-| "繼續" ("continue") | First message of every session; after a usage-cap stop, once the quota has reset |
+| "continue" (typed in Chinese) | First message of every session; after a usage-cap stop, once the quota has reset |
 | Review comments, "approve" | Only at gates G1 (the plan) and G2 (the foundation) |
 | `/clear`, `/export`, `/usage`, `/cost`, `/context` | Any time; not counted as intervention |
 | Anything else | Counted as an intervention |
