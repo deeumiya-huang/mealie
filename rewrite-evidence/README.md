@@ -11,6 +11,7 @@ Everything here comes from branch `rewrite/phase0-baseline`; every workflow bran
 | `METRICS_TEMPLATE.md` | Human-readable workflow summary table for report analysis |
 | `TESTING_STRATEGY.md` | What the E2E yardstick checks, route scopes (core/extended) and check modes (strict/smoke) |
 | `runs/<run-id>/` | Logs and raw reports of each measurement (`e2e-failures/` added by hand when a run is analysed) |
+| `WORKFLOW_METRICS.md` | Filled-in summary (template above) for the Vue reference, WF1 and WF2 |
 | `WF1-EVALUATION.md` | Analysis of the WF1 (single prompt) result, its isolation check and its limitations |
 | `../frontend-e2e/` | The E2E yardstick (66 routes = 34 core + 32 extended, and 15 flows), see its README |
 
